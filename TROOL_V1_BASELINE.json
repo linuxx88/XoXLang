@@ -1,0 +1,57 @@
+{
+  "baseline_name": "Trool V1",
+  "status": "SEALED",
+  "specification_path": "TROOL_SPEC.md",
+  "conformance_verdict": "PASS",
+  "test_result": "178 passed, 0 failed",
+  "compiler_entry_point": "trool.compile_source",
+  "backend": "Python source-to-source transpilation",
+  "file_hashes": {
+    "TROOL_SPEC.md": "99606e69cd2e6a66751a19cf27dea51dda3935129f03fd6414035707858f90ee",
+    "trool/__init__.py": "f5b456896fd4f0c9edc24db749b833590cc1cd845173f3830958cbab34f9c84d",
+    "trool/ast.py": "1d10d2548e62435372361200aea2a4c3ee7841d9d9f4b6da2903af1488c89b4b",
+    "trool/compiler.py": "7838a531bd0d747e081872bf0ead9fda832589a1771e606c3048892abc0239ee",
+    "trool/control_flow.py": "97bf21519a15a203bcf806e6f9134d876bccb673a7ec7484fb01d63540926715",
+    "trool/diagnostics.py": "638e3751319c0357509f00cbf9afccb0b0967c002e400b86f277e12adbf171ab",
+    "trool/lexer.py": "07fc79b25fdcb3210b7a8221f59f5f0a60fd46ca695caed4486220f727de58e1",
+    "trool/lowering.py": "25ecd4c082a2137b25287cdcc9a1fe1a975d13a6d2639f0f233817a245584944",
+    "trool/parser.py": "1645e9ee8b03b4a27d682f38558d80a437a8c56bdeb8b070ee118e9d4cfbf505",
+    "trool/runtime.py": "b1f62a55a5ea1a0ce6936a5ffd8ba3f316fbb629d7347295cf75bb690ac7a051",
+    "trool/semantic.py": "27bfcb68e5ca9d157b1a6c53582944f4b1c8ada3d81d56cc301f622f47c149f5",
+    "trool/tokens.py": "dac9ff1d68cf831977a814432868e3630630f333d2af910d2c3da08909354ecf",
+    "trool/types.py": "ab1c2954fe8fa105db021be5c0e4fed16480ccc28121369489472b9d658ccfd0"
+  },
+  "frozen_v1_capabilities": [
+    "Bool with exactly True and False.",
+    "Trool with exactly True, False, and Unknown.",
+    "Strong Kleene NOT, AND, and OR semantics with left-to-right short-circuit behavior.",
+    "Strict Bool/Trool static separation and contextual raw True/False literals.",
+    "Exact-state Trool equality returning Bool.",
+    "if/xen/else Trool control flow and xen: ignore.",
+    "Monomorphic bindings.",
+    "Typed function parameters and optional Bool/Trool return annotations.",
+    "Definite-return validation for explicitly annotated functions.",
+    "Deterministic four-phase diagnostics.",
+    "Anti-truthiness Trool runtime Enum.",
+    "Explicit from_bool and unwrap_bool conversion boundaries.",
+    "SemanticResult lowering contract.",
+    "Hygienic Python target identifiers and temporaries.",
+    "Expression, statement, conditional, function, and complete Program lowering.",
+    "Canonical compile_source source-to-Python pipeline."
+  ],
+  "remaining_open_items": [
+    "Native backend memory layout, byte encodings, VM/bytecode formats, native ABI, and optimization passes (§21.1).",
+    "Inline / expression-level Trool conditional expressions (§21.2).",
+    "Chained comparison syntax and semantics (§21.3).",
+    "elif multi-branch syntax and semantics (§21.4)."
+  ],
+  "remaining_v1_exclusions": [
+    "Function calls, recursion, closures, higher-order functions, and nested functions.",
+    "Bare return without value expression.",
+    "Uninitialized variable declarations without immediate initializers.",
+    "Untyped function parameters or non-truth type annotations.",
+    "Default, variadic, keyword, or generic function parameters.",
+    "Numeric, arithmetic, bitwise, and ordering operations on Bool/Trool.",
+    "CLI, file I/O, source maps, and traceback remapping runtime APIs."
+  ]
+}
