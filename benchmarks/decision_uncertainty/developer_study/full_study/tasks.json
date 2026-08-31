@@ -1,0 +1,213 @@
+{
+  "version": "1.0",
+  "study_id": "XOX_INDEPENDENT_DEVELOPER_COMPREHENSION_FULL_STUDY_001",
+  "status": "FROZEN_FULL_STUDY_PROTOCOL",
+  "tasks": [
+    {
+      "id": "T1-01",
+      "category": "T1",
+      "name": "Behavior Prediction: Timeout / Unresolved",
+      "prompt": "An external authorization service times out. What does the program conclude regarding factual permission, and what value reaches downstream execution?",
+      "oracle": {
+        "factive_status": "UNRESOLVED / UNKNOWN",
+        "downstream_value": "None / Unknown / Exception (not False, not True)",
+        "explanation": "Timeout is an operational failure, not an affirmative denial."
+      }
+    },
+    {
+      "id": "T1-02",
+      "category": "T1",
+      "name": "Behavior Prediction: Conflicting Authorities",
+      "prompt": "Two co-equal trusted authorities return conflicting grant and revoke records. Does the system know True, know False, remain Unknown, or enter Contradiction?",
+      "oracle": {
+        "factive_status": "UNRESOLVED / UNKNOWN",
+        "downstream_value": "Unknown",
+        "explanation": "Conflicting authoritative evidence creates behavioral variance across realities (Unknown), not empty context (Contradiction)."
+      }
+    },
+    {
+      "id": "T1-03",
+      "category": "T1",
+      "name": "Behavior Prediction: Policy Fallback",
+      "prompt": "A proposition is unresolved, and code executes a fallback with default=False. Distinguish the factual status of the proposition from the policy decision value.",
+      "oracle": {
+        "factive_status": "UNRESOLVED / UNKNOWN",
+        "policy_decision": false,
+        "explanation": "The policy decision is False, but the factual state of the world remains Unknown."
+      }
+    },
+    {
+      "id": "T1-04",
+      "category": "T1",
+      "name": "Behavior Prediction: Contradiction / Fail-Closed",
+      "prompt": "Active premises require X == True AND X == False simultaneously. What is the execution outcome?",
+      "oracle": {
+        "factive_status": "CONTRADICTION",
+        "execution_behavior": "FAIL_CLOSED_ABORT",
+        "explanation": "Mutually exclusive premises yield zero admissible worlds; evaluation must abort fail-closed rather than return Unknown or False."
+      }
+    },
+    {
+      "id": "T1-05",
+      "category": "T1",
+      "name": "Behavior Prediction: Correlated Compound (P XOR Q)",
+      "prompt": "Propositions P and Q are individually unresolved, but a joint constraint guarantees P != Q in all worlds. Predict the factive truth of the compound expression P XOR Q.",
+      "oracle": {
+        "operand_status": "UNRESOLVED / UNKNOWN",
+        "compound_status": "TRUE",
+        "explanation": "Compound realization is invariant True across all worlds despite individual operand uncertainty."
+      }
+    },
+    {
+      "id": "T1-06",
+      "category": "T1",
+      "name": "Behavior Prediction: Anti-Coercion in Conditional",
+      "prompt": "An indeterminate/unknown value is passed directly to an if-condition `if (val):`. What happens?",
+      "oracle": {
+        "execution_behavior": "TYPE_ERROR_OR_BLOCKED",
+        "explanation": "Anti-coercion prevents treating unresolved values as truthy or falsy."
+      }
+    },
+    {
+      "id": "T2-01",
+      "category": "T2",
+      "name": "Bug Identification: Guard Omission",
+      "prompt": "A developer removes the explicit unresolved check and consumes the variable directly. Does this introduce a safety issue? What is the failure mode?",
+      "oracle": {
+        "has_safety_bug": true,
+        "failure_mode": "M1_UNJUSTIFIED_DECISION or M2_UNCERTAINTY_LOSS",
+        "explanation": "Treats unresolved state as default/falsy value without authorization."
+      }
+    },
+    {
+      "id": "T2-02",
+      "category": "T2",
+      "name": "Bug Identification: Implicit Coercion",
+      "prompt": "A developer replaces an explicit enum/XoX check with `if not is_valid:` assuming None/Unknown maps to invalid. Is this safe?",
+      "oracle": {
+        "has_safety_bug": true,
+        "failure_mode": "M1_UNJUSTIFIED_DECISION / IMPLICIT_TRUTHINESS_ACCEPTED",
+        "explanation": "Conflates indeterminate status with false certification."
+      }
+    },
+    {
+      "id": "T2-03",
+      "category": "T2",
+      "name": "Bug Identification: Contradiction Masking",
+      "prompt": "A developer catches an ontological contradiction and maps it to ordinary Unknown handling. Is this safe?",
+      "oracle": {
+        "has_safety_bug": true,
+        "failure_mode": "M3_CONTRADICTION_MASKING",
+        "explanation": "Masks unrecoverable premise unsatisfiability as recoverable uncertainty."
+      }
+    },
+    {
+      "id": "T2-04",
+      "category": "T2",
+      "name": "Bug Identification: Unsafe Operator Composition",
+      "prompt": "A developer replaces uncertainty-aware ternary composition with standard binary `and`/`or` operators. Does this change semantics?",
+      "oracle": {
+        "has_safety_bug": true,
+        "failure_mode": "OPERATOR_TRUTHINESS_CORRUPTION",
+        "explanation": "Binary operators evaluate truthiness, causing false certainty on indeterminate operands."
+      }
+    },
+    {
+      "id": "T3-01",
+      "category": "T3",
+      "name": "Safe Modification: Change Fallback Policy",
+      "prompt": "Modify the fallback policy to default=True upon timeout, while ensuring the factive truth field cannot be recorded as True.",
+      "oracle": {
+        "expected_implementation": "factive_claim remains None/Unknown; policy_decision set to True via unwrap_or(True) or explicit fallback assignment.",
+        "forbidden": "Assigning True directly to factive_truth / factive_claim."
+      }
+    },
+    {
+      "id": "T3-02",
+      "category": "T3",
+      "name": "Safe Modification: Add Timeout Handling",
+      "prompt": "Add a 500ms timeout handler to an external consensus lookup that yields an explicit Unresolved status rather than returning False or throwing an unhandled exception.",
+      "oracle": {
+        "expected_implementation": "Catches TimeoutError and returns TruthVal.UNKNOWN / Unknown rather than False.",
+        "forbidden": "Returning False on timeout or letting exception crash without factive record."
+      }
+    },
+    {
+      "id": "T3-03",
+      "category": "T3",
+      "name": "Safe Modification: Preserve Conflict Provenance",
+      "prompt": "When two conflicting source records arrive, preserve both source timestamps and IDs in the audit envelope while emitting an Unknown truth value.",
+      "oracle": {
+        "expected_implementation": "Constructs conflict envelope retaining both records; returns factive Unknown.",
+        "forbidden": "Arbitrarily picking one record as canonical truth or dropping conflict provenance."
+      }
+    },
+    {
+      "id": "T3-04",
+      "category": "T3",
+      "name": "Safe Modification: Compound Condition without Collapsing Unknown",
+      "prompt": "Modify a compound check `P and Q` such that if P is True and Q is Unknown, downstream logic preserves Unknown without early-coercing to False.",
+      "oracle": {
+        "expected_implementation": "Evaluates P and Q under Kleene / ternary semantics producing Unknown.",
+        "forbidden": "Using binary `if P and Q:` returning False."
+      }
+    },
+    {
+      "id": "T4-01",
+      "category": "T4",
+      "name": "Code Construction: Authorization Flow",
+      "prompt": "Write a small authorization check function `check_access(user, resource)` that queries role permissions and risk score. If role is granted and risk is Unknown, require secondary approval while maintaining unresolved factive status.",
+      "oracle": {
+        "expected_implementation": "Explicitly branches on Unknown risk; returns approval_required without recording granted factive truth.",
+        "forbidden": "Default granting or default denying without capturing indeterminate state."
+      }
+    },
+    {
+      "id": "T4-02",
+      "category": "T4",
+      "name": "Code Construction: Tool-Call Completion Check",
+      "prompt": "Write a tool-call completion evaluator `verify_completion(tool_response)` that checks exit_code and output_hash. If exit_code is 0 but hash is pending verification, return UNRESOLVED.",
+      "oracle": {
+        "expected_implementation": "Returns UNRESOLVED / Unknown when hash verification is pending, even if exit_code == 0.",
+        "forbidden": "Returning True solely based on exit_code == 0."
+      }
+    },
+    {
+      "id": "T4-03",
+      "category": "T4",
+      "name": "Code Construction: Uncertainty-Sensitive Branch",
+      "prompt": "Write a branch that handles all three epistemic outcomes (True, False, Unknown) with distinct operational actions and logs.",
+      "oracle": {
+        "expected_implementation": "Three distinct branches handling True, False, and Unknown (or xen).",
+        "forbidden": "Binary if/else collapsing Unknown into False."
+      }
+    },
+    {
+      "id": "T5-01",
+      "category": "T5",
+      "name": "Plain-Language Explanation: Unknown vs False",
+      "prompt": "Explain the conceptual difference between a proposition evaluating to `Unknown` versus evaluating to `False` in an uncertainty-sensitive system.",
+      "oracle": {
+        "expected_explanation": "False means established factual non-occurrence / denial across all worlds. Unknown means insufficient or conflicting information where both True and False remain epistemic possibilities."
+      }
+    },
+    {
+      "id": "T5-02",
+      "category": "T5",
+      "name": "Plain-Language Explanation: Unknown vs Contradiction",
+      "prompt": "Explain the difference between epistemic uncertainty (`Unknown`) and logical contradiction (`Contradiction`).",
+      "oracle": {
+        "expected_explanation": "Unknown represents multiple admissible possible worlds with incomplete data. Contradiction represents zero admissible worlds due to mutually incompatible facts, requiring immediate fail-closed abort."
+      }
+    },
+    {
+      "id": "T5-03",
+      "category": "T5",
+      "name": "Plain-Language Explanation: Fact vs Policy Decision",
+      "prompt": "Explain why recording a policy fallback decision (e.g. deny-by-default) must not overwrite the underlying factive truth state in the audit record.",
+      "oracle": {
+        "expected_explanation": "A policy decision is an operational action taken under uncertainty. Overwriting the factive record with the policy choice creates false certainty, poisoning downstream epistemic reasoning and audit provenance."
+      }
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "pilot_id": "XOX_INDEPENDENT_DEVELOPER_COMPREHENSION_PILOT_001",
+  "evaluator_count": 9,
+  "condition_counts": {
+    "COND_A_PYTHON_CLASSIC": 3,
+    "COND_B_PYTHON_STRUCTURED": 3,
+    "COND_X_XOXLANG": 3
+  },
+  "metrics": {
+    "COND_A_PYTHON_CLASSIC": {
+      "D1_semantic_prediction_accuracy_pct": 88.89,
+      "D2_unsafe_modification_rate_pct": 0.0,
+      "D3_truth_vs_policy_comprehension_pct": 83.33,
+      "D4_contradiction_comprehension_pct": 83.33,
+      "D5_mutation_detection_accuracy_pct": 83.33,
+      "D6_explanation_quality_mean_0_to_2": 1.77,
+      "D7_clarifications_requested_total": 1,
+      "D8_conceptual_error_count": 5,
+      "total_score_mean": 17.67,
+      "total_score_variance": 4.2222,
+      "total_score_stdev": 2.0548
+    },
+    "COND_B_PYTHON_STRUCTURED": {
+      "D1_semantic_prediction_accuracy_pct": 100.0,
+      "D2_unsafe_modification_rate_pct": 0.0,
+      "D3_truth_vs_policy_comprehension_pct": 100.0,
+      "D4_contradiction_comprehension_pct": 100.0,
+      "D5_mutation_detection_accuracy_pct": 100.0,
+      "D6_explanation_quality_mean_0_to_2": 2.0,
+      "D7_clarifications_requested_total": 0,
+      "D8_conceptual_error_count": 0,
+      "total_score_mean": 20,
+      "total_score_variance": 0,
+      "total_score_stdev": 0.0
+    },
+    "COND_X_XOXLANG": {
+      "D1_semantic_prediction_accuracy_pct": 100.0,
+      "D2_unsafe_modification_rate_pct": 0.0,
+      "D3_truth_vs_policy_comprehension_pct": 100.0,
+      "D4_contradiction_comprehension_pct": 100.0,
+      "D5_mutation_detection_accuracy_pct": 100.0,
+      "D6_explanation_quality_mean_0_to_2": 2.0,
+      "D7_clarifications_requested_total": 1,
+      "D8_conceptual_error_count": 0,
+      "total_score_mean": 20,
+      "total_score_variance": 0,
+      "total_score_stdev": 0.0
+    }
+  },
+  "conceptual_error_distribution": {
+    "COND_A_PYTHON_CLASSIC": {
+      "POINTWISE_UNCERTAINTY_OVER_WORLD_INVARIANT": 2,
+      "COERCION_IMPLICIT_ACCEPTANCE": 1,
+      "CONTRADICTION_SEVERITY_UNDERESTIMATED": 2
+    },
+    "COND_B_PYTHON_STRUCTURED": {},
+    "COND_X_XOXLANG": {}
+  },
+  "falsification_checks": {
+    "F2-A (D1 XoX < Baseline B)": {
+      "triggered": false,
+      "xox_d1": 100.0,
+      "baseline_b_d1": 100.0
+    },
+    "F2-B (D2 XoX > Baseline B)": {
+      "triggered": false,
+      "xox_d2": 0.0,
+      "baseline_b_d2": 0.0
+    },
+    "F2-C (Repeated XoX Confusions)": {
+      "triggered": false,
+      "xox_d8_errors": 0
+    },
+    "F2-D (Baseline B Better Comprehension with Lower Error)": {
+      "triggered": false,
+      "baseline_b_errors": 0,
+      "xox_errors": 0
+    }
+  },
+  "verdict": "PILOT_VALIDATED_HYPOTHESES_SUPPORTED",
+  "xox_vs_baseline_b": {
+    "d1_parity": true,
+    "d2_parity": true,
+    "d5_parity": true,
+    "comprehension_gap_baseline_a_vs_xox": 11.11,
+    "learning_overhead_observations": "XoX participants required exactly 1 clarification across 3 runs (D7=1), demonstrating that the 1-page primer is sufficient for full comprehension parity."
+  },
+  "pilot_limitations": [
+    "Small sample size (N=3 per condition, 9 total runs) serves as pilot feasibility validation rather than large-cohort statistical proof.",
+    "Evaluators were instructed on isolated codebases; live interactive IDE tooling and real-time syntax checking were not part of this textual comprehension pilot."
+  ],
+  "whether_full_study_is_warranted": true
+}

@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "status": "FROZEN",
+  "factive_support_semantics": {
+    "definition": "Supp(P, W_factive) = { eval(P, w) | w in W_factive and P defined in w }",
+    "states": {
+      "TRUE": {
+        "condition": "Supp(P, W_factive) == {True}",
+        "description": "Invariant true across all admissible realities."
+      },
+      "FALSE": {
+        "condition": "Supp(P, W_factive) == {False}",
+        "description": "Invariant false across all admissible realities."
+      },
+      "UNRESOLVED": {
+        "condition": "Supp(P, W_factive) == {False, True}",
+        "description": "Realization variance across admissible realities."
+      },
+      "CONTRADICTION": {
+        "condition": "len(W_factive) == 0",
+        "description": "Mutually unsatisfiable premise constraints; fail-closed abort."
+      }
+    },
+    "compound_propositions": {
+      "rule": "Compound expressions E = f(P_1, ..., P_k) evaluate using Supp(E, W_factive). E may be TRUE or FALSE while operands remain UNRESOLVED if Supp(E) is a singleton."
+    },
+    "policy_separation": {
+      "rule": "Policy decisions (e.g. unwrap_or fallback) must be recorded in result.policy_decision, strictly separated from result.factive_truth."
+    }
+  }
+}

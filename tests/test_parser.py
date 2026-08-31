@@ -1,8 +1,8 @@
-"""Unit tests for Trool V1 Parser and generic AST construction."""
+"""Unit tests for X-o-X Parser and generic AST construction."""
 import unittest
-from trool.lexer import tokenize
-from trool.tokens import TokenKind
-from trool.ast import (
+from xoxlang.lexer import tokenize
+from xoxlang.tokens import TokenKind
+from xoxlang.ast import (
     AssignmentStatement,
     BinaryExpr,
     Block,
@@ -12,6 +12,7 @@ from trool.ast import (
     GroupExpr,
     IdentifierExpr,
     IgnoreStatement,
+    InlineConditionalExpr,
     LiteralExpr,
     Parameter,
     PassStatement,
@@ -19,10 +20,10 @@ from trool.ast import (
     ReturnStatement,
     UnaryExpr,
 )
-from trool.parser import Parser, ParseError, parse
+from xoxlang.parser import Parser, ParseError, parse
 
 
-class TestTroolParser(unittest.TestCase):
+class TestParser(unittest.TestCase):
     def test_parse_bool_shaped_conditional(self):
         source = (
             "if cond:\n"
@@ -116,7 +117,81 @@ class TestTroolParser(unittest.TestCase):
                 tokens = tokenize(src)
                 with self.assertRaises(ParseError) as ctx:
                     parse(tokens)
+    def test_ctx_xen_inline_01_compact_ignore_ast_equivalence(self):
+        src_block = (
+            "if my_xox:\n"
+            "    pass\n"
+            "xen:\n"
+            "    ignore\n"
+            "else:\n"
+            "    pass\n"
+        )
+        src_compact = (
+            "if my_xox:\n"
+            "    pass\n"
+            "xen: ignore\n"
+            "else:\n"
+            "    pass\n"
+        )
+        ast_block = parse(tokenize(src_block))
+        ast_compact = parse(tokenize(src_compact))
+
+        stmt_b = ast_block.statements[0]
+        stmt_c = ast_compact.statements[0]
+        self.assertIsInstance(stmt_b, ConditionalStatement)
+        self.assertIsInstance(stmt_c, ConditionalStatement)
+        self.assertIsInstance(stmt_b.xen_branch, IgnoreStatement)
+        self.assertIsInstance(stmt_c.xen_branch, IgnoreStatement)
+        self.assertEqual(type(stmt_b.xen_branch), type(stmt_c.xen_branch))
+
+    def test_ctx_xen_inline_02_reject_arbitrary_inline_statement_under_xen(self):
+        samples = [
+            "if t:\n    pass\nxen: foo()\nelse:\n    pass\n",
+            "if t:\n    pass\nxen: pass\nelse:\n    pass\n",
+            "if t:\n    pass\nxen: x = True\nelse:\n    pass\n",
+        ]
+        for src in samples:
+            with self.subTest(src=src):
+                tokens = tokenize(src)
+                with self.assertRaises(ParseError) as ctx:
+                    parse(tokens)
+                self.assertIn("Illegal inline statement under 'xen'", str(ctx.exception))
+
+    def test_ctx_xen_inline_03_reject_compound_semicolon_in_compact_xen(self):
+        # Compound statements on the same line after ignore are rejected
+        samples_parser = [
+            "if t:\n    pass\nxen: ignore foo()\nelse:\n    pass\n",
+            "if t:\n    pass\nxen: ignore pass\nelse:\n    pass\n",
+            "if t:\n    pass\nxen: ignore audit\nelse:\n    pass\n",
+        ]
+        for src in samples_parser:
+            with self.subTest(src=src):
+                tokens = tokenize(src)
+                with self.assertRaises(ParseError) as ctx:
+                    parse(tokens)
                 self.assertIn("Non-exclusive 'xen: ignore'", str(ctx.exception))
+
+        # Semicolons are rejected at lexer or parser level
+        from xoxlang.lexer import LexerError
+        samples_semicolon = [
+            "if t:\n    pass\nxen: ignore; foo()\nelse:\n    pass\n",
+            "if t:\n    pass\nxen: ignore; pass\nelse:\n    pass\n",
+        ]
+        for src in samples_semicolon:
+            with self.subTest(src=src):
+                with self.assertRaises((ParseError, LexerError)):
+                    parse(tokenize(src))
+
+    def test_ctx_xen_inline_04_reject_contextual_ignore_outside_xen(self):
+        samples = [
+            "if cond: ignore\n",
+            "else: ignore\n",
+        ]
+        for src in samples:
+            with self.subTest(src=src):
+                tokens = tokenize(src)
+                with self.assertRaises(ParseError) as ctx:
+                    parse(tokens)
 
     def test_reject_orphan_clauses(self):
         with self.assertRaises(ParseError) as ctx:
@@ -388,9 +463,9 @@ class TestTroolParser(unittest.TestCase):
         self.assertEqual(fn2.parameters[1].name, "y")
         self.assertEqual(fn2.parameters[1].type_name, "XoX")
 
-        # Rejected Trool parameter
+        # Rejected unsupported parameter type
         with self.assertRaises(ParseError) as ctx:
-            parse(tokenize("fn f(x: Bool, y: Trool):\n    pass\n"))
+            parse(tokenize("fn f(x: Bool, y: CustomType):\n    pass\n"))
         self.assertIn("unsupported parameter type", str(ctx.exception).lower())
 
     def test_parse_functions_with_return_annotations(self):
@@ -406,9 +481,9 @@ class TestTroolParser(unittest.TestCase):
         self.assertEqual(fn_xox.return_annotation, "XoX")
         self.assertIsInstance(fn_xox.body.statements[0], ReturnStatement)
 
-        # Rejected -> Trool
+        # Rejected unsupported return type
         with self.assertRaises(ParseError) as ctx:
-            parse(tokenize("fn f(x: XoX) -> Trool:\n    return x\n"))
+            parse(tokenize("fn f(x: XoX) -> CustomType:\n    return x\n"))
         self.assertIn("unsupported return type", str(ctx.exception).lower())
 
 
@@ -457,10 +532,10 @@ class TestTroolParser(unittest.TestCase):
             ("fn f(x):\n    pass\n", "explicitly typed"),
             # unsupported parameter type
             ("fn f(x: Foo):\n    pass\n", "unsupported parameter type"),
-            ("fn f(x: Trool):\n    pass\n", "unsupported parameter type"),
+            ("fn f(x: CustomType):\n    pass\n", "unsupported parameter type"),
             # unsupported return type
             ("fn f() -> Foo:\n    pass\n", "unsupported return type"),
-            ("fn f() -> Trool:\n    pass\n", "unsupported return type"),
+            ("fn f() -> CustomType:\n    pass\n", "unsupported return type"),
             # missing parameter type
             ("fn f(x:):\n    pass\n", "unsupported parameter type"),
             # malformed parameter
@@ -500,6 +575,103 @@ class TestTroolParser(unittest.TestCase):
         self.assertIsInstance(ret, ReturnStatement)
         self.assertIsNotNone(ret.span)
         self.assertIsNotNone(ret.return_span)
+
+    def test_parse_inline_conditional_bool_form(self):
+        source = "t if c else f\n"
+        ast = parse(tokenize(source))
+        self.assertEqual(len(ast.statements), 1)
+        stmt = ast.statements[0]
+        self.assertIsInstance(stmt, ExprStatement)
+        expr = stmt.expr
+        self.assertIsInstance(expr, InlineConditionalExpr)
+        self.assertIsInstance(expr.true_expr, IdentifierExpr)
+        self.assertEqual(expr.true_expr.name, "t")
+        self.assertIsInstance(expr.condition, IdentifierExpr)
+        self.assertEqual(expr.condition.name, "c")
+        self.assertIsNone(expr.xen_expr)
+        self.assertIsInstance(expr.else_expr, IdentifierExpr)
+        self.assertEqual(expr.else_expr.name, "f")
+        self.assertIsNotNone(expr.span)
+        self.assertEqual(expr.span.start.line, 1)
+        self.assertEqual(expr.span.start.column, 1)
+        self.assertEqual(expr.span.end.line, 1)
+        self.assertEqual(expr.span.end.column, 14)
+
+    def test_parse_inline_conditional_xox_form(self):
+        source = "t if c xen u else f\n"
+        ast = parse(tokenize(source))
+        self.assertEqual(len(ast.statements), 1)
+        stmt = ast.statements[0]
+        self.assertIsInstance(stmt, ExprStatement)
+        expr = stmt.expr
+        self.assertIsInstance(expr, InlineConditionalExpr)
+        self.assertIsInstance(expr.true_expr, IdentifierExpr)
+        self.assertEqual(expr.true_expr.name, "t")
+        self.assertIsInstance(expr.condition, IdentifierExpr)
+        self.assertEqual(expr.condition.name, "c")
+        self.assertIsNotNone(expr.xen_expr)
+        self.assertIsInstance(expr.xen_expr, IdentifierExpr)
+        self.assertEqual(expr.xen_expr.name, "u")
+        self.assertIsInstance(expr.else_expr, IdentifierExpr)
+        self.assertEqual(expr.else_expr.name, "f")
+        self.assertIsNotNone(expr.span)
+        self.assertEqual(expr.span.start.line, 1)
+        self.assertEqual(expr.span.start.column, 1)
+        self.assertEqual(expr.span.end.line, 1)
+        self.assertEqual(expr.span.end.column, 20)
+
+    def test_parse_inline_conditional_precedence_below_or(self):
+        source = "a OR b if c else d\n"
+        ast = parse(tokenize(source))
+        self.assertEqual(len(ast.statements), 1)
+        stmt = ast.statements[0]
+        self.assertIsInstance(stmt, ExprStatement)
+        expr = stmt.expr
+        self.assertIsInstance(expr, InlineConditionalExpr)
+        self.assertNotIsInstance(expr, BinaryExpr)
+
+        self.assertIsInstance(expr.true_expr, BinaryExpr)
+        self.assertEqual(expr.true_expr.op, TokenKind.OR)
+        self.assertIsInstance(expr.true_expr.left, IdentifierExpr)
+        self.assertEqual(expr.true_expr.left.name, "a")
+        self.assertIsInstance(expr.true_expr.right, IdentifierExpr)
+        self.assertEqual(expr.true_expr.right.name, "b")
+
+        self.assertIsInstance(expr.condition, IdentifierExpr)
+        self.assertEqual(expr.condition.name, "c")
+        self.assertIsNone(expr.xen_expr)
+        self.assertIsInstance(expr.else_expr, IdentifierExpr)
+        self.assertEqual(expr.else_expr.name, "d")
+
+    def test_parse_inline_conditional_right_associativity(self):
+        source = "a if c1 else b if c2 else d\n"
+        ast = parse(tokenize(source))
+        self.assertEqual(len(ast.statements), 1)
+        stmt = ast.statements[0]
+        self.assertIsInstance(stmt, ExprStatement)
+        root = stmt.expr
+        self.assertIsInstance(root, InlineConditionalExpr)
+        self.assertIsInstance(root.true_expr, IdentifierExpr)
+        self.assertEqual(root.true_expr.name, "a")
+        self.assertIsInstance(root.condition, IdentifierExpr)
+        self.assertEqual(root.condition.name, "c1")
+        self.assertIsNone(root.xen_expr)
+
+        nested = root.else_expr
+        self.assertIsInstance(nested, InlineConditionalExpr)
+        self.assertIsInstance(nested.true_expr, IdentifierExpr)
+        self.assertEqual(nested.true_expr.name, "b")
+        self.assertIsInstance(nested.condition, IdentifierExpr)
+        self.assertEqual(nested.condition.name, "c2")
+        self.assertIsNone(nested.xen_expr)
+        self.assertIsInstance(nested.else_expr, IdentifierExpr)
+        self.assertEqual(nested.else_expr.name, "d")
+
+    def test_parse_inline_conditional_missing_else_fails(self):
+        source = "a if c\n"
+        with self.assertRaises(ParseError) as ctx:
+            parse(tokenize(source))
+        self.assertIn("expected 'else'", str(ctx.exception).lower())
 
 
 

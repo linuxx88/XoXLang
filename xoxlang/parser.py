@@ -1,11 +1,12 @@
-"""Deterministic type-agnostic parser for Trool V1 syntax."""
-from typing import List, Optional, Union
-from trool.tokens import SourceLocation, SourceSpan, Token, TokenKind
-from trool.ast import (
+"""Deterministic type-agnostic parser for X-o-X syntax."""
+from typing import Any, Dict, List, Optional, Sequence, Union
+from xoxlang.tokens import SourceLocation, SourceSpan, Token, TokenKind
+from xoxlang.ast import (
     ASTNode,
     AssignmentStatement,
     BinaryExpr,
     Block,
+    CollapseXoXToBoolWithDefault,
     ConditionalStatement,
     ExprStatement,
     Expression,
@@ -13,10 +14,12 @@ from trool.ast import (
     GroupExpr,
     IdentifierExpr,
     IgnoreStatement,
+    InlineConditionalExpr,
     LiteralExpr,
     Parameter,
     PassStatement,
     Program,
+    PromoteBoolToXoX,
     ReturnStatement,
     Statement,
     UnaryExpr,
@@ -25,11 +28,90 @@ from trool.ast import (
 
 class ParseError(Exception):
     """Syntax or structural error emitted during parsing."""
-    def __init__(self, message: str, location: SourceLocation, filename: str = "<input>"):
+    def __init__(
+        self,
+        message: str,
+        location: SourceLocation,
+        filename: str = "<input>",
+        *,
+        note: Optional[str] = None,
+        help: Optional[str] = None,
+        alternatives: Optional[Sequence[str]] = None,
+        annotations: Optional[Dict[str, Any]] = None,
+    ):
         super().__init__(f"{filename}:{location.line}:{location.column}: SyntaxError: {message}")
         self.message = message
         self.location = location
         self.filename = filename
+        self.note = note
+        self.help = help
+        self.alternatives = list(alternatives) if alternatives is not None else None
+        self.annotations = annotations
+
+    def to_diagnostic(self) -> "Diagnostic":
+        from xoxlang.diagnostics import Diagnostic, DiagnosticCategory
+        span = SourceSpan(self.location, self.location) if self.location is not None else None
+        return Diagnostic(
+            category=DiagnosticCategory.SYNTAX_ERROR,
+            message=self.message,
+            span=span,
+            primary_error=self.message,
+            note=self.note,
+            help=self.help,
+            alternatives=self.alternatives,
+            annotations=self.annotations,
+        )
+
+    def render(self, source_text: Optional[str] = None, filename: Optional[str] = None) -> str:
+        from xoxlang.diagnostics import render_diagnostic
+        effective_filename = filename if filename is not None else self.filename
+        return render_diagnostic(self.to_diagnostic(), source_text=source_text, filename=effective_filename)
+
+
+def _format_token_name(kind: TokenKind) -> str:
+    names = {
+        TokenKind.LPAREN: "'('",
+        TokenKind.RPAREN: "')'",
+        TokenKind.COLON: "':'",
+        TokenKind.ASSIGN: "'='",
+        TokenKind.ARROW: "'->'",
+        TokenKind.DOT: "'.'",
+        TokenKind.COMMA: "','",
+        TokenKind.EQ_EQ: "'=='",
+        TokenKind.EXCL_EQ: "'!='",
+        TokenKind.IF: "'if'",
+        TokenKind.XEN: "'xen'",
+        TokenKind.ELSE: "'else'",
+        TokenKind.FN: "'fn'",
+        TokenKind.RETURN: "'return'",
+        TokenKind.PASS: "'pass'",
+        TokenKind.AND: "'AND'",
+        TokenKind.OR: "'OR'",
+        TokenKind.NOT: "'NOT'",
+        TokenKind.TRUE: "'True'",
+        TokenKind.FALSE: "'False'",
+        TokenKind.UNKNOWN: "'Unknown'",
+        TokenKind.IDENTIFIER: "an identifier",
+        TokenKind.NEWLINE: "newline",
+        TokenKind.INDENT: "indented block",
+        TokenKind.DEDENT: "dedent",
+        TokenKind.EOF: "end of file",
+    }
+    return names.get(kind, kind.name.lower())
+
+
+def _format_found_token(tok: Token) -> str:
+    if tok.kind == TokenKind.EOF:
+        return "end of file"
+    if tok.kind == TokenKind.NEWLINE:
+        return "newline"
+    if tok.kind == TokenKind.INDENT:
+        return "indented block"
+    if tok.kind == TokenKind.DEDENT:
+        return "dedent"
+    if tok.lexeme:
+        return f"{tok.lexeme!r}"
+    return _format_token_name(tok.kind)
 
 
 class Parser:
@@ -59,7 +141,7 @@ class Parser:
         curr = self._current()
         if curr.kind == kind:
             return self._advance()
-        err_msg = msg if msg else f"Expected {kind.name}, found {curr.kind.name} ({curr.lexeme!r})"
+        err_msg = msg if msg else f"Expected {_format_token_name(kind)}, but found {_format_found_token(curr)}"
         raise ParseError(err_msg, curr.span.start, self.filename)
 
     def _skip_newlines(self) -> None:
@@ -92,7 +174,7 @@ class Parser:
         # Check for elif rejection
         if curr.kind == TokenKind.IDENTIFIER and curr.lexeme == "elif":
             raise ParseError(
-                "Use of 'elif' keyword is not supported in V1 grammar; multi-branch conditionals must use nested if/else or if/xen/else",
+                "'elif' is not supported; multi-branch conditionals must use nested if/else or if/xen/else",
                 curr.span.start,
                 self.filename,
             )
@@ -112,8 +194,10 @@ class Parser:
         if curr.kind == TokenKind.RETURN:
             return_tok = self._advance()
             if self._current().kind in (TokenKind.NEWLINE, TokenKind.EOF):
-                raise ParseError("Bare 'return' is not supported in V1; 'return' requires an expression", return_tok.span.end, self.filename)
+                raise ParseError("Bare 'return' is not supported; 'return' requires a value expression (e.g. 'return expression')", return_tok.span.end, self.filename)
             value = self.parse_expression()
+            if self._current().kind not in (TokenKind.NEWLINE, TokenKind.EOF):
+                raise ParseError(f"Unexpected {_format_found_token(self._current())} after return expression", self._current().span.start, self.filename)
             if self._current().kind == TokenKind.NEWLINE:
                 self._advance()
             total_span = SourceSpan(return_tok.span.start, value.span.end if value.span else return_tok.span.end)
@@ -128,6 +212,8 @@ class Parser:
                 if self._current().kind in (TokenKind.NEWLINE, TokenKind.EOF):
                     raise ParseError("Missing initializer expression in assignment statement", assign_tok.span.end, self.filename)
                 value = self.parse_expression()
+                if self._current().kind not in (TokenKind.NEWLINE, TokenKind.EOF):
+                    raise ParseError(f"Unexpected {_format_found_token(self._current())} after expression in assignment statement", self._current().span.start, self.filename)
                 if self._current().kind == TokenKind.NEWLINE:
                     self._advance()
                 total_span = SourceSpan(target_tok.span.start, value.span.end if value.span else assign_tok.span.end)
@@ -154,7 +240,7 @@ class Parser:
                 assign_curr = self._current()
                 if assign_curr.kind != TokenKind.ASSIGN:
                     raise ParseError(
-                        "Uninitialized variable declarations are not supported in V1; variables must be initialized immediately with '='",
+                        "Uninitialized variable declarations are not supported; variables must be initialized when declared using '=' (e.g. 'name: Type = value')",
                         assign_curr.span.start,
                         self.filename,
                     )
@@ -162,6 +248,8 @@ class Parser:
                 if self._current().kind in (TokenKind.NEWLINE, TokenKind.EOF):
                     raise ParseError("Missing initializer expression in annotated assignment statement", assign_tok.span.end, self.filename)
                 value = self.parse_expression()
+                if self._current().kind not in (TokenKind.NEWLINE, TokenKind.EOF):
+                    raise ParseError(f"Unexpected {_format_found_token(self._current())} after expression in annotated assignment statement", self._current().span.start, self.filename)
                 if self._current().kind == TokenKind.NEWLINE:
                     self._advance()
                 total_span = SourceSpan(target_tok.span.start, value.span.end if value.span else assign_tok.span.end)
@@ -177,6 +265,8 @@ class Parser:
 
         # Expression statement (e.g. standalone identifier or expression)
         expr = self.parse_expression()
+        if self._current().kind not in (TokenKind.NEWLINE, TokenKind.EOF):
+            raise ParseError(f"Unexpected {_format_found_token(self._current())} after expression", self._current().span.start, self.filename)
         if self._current().kind == TokenKind.NEWLINE:
             self._advance()
         return ExprStatement(expr=expr, span=expr.span)
@@ -233,7 +323,7 @@ class Parser:
     def parse_parameter(self) -> Parameter:
         curr = self._current()
         if curr.kind != TokenKind.IDENTIFIER:
-            raise ParseError(f"Expected parameter name, found {curr.kind.name} ({curr.lexeme!r})", curr.span.start, self.filename)
+            raise ParseError(f"Expected parameter name, but found {_format_found_token(curr)}", curr.span.start, self.filename)
         name_tok = self._advance()
 
         if self._current().kind != TokenKind.COLON:
@@ -297,7 +387,7 @@ class Parser:
         if self._current().kind == TokenKind.IDENTIFIER and self._current().lexeme == "elif":
             curr = self._current()
             raise ParseError(
-                "Use of 'elif' keyword is not supported in V1 grammar; multi-branch conditionals must use nested if/else or if/xen/else",
+                "'elif' is not supported; multi-branch conditionals must use nested if/else or if/xen/else",
                 curr.span.start,
                 self.filename,
             )
@@ -333,6 +423,28 @@ class Parser:
         return Block(statements=statements, span=span)
 
     def parse_xen_block(self) -> Union[Block, IgnoreStatement]:
+        curr = self._current()
+
+        # Check for compact single-line 'xen: ignore'
+        if curr.kind == TokenKind.IDENTIFIER and curr.lexeme == "ignore":
+            ignore_tok = self._advance()
+            if self._current().kind not in (TokenKind.NEWLINE, TokenKind.EOF):
+                raise ParseError(
+                    "Non-exclusive 'xen: ignore'; 'ignore' cannot coexist with other statements in a xen clause",
+                    self._current().span.start,
+                    self.filename,
+                )
+            if self._current().kind == TokenKind.NEWLINE:
+                self._advance()
+            return IgnoreStatement(span=ignore_tok.span)
+
+        if curr.kind != TokenKind.NEWLINE:
+            raise ParseError(
+                "Illegal inline statement under 'xen'; only 'xen: ignore' is permitted inline",
+                curr.span.start,
+                self.filename,
+            )
+
         self._expect(TokenKind.NEWLINE, "Expected newline before xen block indentation")
         indent_tok = self._expect(TokenKind.INDENT, "Expected indented xen block")
 
@@ -382,7 +494,45 @@ class Parser:
         return Block(statements=statements, span=block_span)
 
     def parse_expression(self) -> Expression:
-        return self.parse_or()
+        return self.parse_conditional()
+
+    def parse_conditional(self) -> Expression:
+        left = self.parse_or()
+        if self._current().kind == TokenKind.IF:
+            if_tok = self._advance()
+            condition = self.parse_or()
+            if self._current().kind == TokenKind.XEN:
+                xen_tok = self._advance()
+                xen_expr = self.parse_or()
+                else_tok = self._expect(TokenKind.ELSE, "Expected 'else' keyword in XoX inline conditional expression")
+                else_expr = self.parse_conditional()
+                span = SourceSpan(left.span.start, else_expr.span.end) if left.span and else_expr.span else None
+                return InlineConditionalExpr(
+                    true_expr=left,
+                    condition=condition,
+                    xen_expr=xen_expr,
+                    else_expr=else_expr,
+                    span=span,
+                )
+            elif self._current().kind == TokenKind.ELSE:
+                else_tok = self._advance()
+                else_expr = self.parse_conditional()
+                span = SourceSpan(left.span.start, else_expr.span.end) if left.span and else_expr.span else None
+                return InlineConditionalExpr(
+                    true_expr=left,
+                    condition=condition,
+                    xen_expr=None,
+                    else_expr=else_expr,
+                    span=span,
+                )
+            else:
+                bad_tok = self._current()
+                raise ParseError(
+                    "Expected 'else' or 'xen' after condition in inline conditional expression",
+                    bad_tok.span.start,
+                    self.filename,
+                )
+        return left
 
     def parse_or(self) -> Expression:
         left = self.parse_and()
@@ -410,11 +560,11 @@ class Parser:
             span = SourceSpan(left.span.start, right.span.end) if left.span and right.span else None
             left = BinaryExpr(left=left, op=op_tok.kind, right=right, span=span)
 
-            # Reject chained comparisons in V1 (e.g. a == b == c, a == b != c)
+            # Reject chained comparisons (e.g. a == b == c, a == b != c)
             if self._current().kind in (TokenKind.EQ_EQ, TokenKind.EXCL_EQ):
                 bad_tok = self._current()
                 raise ParseError(
-                    "Chained comparisons (e.g. 'a == b == c' or 'a == b != c') are not supported in V1; comparisons must be written explicitly (e.g. '(a == b) AND (b == c)')",
+                    "Chained comparisons (e.g. 'a == b == c' or 'a == b != c') are not supported; comparisons must be written explicitly (e.g. '(a == b) AND (b == c)')",
                     bad_tok.span.start,
                     self.filename,
                 )
@@ -426,7 +576,32 @@ class Parser:
             operand = self.parse_not()
             span = SourceSpan(not_tok.span.start, operand.span.end) if operand.span else not_tok.span
             return UnaryExpr(op=TokenKind.NOT, operand=operand, span=span)
-        return self.parse_primary()
+        return self.parse_postfix()
+
+    def parse_postfix(self) -> Expression:
+        expr = self.parse_primary()
+        while self._current().kind == TokenKind.DOT:
+            dot_tok = self._advance()
+            ident_tok = self._expect(TokenKind.IDENTIFIER, "Expected identifier after '.'")
+            if ident_tok.lexeme != "unwrap_or":
+                raise ParseError(
+                    f"Unsupported postfix method or attribute '{ident_tok.lexeme}'; only 'unwrap_or' is supported",
+                    ident_tok.span.start,
+                    self.filename,
+                )
+            self._expect(TokenKind.LPAREN, "Expected '(' after 'unwrap_or'")
+            if self._current().kind == TokenKind.RPAREN:
+                bad_tok = self._current()
+                raise ParseError(
+                    "Missing mandatory fallback argument in 'unwrap_or()'",
+                    bad_tok.span.start,
+                    self.filename,
+                )
+            fallback = self.parse_expression()
+            rparen_tok = self._expect(TokenKind.RPAREN, "Expected ')' after 'unwrap_or' fallback argument")
+            span = SourceSpan(expr.span.start, rparen_tok.span.end) if expr.span and rparen_tok.span else None
+            expr = CollapseXoXToBoolWithDefault(source=expr, fallback=fallback, span=span)
+        return expr
 
     def parse_primary(self) -> Expression:
         curr = self._current()
@@ -443,9 +618,23 @@ class Parser:
             return LiteralExpr(kind=lit_tok.kind, lexeme=lit_tok.lexeme, span=lit_tok.span)
 
         if curr.kind == TokenKind.IDENTIFIER:
+            if curr.lexeme == "xox" and self._peek().kind == TokenKind.LPAREN:
+                xox_tok = self._advance()
+                lparen_tok = self._advance()
+                if self._current().kind == TokenKind.RPAREN:
+                    raise ParseError(
+                        "Missing expression in 'xox()'",
+                        self._current().span.start,
+                        self.filename,
+                    )
+                inner_expr = self.parse_expression()
+                rparen_tok = self._expect(TokenKind.RPAREN, "Expected ')' after 'xox(' expression")
+                span = SourceSpan(xox_tok.span.start, rparen_tok.span.end)
+                return PromoteBoolToXoX(expr=inner_expr, span=span)
+
             if curr.lexeme == "elif":
                 raise ParseError(
-                    "Use of 'elif' keyword is not supported in V1 grammar",
+                    "'elif' is not supported; multi-branch conditionals must use nested if/else or if/xen/else",
                     curr.span.start,
                     self.filename,
                 )
@@ -453,7 +642,7 @@ class Parser:
             return IdentifierExpr(name=ident_tok.lexeme, span=ident_tok.span)
 
         raise ParseError(
-            f"Unexpected token in expression: {curr.kind.name} ({curr.lexeme!r})",
+            f"Unexpected {_format_found_token(curr)} in expression",
             curr.span.start,
             self.filename,
         )

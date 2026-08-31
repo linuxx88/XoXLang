@@ -1,12 +1,13 @@
 """Semantic analysis, static truth-type checking, contextual literal resolution, and semantic artifact production."""
 from dataclasses import dataclass, field
 from typing import Dict, Optional, Union
-from trool.tokens import TokenKind
-from trool.ast import (
+from xoxlang.tokens import TokenKind
+from xoxlang.ast import (
     ASTNode,
     AssignmentStatement,
     BinaryExpr,
     Block,
+    CollapseXoXToBoolWithDefault,
     ConditionalStatement,
     ExprStatement,
     Expression,
@@ -14,18 +15,20 @@ from trool.ast import (
     GroupExpr,
     IdentifierExpr,
     IgnoreStatement,
+    InlineConditionalExpr,
     LiteralExpr,
     Parameter,
     PassStatement,
     Program,
+    PromoteBoolToXoX,
     ReturnStatement,
     Statement,
     UnaryExpr,
 )
-from trool.types import BOOL, XOX, ConditionalKind, TypeKind
+from xoxlang.types import BOOL, XOX, ConditionalKind, TypeKind
 
-from trool.diagnostics import ExhaustivenessError, TypeDiagnosticError
-from trool.control_flow import check_function_definite_returns
+from xoxlang.diagnostics import ExhaustivenessError, TypeDiagnosticError
+from xoxlang.control_flow import check_function_definite_returns
 
 # Alias for type error in semantic context
 TypeError = TypeDiagnosticError
@@ -106,6 +109,24 @@ def _inspect_domain_anchor(expr: Expression, env: TypeEnv) -> Optional[TypeKind]
             # Equality result is always Bool
             return BOOL
 
+    if isinstance(expr, InlineConditionalExpr):
+        true_anchor = _inspect_domain_anchor(expr.true_expr, env)
+        else_anchor = _inspect_domain_anchor(expr.else_expr, env)
+        xen_anchor = _inspect_domain_anchor(expr.xen_expr, env) if expr.xen_expr is not None else None
+        if true_anchor == XOX or else_anchor == XOX or xen_anchor == XOX:
+            return XOX
+        if true_anchor == BOOL or else_anchor == BOOL or xen_anchor == BOOL:
+            return BOOL
+        return None
+
+    if isinstance(expr, CollapseXoXToBoolWithDefault):
+        # Collapse primitive always yields Bool
+        return BOOL
+
+    if isinstance(expr, PromoteBoolToXoX):
+        # Promotion primitive always yields XoX
+        return XOX
+
     return None
 
 
@@ -150,7 +171,11 @@ class SemanticAnalyzer:
         elif isinstance(stmt, ConditionalStatement):
             self.check_conditional_statement(stmt)
         else:
-            raise TypeError(f"Unsupported statement type: {type(stmt).__name__}", span=stmt.span)
+            raise TypeError(
+                "Unsupported statement syntax.",
+                span=stmt.span,
+                help="Supported statements are variable assignments, expressions, conditionals, functions, pass, and ignore.",
+            )
 
     def check_conditional_statement(self, stmt: ConditionalStatement) -> None:
         """Post-type conditional classification, xen legality, and exhaustiveness checking."""
@@ -167,21 +192,34 @@ class SemanticAnalyzer:
         elif cond_type == XOX:
             if stmt.xen_branch is None and stmt.else_branch is None:
                 raise ExhaustivenessError(
-                    "XoX conditional is non-exhaustive; both 'xen' (or 'xen: ignore') and 'else' clauses are required to cover Unknown and False",
+                    "This XoX condition does not handle Unknown or False (missing both 'xen' and 'else' clauses).",
                     span=stmt.span,
-                    violated_rule="§10, §12, §13",
+                    violated_rule="§10",
+                    note="XoX conditions can be True, False, or Unknown.",
+                    help="Add an 'else' branch to handle False.",
+                    alternatives=[
+                        "Add a 'xen' branch to handle Unknown.",
+                        "Use 'xen: ignore' if intentionally doing nothing for Unknown is correct.",
+                    ],
                 )
             if stmt.xen_branch is None:
                 raise ExhaustivenessError(
-                    "XoX conditional is non-exhaustive; missing 'xen' clause to cover the Unknown state",
+                    "This XoX condition does not handle Unknown (missing 'xen' clause).",
                     span=stmt.span,
-                    violated_rule="§10, §12, §13",
+                    violated_rule="§10",
+                    note="A 'xen' branch handles the case where an XoX condition evaluates to Unknown.",
+                    alternatives=[
+                        "Add a 'xen' branch to handle Unknown.",
+                        "Use 'xen: ignore' if intentionally doing nothing for Unknown is correct.",
+                    ],
                 )
             if stmt.else_branch is None:
                 raise ExhaustivenessError(
-                    "XoX conditional is non-exhaustive; missing 'else' clause to cover the False state",
+                    "This XoX condition does not handle False (missing 'else' clause).",
                     span=stmt.span,
-                    violated_rule="§10, §12, §13",
+                    violated_rule="§10",
+                    note="An 'else' branch handles the False case.",
+                    help="Add an 'else' branch to handle False.",
                 )
             self.result.conditional_kinds[id(stmt)] = ConditionalKind.XOX
         else:
@@ -330,12 +368,23 @@ class SemanticAnalyzer:
                     # Unconstrained literal defaults to Bool (§18)
                     resolved_type = BOOL
             else:
-                raise TypeError(f"Unknown literal token kind: {expr.kind}", span=expr.span, violated_rule="§3")
+                lit_name = getattr(expr.kind, "value", str(expr.kind))
+                raise TypeError(
+                    f"Unsupported literal value '{lit_name}'.",
+                    span=expr.span,
+                    violated_rule="§3",
+                    help="Supported truth literals are 'True', 'False', and 'Unknown'.",
+                )
 
         elif isinstance(expr, IdentifierExpr):
             t = self.env.lookup(expr.name)
             if t is None:
-                raise TypeError(f"Unbound identifier {expr.name!r}", span=expr.span, violated_rule="§19")
+                raise TypeError(
+                    f"Variable '{expr.name}' is not defined.",
+                    span=expr.span,
+                    violated_rule="§19",
+                    help=f"Define and initialize '{expr.name}' before using it.",
+                )
             resolved_type = t
 
         elif isinstance(expr, GroupExpr):
@@ -350,9 +399,21 @@ class SemanticAnalyzer:
                 elif operand_type == XOX:
                     resolved_type = XOX
                 else:
-                    raise TypeError(f"Operator NOT requires Bool or XoX operand, got {operand_type}", span=expr.span, violated_rule="§7")
+                    raise TypeError(
+                        f"Operator 'NOT' cannot be applied to type '{operand_type}'.",
+                        span=expr.span,
+                        violated_rule="§7",
+                        note="Logical NOT operates exclusively on truth-typed expressions.",
+                        help="Ensure the operand evaluates to a Bool or XoX value.",
+                    )
             else:
-                raise TypeError(f"Unsupported unary operator: {expr.op}", span=expr.span, violated_rule="§7")
+                op_name = getattr(expr.op, "value", str(expr.op))
+                raise TypeError(
+                    f"Unsupported unary operator '{op_name}'.",
+                    span=expr.span,
+                    violated_rule="§7",
+                    help="Only 'NOT' is supported for logical unary negation.",
+                )
 
         elif isinstance(expr, BinaryExpr):
             if expr.op in (TokenKind.AND, TokenKind.OR):
@@ -377,10 +438,16 @@ class SemanticAnalyzer:
                 elif left_type == XOX and right_type == XOX:
                     resolved_type = XOX
                 else:
-                    raise TypeError(
-                        f"Mixed logical operation '{expr.op.value}' between {left_type} and {right_type} is forbidden without explicit conversion (XoX.from_bool)",
+                    raise TypeDiagnosticError(
+                        f"Cannot combine {left_type} and {right_type} with logical operator '{expr.op.value}'.",
                         span=expr.span,
                         violated_rule="§7, §19",
+                        note="Bool has only True and False, while XoX can also be Unknown. XoXLang does not combine those domains implicitly.",
+                        alternatives=[
+                            "If three-state logic is intended, convert the Bool operand with xox(...).",
+                            "If two-state Bool logic is intended, keep both operands in the Bool domain instead.",
+                        ],
+                        annotations={"left_type": str(left_type), "right_type": str(right_type)},
                     )
 
             elif expr.op in (TokenKind.EQ_EQ, TokenKind.EXCL_EQ):
@@ -398,21 +465,143 @@ class SemanticAnalyzer:
                 right_type = self.check_expression(expr.right, expected=op_domain)
 
                 if left_type != right_type:
-                    raise TypeError(
-                        f"Mixed equality comparison '{expr.op.value}' between {left_type} and {right_type} is forbidden without explicit conversion (XoX.from_bool)",
+                    raise TypeDiagnosticError(
+                        f"Cannot compare {left_type} and {right_type} with equality operator '{expr.op.value}'.",
                         span=expr.span,
                         violated_rule="§8, §19",
+                        note="Bool and XoX are different semantic domains, so equality requires both operands to use the same domain.",
+                        alternatives=[
+                            "If you want to compare in three-state logic, convert the Bool operand with xox(...).",
+                            "If the comparison should remain two-state, keep both values as Bool.",
+                        ],
+                        annotations={"left_type": str(left_type), "right_type": str(right_type)},
                     )
 
                 # Strict Result-Type Barrier: equality always returns Bool (§8, §18, §19)
                 resolved_type = BOOL
 
-
             else:
-                raise TypeError(f"Unsupported binary operator: {expr.op}", span=expr.span, violated_rule="§7, §8")
+                op_name = getattr(expr.op, "value", str(expr.op))
+                raise TypeError(
+                    f"Unsupported binary operator '{op_name}'.",
+                    span=expr.span,
+                    violated_rule="§7, §8",
+                    help="Supported binary operators are 'AND', 'OR', '==', and '!='.",
+                )
+
+        elif isinstance(expr, InlineConditionalExpr):
+            cond_type = self.check_expression(expr.condition, expected=None)
+            if cond_type == BOOL:
+                if expr.xen_expr is not None:
+                    raise TypeError(
+                        "Bool inline conditional expression cannot have a 'xen' branch",
+                        span=expr.xen_expr.span,
+                        violated_rule="§5, §18",
+                    )
+                branch_domain = expected
+                if branch_domain is None:
+                    true_anchor = _inspect_domain_anchor(expr.true_expr, self.env)
+                    else_anchor = _inspect_domain_anchor(expr.else_expr, self.env)
+                    if true_anchor == XOX or else_anchor == XOX:
+                        branch_domain = XOX
+                    elif true_anchor == BOOL or else_anchor == BOOL:
+                        branch_domain = BOOL
+                    else:
+                        branch_domain = None
+
+                true_type = self.check_expression(expr.true_expr, expected=branch_domain)
+                else_type = self.check_expression(expr.else_expr, expected=branch_domain)
+
+                if true_type != else_type:
+                    raise TypeError(
+                        f"Inline conditional expression branches have incompatible types: true branch is '{true_type}', else branch is '{else_type}'",
+                        span=expr.span,
+                        violated_rule="§18, §19",
+                    )
+                resolved_type = true_type
+            elif cond_type == XOX:
+                if expr.xen_expr is None:
+                    raise ExhaustivenessError(
+                        "This inline XoX conditional has no result for Unknown (missing 'xen' branch).",
+                        span=expr.span,
+                        violated_rule="§5, §10",
+                        note="The 'xen' branch supplies the result when the condition is Unknown.",
+                        help="Add a 'xen' result for the Unknown case.",
+                    )
+                branch_domain = expected
+                if branch_domain is None:
+                    true_anchor = _inspect_domain_anchor(expr.true_expr, self.env)
+                    else_anchor = _inspect_domain_anchor(expr.else_expr, self.env)
+                    xen_anchor = _inspect_domain_anchor(expr.xen_expr, self.env)
+                    if true_anchor == XOX or else_anchor == XOX or xen_anchor == XOX:
+                        branch_domain = XOX
+                    elif true_anchor == BOOL or else_anchor == BOOL or xen_anchor == BOOL:
+                        branch_domain = BOOL
+                    else:
+                        branch_domain = None
+
+                true_type = self.check_expression(expr.true_expr, expected=branch_domain)
+                xen_type = self.check_expression(expr.xen_expr, expected=branch_domain)
+                else_type = self.check_expression(expr.else_expr, expected=branch_domain)
+
+                if not (true_type == xen_type == else_type):
+                    raise TypeError(
+                        f"XoX inline conditional expression branches have incompatible types: true branch is '{true_type}', xen branch is '{xen_type}', else branch is '{else_type}'",
+                        span=expr.span,
+                        violated_rule="§18, §19",
+                    )
+                resolved_type = true_type
+            else:
+                raise TypeError(
+                    f"Inline conditional expression condition must be Bool or XoX, got {cond_type}",
+                    span=expr.condition.span,
+                    violated_rule="§5",
+                )
+
+        elif isinstance(expr, CollapseXoXToBoolWithDefault):
+            source_type = self.check_expression(expr.source, expected=XOX)
+            if source_type != XOX:
+                raise TypeDiagnosticError(
+                    f"'unwrap_or(...)' works on an XoX value, but this value is {source_type}.",
+                    span=expr.source.span or expr.span,
+                    violated_rule="§3, §19",
+                    note="The fallback is only used when an XoX value is Unknown.",
+                    alternatives=[
+                        "If you intended three-state logic here, convert the Bool with xox(...)."
+                    ],
+                    annotations={"source_type": str(source_type)},
+                )
+            fallback_type = self.check_expression(expr.fallback, expected=BOOL)
+            if fallback_type != BOOL:
+                raise TypeDiagnosticError(
+                    f"'unwrap_or(...)' needs a Bool fallback, but this fallback is {fallback_type}.",
+                    span=expr.fallback.span or expr.span,
+                    violated_rule="§3, §19",
+                    note="The fallback is evaluated only when the source is Unknown and must produce the final True or False result.",
+                    help="Use an expression whose type is Bool as the fallback.",
+                    annotations={"fallback_type": str(fallback_type)},
+                )
+            resolved_type = BOOL
+
+        elif isinstance(expr, PromoteBoolToXoX):
+            operand_type = self.check_expression(expr.expr, expected=BOOL)
+            if operand_type != BOOL:
+                raise TypeDiagnosticError(
+                    f"'xox(...)' promotes Bool to XoX, but the supplied expression is already {operand_type}.",
+                    span=expr.span,
+                    violated_rule="§19",
+                    note="Explicit promotion 'xox(...)' requires a Bool operand.",
+                    help="Remove 'xox(...)' if the value is already XoX." if operand_type == XOX else None,
+                    annotations={"operand_type": str(operand_type)},
+                )
+            resolved_type = XOX
 
         else:
-            raise TypeError(f"Cannot type-check unsupported AST node: {type(expr).__name__}", span=expr.span)
+            raise TypeError(
+                "Unsupported expression syntax.",
+                span=expr.span,
+                help="Use supported literals, identifiers, unary NOT, logical binary expressions, inline conditionals, xox promotion, or unwrap_or.",
+            )
 
         # Record authoritative resolved type in semantic result side table
         self.result.node_types[id(expr)] = resolved_type

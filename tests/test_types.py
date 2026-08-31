@@ -1,9 +1,9 @@
 """Unit tests for XoX static truth-type system and contextual literal resolution."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.types import BOOL, XOX, TypeKind, ConditionalKind
-from trool.semantic import SemanticAnalyzer, TypeEnv, check_expression, TypeError
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.types import BOOL, XOX, TypeKind, ConditionalKind
+from xoxlang.semantic import SemanticAnalyzer, TypeEnv, check_expression, TypeError
 
 
 def parse_expr(source: str):

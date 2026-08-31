@@ -1,0 +1,113 @@
+{
+  "version": "1.0",
+  "status": "FROZEN_STUDY_PROTOCOL",
+  "tasks": [
+    {
+      "id": "DEV-01",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-03",
+      "prompt": "An external authorization service times out. What does the program conclude regarding factual permission, and what value reaches downstream execution?",
+      "oracle_ground_truth": {
+        "factive_status": "UNRESOLVED",
+        "downstream_value": "None / Unknown / Exception (not False, not True)",
+        "explanation": "Timeout is an operational failure, not an affirmative denial."
+      }
+    },
+    {
+      "id": "DEV-02",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-04",
+      "prompt": "Two co-equal trusted authorities return conflicting grant and revoke records. Does the system know True, know False, remain Unknown, or enter Contradiction?",
+      "oracle_ground_truth": {
+        "factive_status": "UNRESOLVED / UNKNOWN",
+        "explanation": "Conflicting authoritative evidence creates behavioral variance across realities (Unknown), not empty context (Contradiction)."
+      }
+    },
+    {
+      "id": "DEV-03",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-07",
+      "prompt": "A proposition is unresolved, and code executes a fallback with default=False. Distinguish the factual status of the proposition from the policy decision value.",
+      "oracle_ground_truth": {
+        "factive_status": "UNRESOLVED / UNKNOWN",
+        "policy_decision": false,
+        "explanation": "The policy decision is False, but the factual state of the world remains Unknown."
+      }
+    },
+    {
+      "id": "DEV-04",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-08",
+      "prompt": "Active premises require X == True AND X == False simultaneously. What is the execution outcome?",
+      "oracle_ground_truth": {
+        "factive_status": "CONTRADICTION",
+        "execution_behavior": "FAIL_CLOSED_ABORT",
+        "explanation": "Mutually exclusive premises yield zero admissible worlds; evaluation must abort fail-closed rather than return Unknown or False."
+      }
+    },
+    {
+      "id": "DEV-05",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-09",
+      "prompt": "Propositions P and Q are individually unresolved, but a joint constraint guarantees P != Q in all worlds. Predict the factive truth of the compound expression P XOR Q.",
+      "oracle_ground_truth": {
+        "operand_status": "UNRESOLVED / UNKNOWN",
+        "compound_status": "TRUE",
+        "explanation": "Compound realization is invariant True across all worlds despite operand uncertainty."
+      }
+    },
+    {
+      "id": "DEV-06",
+      "phase": "PHASE_1_PREDICTION",
+      "scenario_ref": "RW-10",
+      "prompt": "An indeterminate/unknown value is passed directly to an if-condition `if (val):`. What happens?",
+      "oracle_ground_truth": {
+        "execution_behavior": "TYPE_ERROR_OR_BLOCKED",
+        "explanation": "Anti-coercion prevents treating unresolved values as truthy."
+      }
+    },
+    {
+      "id": "DEV-07",
+      "phase": "PHASE_2_BUG_IDENTIFICATION",
+      "mutation_ref": "MUT-01",
+      "prompt": "A developer removes the explicit unresolved check and consumes the variable directly. Does this introduce a safety issue? What is the failure mode?",
+      "oracle_ground_truth": {
+        "has_safety_bug": true,
+        "failure_mode": "M1_UNJUSTIFIED_DECISION or M2_UNCERTAINTY_LOSS",
+        "explanation": "Treats unresolved state as default/falsy value without authorization."
+      }
+    },
+    {
+      "id": "DEV-08",
+      "phase": "PHASE_2_BUG_IDENTIFICATION",
+      "mutation_ref": "MUT-07",
+      "prompt": "A developer catches a contradiction and maps it to ordinary Unknown handling. Is this safe?",
+      "oracle_ground_truth": {
+        "has_safety_bug": true,
+        "failure_mode": "M3_CONTRADICTION_MASKING",
+        "explanation": "Masks unrecoverable premise unsatisfiability as recoverable uncertainty."
+      }
+    },
+    {
+      "id": "DEV-09",
+      "phase": "PHASE_2_BUG_IDENTIFICATION",
+      "mutation_ref": "MUT-10",
+      "prompt": "A developer replaces uncertainty-aware ternary composition with standard binary `and`/`or` operators. Does this change semantics?",
+      "oracle_ground_truth": {
+        "has_safety_bug": true,
+        "failure_mode": "OPERATOR_TRUTHINESS_CORRUPTION",
+        "explanation": "Binary operators evaluate truthiness, causing false certainty on indeterminate operands."
+      }
+    },
+    {
+      "id": "DEV-10",
+      "phase": "PHASE_3_SAFE_MODIFICATION",
+      "scenario_ref": "RW-07",
+      "prompt": "Modify the fallback policy to default=True upon timeout, while ensuring the factive truth field cannot be recorded as True.",
+      "oracle_ground_truth": {
+        "expected_implementation": "factive_claim remains None/Unknown; policy_decision set to True via unwrap_or(True) or explicit fallback assignment.",
+        "forbidden": "Assigning True directly to factive_truth / factive_claim."
+      }
+    }
+  ]
+}

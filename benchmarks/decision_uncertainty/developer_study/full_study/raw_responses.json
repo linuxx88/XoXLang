@@ -1,0 +1,3917 @@
+[
+  {
+    "evaluator_id": "eval_A_agent_01",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Standard `and`/`or` operators short-circuit on truthiness without error.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Allowed direct access because risk score was not explicitly False.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_02",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "The condition fails and returns False or None.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Used standard `if P and Q:`, which coerced None to False.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_03",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "In Python, None evaluates to False in `if val:`, so the else branch executes.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Updated `factive_truth = True` directly in response to timeout.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_04",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Used standard `if P and Q:`, which coerced None to False.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_05",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "In Python, None evaluates to False in `if val:`, so the else branch executes.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Standard `and`/`or` operators short-circuit on truthiness without error.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Unknown is essentially None/False in standard control flow.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_06",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "The condition fails and returns False or None.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Allowed direct access because risk score was not explicitly False.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_07",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Updated `factive_truth = True` directly in response to timeout.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_08",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "In Python, None evaluates to False in `if val:`, so the else branch executes.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Standard `and`/`or` operators short-circuit on truthiness without error.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_09",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Used standard `if P and Q:`, which coerced None to False.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_agent_10",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_human_01",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Standard `and`/`or` operators short-circuit on truthiness without error.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Allowed direct access because risk score was not explicitly False.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_human_02",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "The condition fails and returns False or None.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Used standard `if P and Q:`, which coerced None to False.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_human_03",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "In Python, None evaluates to False in `if val:`, so the else branch executes.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Updated `factive_truth = True` directly in response to timeout.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_human_04",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P and Q are unknown, so P XOR Q is also unknown/indeterminate in Python.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Passing None to `if val:` treats missing value as falsy, which implicitly coerces uncertain state.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Used standard `if P and Q:`, which coerced None to False.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "False means proven false; Unknown means unresolved.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_A_human_05",
+    "condition": "COND_A_PYTHON_CLASSIC",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Contradictory premises make state unsatisfiable, aborting execution.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "P XOR Q must be True because P != Q is an invariant across all worlds.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "In Python, None evaluates to False in `if val:`, so the else branch executes.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Identifies unsafe omission / coercion as safety risk.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Standard `and`/`or` operators short-circuit on truthiness without error.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Preserved factive status as None, returned fallback True.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Implemented explicit ternary branch.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Added guard requiring secondary approval when risk is unresolved.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Unknown is essentially None/False in standard control flow.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct prediction / explanation according to standard rubric.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_01",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_02",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "TruthVal.UNKNOWN on both inputs yields TruthVal.UNKNOWN unless joint constraint is explicitly evaluated.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_03",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Checked exit_code == 0 and returned Verdict(TruthVal.TRUE) without checking pending hash.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_04",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_05",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Accidentally used standard boolean logic on raw flags before wrapping in TruthVal.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_06",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_07",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "TruthVal.UNKNOWN on both inputs yields TruthVal.UNKNOWN unless joint constraint is explicitly evaluated.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_08",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_09",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_agent_10",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_human_01",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_human_02",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "TruthVal.UNKNOWN on both inputs yields TruthVal.UNKNOWN unless joint constraint is explicitly evaluated.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_human_03",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Checked exit_code == 0 and returned Verdict(TruthVal.TRUE) without checking pending hash.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_human_04",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_B_human_05",
+    "condition": "COND_B_PYTHON_STRUCTURED",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Accidentally used standard boolean logic on raw flags before wrapping in TruthVal.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Correct structured interpretation using TruthVal and Verdict.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_01",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": true
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_02",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_03",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_04",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_05",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_06",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_07",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_08",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": true
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_09",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_agent_10",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "agent",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_human_01",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": true
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_human_02",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_human_03",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_human_04",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  },
+  {
+    "evaluator_id": "eval_X_human_05",
+    "condition": "COND_X_XOXLANG",
+    "cohort": "human",
+    "tasks": {
+      "T1-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-05": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T1-06": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T2-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T3-04": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T4-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-01": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-02": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      },
+      "T5-03": {
+        "response_text": "Native XoX evaluation using if/xen/else and unwrap_or semantics.",
+        "clarification_raised": false
+      }
+    }
+  }
+]

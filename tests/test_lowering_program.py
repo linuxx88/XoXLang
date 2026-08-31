@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) full program lowering."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import ProgramLowerer, lower_to_python, map_identifier
-from trool.runtime import XoX
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import ProgramLowerer, lower_to_python, map_identifier
+from xoxlang.runtime import XoX
 
 
 class TestXoXLoweringProgram(unittest.TestCase):
@@ -13,7 +13,7 @@ class TestXoXLoweringProgram(unittest.TestCase):
         sem = analyze(ast)
         output = lower_to_python(ast, sem.result)
 
-        self.assertIn("from trool.runtime import XoX", output)
+        self.assertIn("from xoxlang.runtime import XoX", output)
         scope = {}
         exec(output, scope)
         self.assertIs(scope["XoX"], XoX)
@@ -104,8 +104,8 @@ class TestXoXLoweringProgram(unittest.TestCase):
         self.assertIs(scope["XoX"], XoX)
 
     def test_unsupported_ast_fails(self):
-        from trool.ast import LiteralExpr
-        from trool.semantic import SemanticResult
+        from xoxlang.ast import LiteralExpr
+        from xoxlang.semantic import SemanticResult
         with self.assertRaises(TypeError):
             lower_to_python(LiteralExpr(), SemanticResult())
 

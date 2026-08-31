@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) simple statement lowering."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import StatementLowerer, lower_statement, map_identifier
-from trool.runtime import XoX, xox_not, xox_and, xox_or
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import StatementLowerer, lower_statement, map_identifier
+from xoxlang.runtime import XoX, xox_not, xox_and, xox_or
 
 
 class TestXoXLoweringStatements(unittest.TestCase):
@@ -57,7 +57,7 @@ class TestXoXLoweringStatements(unittest.TestCase):
         self.assertEqual(lower_statement(ast_pass.statements[0], sem_pass.result), ["pass"])
 
         # IgnoreStatement
-        from trool.ast import IgnoreStatement
+        from xoxlang.ast import IgnoreStatement
         ignore_stmt = IgnoreStatement()
         self.assertEqual(lower_statement(ignore_stmt, sem_pass.result), ["pass"])
 

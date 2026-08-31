@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) target namespace hygiene and identifier mapping."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import ExpressionLowerer, lower_expression, map_identifier
-from trool.runtime import XoX, xox_not, xox_and, xox_or, UnknownValueError
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import ExpressionLowerer, lower_expression, map_identifier
+from xoxlang.runtime import XoX, xox_not, xox_and, xox_or, UnknownValueError
 
 
 class TestXoXLoweringIdentifiers(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestXoXLoweringIdentifiers(unittest.TestCase):
         self.assertEqual(target_x, map_identifier("x"))
 
     def test_injective_mapping(self):
-        ids = ["x", "y", "x_1", "class", "def", "lambda", "XoX", "Trool", "_tmp_0", "_u_61"]
+        ids = ["x", "y", "x_1", "class", "def", "lambda", "XoX", "CustomType", "_tmp_0", "_u_61"]
         mapped = [map_identifier(name) for name in ids]
         self.assertEqual(len(mapped), len(set(mapped)))
         for m in mapped:

@@ -4,8 +4,8 @@
 - **Specification Version**: V2 (Active Source of Truth)
 - **Conceptual / Display Name**: X-o-X
 - **Source-Code Primitive Type**: `XoX`
-- **Supersedes**: `TROOL_SPEC.md` (Historical V1 Specification)
-- **Historical Baseline Integrity**: `TROOL_SPEC.md` and `TROOL_V1_BASELINE.json` remain immutable sealed historical V1 artifacts.
+- **Supersedes**: `docs/historical/trool-v1/TROOL_SPEC.md` (Historical V1 Specification)
+- **Historical Baseline Integrity**: `docs/historical/trool-v1/TROOL_SPEC.md` and `docs/historical/trool-v1/TROOL_V1_BASELINE.json` remain immutable sealed historical V1 artifacts.
 - **Semantic Invariant Preservation**: All core semantics—including the three-valued truth domain (`True`, `False`, `Unknown`), Strong Kleene logic ($K_3$), state-identity equality returning `Bool`, and canonical `if`/`xen`/`else` control flow—are strictly preserved without modification.
 
 ## 1. Purpose
@@ -24,11 +24,16 @@ Defines the initial immutable semantic core of the XoX (X-o-X) type and the `xen
 - **XoX** (conceptual name: **X-o-X**): Exactly three values: `True`, `False`, and `Unknown`.
 - **Non-Numeric Logical Types**: `Bool` and `XoX` are non-numeric logical types with no numeric subtyping, integer arithmetic, bitwise operations, or ordering relations (§19).
 - **Distinctness**: `Bool` and `XoX` are distinct types.
-- **Coercion**: No implicit XoX-to-Bool coercion exists.
+- **Coercion**: No implicit XoX-to-Bool or Bool-to-XoX coercion exists.
+- **No Fourth Truth Value**: Contradiction ($W_{\text{factive}} = \emptyset$) is not a fourth $K_3$ truth value; it represents an ontological precondition failure that aborts evaluation fail-closed.
+- **Explicit Conversion Boundaries**:
+  - `Bool` $\rightarrow$ `XoX`: Explicit lossless promotion via `xox(expr)` (§19).
+  - `XoX` $\rightarrow$ `Bool`: Explicit information-losing collapse via short-circuit primitive `x.unwrap_or(default_bool)` (§19).
 
 ## 4. Meaning of Unknown
-- `Unknown` denotes insufficient information to establish `True` or `False`.
+- `Unknown` denotes insufficient information to establish `True` or `False` across non-empty admissible execution realities ($|W_{\text{factive}}| \ge 2$).
 - `Unknown` does not mean half-true.
+- `Unknown` is fundamentally distinct from Contradiction ($W_{\text{factive}} = \emptyset$). Vacuous truth over an empty world space has zero epistemic authority and cannot produce `Known`.
 
 ## 5. Control Flow Semantics
 - **Conventional Catch-All Semantics**: The keyword `else` retains its conventional catch-all role covering the only remaining unhandled state. The language does not redefine `else` as a specialized `False` keyword.
@@ -39,16 +44,57 @@ Defines the initial immutable semantic core of the XoX (X-o-X) type and the `xen
   - `if` maps to `True`.
   - `xen` maps to `Unknown`.
   - `else` catches the only remaining state: `False`.
-- **Exhaustiveness**: A XoX conditional must explicitly handle `Unknown`.
+- **Xen Scope & Contradiction Isolation**: `xen` handles `Unknown` only; `xen` cannot capture or suppress an evaluated Contradiction.
+- **Statement-Level Ignore Syntaxes**: The explicit ignore branch for `Unknown` supports two strictly equivalent syntaxes:
+  - Multi-line block form: `xen:\n    ignore`
+  - Compact single-line form: `xen: ignore`
+  - Both forms are purely statement-level syntactic sugar with identical semantics, normalizing to the exact same AST representation.
+- **Exhaustiveness**: A XoX conditional must explicitly handle `Unknown` (via a statement block, `xen:\n    ignore`, or compact `xen: ignore`).
+
+### 5.1 Inline Conditional Expressions
+- **Syntax and Dual Forms**:
+  - **Bool Inline Conditional**: `true_expr if cond_expr else false_expr`
+  - **XoX Inline Conditional**: `true_expr if cond_expr xen unk_expr else false_expr`
+- **Grammar & Precedence**:
+  - Inline conditionals have the **lowest operator precedence** (below `OR`).
+  - Inline conditionals are **right-associative**: `a if c1 else b if c2 else d` parses as `a if c1 else (b if c2 else d)`.
+- **Exhaustiveness and Syntax Integrity**:
+  - For a `XoX`-typed condition, the `xen` branch is **mandatory**; omitting `xen` produces a static `ExhaustivenessError`.
+  - For a `Bool`-typed condition, the `xen` branch is **strictly forbidden**; including `xen` produces a static `TypeError`.
+  - `xen: ignore` is a statement-level construct only and is **invalid in expressions**; all branches of an inline conditional must be concrete value-producing expressions.
+- **Typing and Contextual Domain Resolution**:
+  - **Homogeneous Branch Typing**: All branches (`true_expr`, `xen_expr`, `else_expr`) must resolve to the same static type (`Bool` or `XoX`). Heterogeneous branch types produce a static `TypeError`.
+  - **Independence of Condition and Result Domain**: The result type of an inline conditional is determined entirely by its branch expressions and is independent from the condition domain (e.g. an `XoX` condition may evaluate to a `Bool` result, and a `Bool` condition may evaluate to a `XoX` result).
+  - **Contextual Domain Anchoring (§18)**: If any branch expression contains `XoX` or an `Unknown` literal, uncommitted `True` or `False` literals in other branches resolve contextually to `XoX`. If all branches are uncommitted literals (or `Bool`), they resolve to `Bool`.
+- **Operational Trace & Evaluation Requirements (§7.1)**:
+  - Evaluation is strictly **condition-first**: `cond_expr` is evaluated first and exactly once.
+  - Branch evaluation is **lazy**: only the branch selected by the runtime condition state is evaluated; unselected branches are skipped completely (no side effects executed), strictly preserving the Operational Trace Preservation Invariant (§7.1).
+
+### 5.2 Explicit XoX Collapse Primitive (`unwrap_or`)
+- **Flow Control Boundary**: `x.unwrap_or(default_bool)` is a dedicated, special flow-control primitive projecting `XoX` onto `Bool`.
+- **Semantic AST Representation**: Evaluated and represented semantically as `CollapseXoXToBoolWithDefault(source, fallback)`, never as an ordinary `MethodCall`.
+- **Short-Circuit & Condition-First Evaluation**:
+  - `source` is evaluated **exactly once** prior to any decision.
+  - If `source == XoX.True`, returns `Bool.True` without evaluating `fallback`.
+  - If `source == XoX.False`, returns `Bool.False` without evaluating `fallback`.
+  - If `source == XoX.Unknown`, evaluates `fallback` **exactly once** and returns its `Bool` result.
+- **Strict Lazy Fallback**: `fallback` is strictly short-circuited when `source` is `True` or `False` (0 side-effect evaluations).
+- **Contradiction Isolation**: `unwrap_or` handles `Unknown` only; `unwrap_or` cannot collapse or mask an evaluated Contradiction.
+- **Resolution Authority**: In factive evaluation environments, collapsing `Unknown[\Pi]` requires an authoritative `ResolutionToken` matching exact $\Pi$, `OperationType=unwrap_or`, active `WorldStateID`, and the exact `FallbackPolicyIdentity`. Mismatch fails closed before fallback evaluation.
+- **Information-Losing Projection**: `unwrap_or` is an explicitly permitted information-reducing boundary, with no truthiness, no implicit coercion, and no implicit fallback.
+
 
 ## 6. Semantic Invariants
 - **State Cardinality**: `Bool` has exactly 2 states; `XoX` has exactly 3 states.
 - **Mutual Exclusivity**: `True`, `False`, and `Unknown` are strictly mutually exclusive `XoX` states.
 - **Information Preservation**: `Unknown` cannot be silently treated as `True` or `False`.
+- **Contradiction Isolation**: Contradiction ($W_{\text{factive}} = \emptyset$) is not a 4th truth value; an evaluated Contradiction propagates immediately fail-closed and cannot be captured by `xen` or collapsed by `unwrap_or`.
+- **Short-Circuit Immunity**: An operand skipped by legitimate left-to-right short-circuiting is not evaluated and produces no value, effect, exception, or Contradiction (§7, §7.1).
 - **Branch Selection**: Every executed `XoX` conditional selects exactly one branch among `if`, `xen`, or `else`.
 - **Branch Mapping**: In a `XoX` conditional, `if` corresponds only to `True`, `xen` only to `Unknown`, and `else` only to `False`.
 - **Mandatory Handling**: A `XoX` conditional cannot silently omit the `Unknown` path.
 - **Binary Isolation**: `Bool` control flow remains strictly binary and does not use `xen`.
+- **Operational Trace Preservation**: Evaluation order, short-circuit skipping, and observable side-effect traces must be strictly preserved under all compilation and optimization passes (§7.1).
 
 ## 7. XoX Logical Operators
 `XoX` logical operators follow **Strong Kleene 3-valued logic ($K_3$)**.
@@ -97,6 +143,22 @@ Defines the initial immutable semantic core of the XoX (X-o-X) type and the `xen
 - **OR Short-Circuiting**: If the left operand evaluates to `True`, the right operand is **not evaluated** (skipping all potential side effects), because `True` dominates `OR`.
 - **Unknown Left Operand**: If the left operand evaluates to `Unknown`, the right operand **must be evaluated**, as a dominant right operand (`False` for `AND`, `True` for `OR`) can still fully determine the final result.
 - **Side Effect Guarantee**: Side effects in a skipped (short-circuited) right operand expression do not occur.
+
+### 7.1 Operational Trace Preservation & Optimization Invariants
+- **Strict Operational Trace Preservation Invariant**: Compiler transformations, lowering passes, and target code generation must strictly preserve the canonical observable execution trace (evaluation order, observable side effects, and exceptions) defined by left-to-right operational reduction with short-circuit dominance.
+- **Observable Equivalence**: Two expression forms or compiled lowerings are equivalent if and only if they yield identical Strong Kleene $K_3$ values and produce an identical canonical observable effect/exception trace under left-to-right evaluation.
+- **Algebraic Equivalence Limitation**: Mathematical $K_3$ algebraic equivalence (e.g. commutativity or annihilation) alone never authorizes runtime reordering or omission of unevaluated expressions.
+- **Forbidden Transformations**:
+  - Commutative operand swapping (e.g. rewriting `A AND B` $\rightarrow$ `B AND A` or `A OR B` $\rightarrow$ `B OR A`) unless operands are statically proven pure.
+  - Unsafe annihilation without prefix evaluation (e.g. rewriting `expr AND False` directly to `False` or `expr OR True` directly to `True` without evaluating `expr`).
+  - Speculative, parallel, or out-of-order operand evaluation that triggers right-hand effects prior to left-hand resolution.
+  - Duplication of effectful subexpressions across short-circuit boundaries.
+- **Permitted Transformations**: Compiler transformations (such as constant folding, algebraic simplification, or dead-code elimination) are permitted only when they preserve canonical left-to-right operational behavior or when all eliminated/reordered subexpressions are statically proven pure.
+- **Collapse Primitive (`unwrap_or`) Trace Invariants**:
+  - `source` is strictly evaluated first and **exactly once**.
+  - `fallback` is evaluated if and only if `source` evaluates to `XoX.Unknown`.
+  - If `source` evaluates to `XoX.True` or `XoX.False`, `fallback` is never evaluated (0 side-effect executions).
+  - No speculation, reordering, or duplication of `source` or `fallback`.
 
 ## 8. XoX Equality
 
@@ -182,35 +244,82 @@ else:
 - **Bool Conditionals**: May use `if` alone (implicit no-op for `False`) or `if` with an explicit `else`.
 - **XoX Conditionals**: Must fully account for all three states (`True`, `Unknown`, and `False`).
 - **Structural `if` Presence**: Because every parsed `ConditionalStatement` structurally begins with `if`, a valid parsed conditional inherently possesses its `True` branch. Standalone `xen` or `else` clauses without an `if` are orphan clauses (`SyntaxError`).
-- **Missing Unknown Path (`xen`)**: Omitting the `Unknown` path without an explicit ignore mechanism (`xen:` block or `xen: ignore`) is an `ExhaustivenessError`.
+- **Missing Unknown Path (`xen`)**: Omitting the `Unknown` path without an explicit ignore mechanism (`xen:` block or compact `xen: ignore`) is an `ExhaustivenessError`.
 - **Missing False Path (`else`)**: Omitting the `False` branch (`else`) on a `XoX` conditional is an `ExhaustivenessError`.
 - **No Duplicate Branches**: Duplicated semantic branches (e.g. multiple `xen` or multiple `else` blocks for the same conditional) are invalid (`SyntaxError`).
 - **Canonical Ordering**: The branch order for a `XoX` conditional is canonically `if`, `xen`, `else`.
-- **Exhaustiveness Satisfaction**: Using `xen: ignore` satisfies the exhaustiveness requirement for `XoX`.
+- **Exhaustiveness Satisfaction**: Using explicit ignore (`xen:\n    ignore` or compact `xen: ignore`) satisfies the exhaustiveness requirement for `XoX`.
+
+### 10.1 Direct XoX Control vs. Derived Bool Control
+
+XoXLang distinguishes between direct tripartite control flow and binary control flow derived from explicit state observations or policy collapses:
+
+1. **Direct XoX Control (`DIRECT_XOX_CONTROL`)**:
+   - **Condition Domain**: The condition expression is typed directly as `XoX`.
+   - **Compiler Guarantee**: Static tripartite exhaustiveness is enforced at compile time. Omission of `xen` or `else` produces a static `ExhaustivenessError`.
+   - **Safe Direct Example**:
+     ```python
+     if status:
+         grant_access()
+     xen:
+         challenge_mfa()
+     else:
+         deny_access()
+     ```
+
+2. **Derived Bool Control (`DERIVED_BOOL_CONTROL`)**:
+   - **Condition Domain**: The condition expression is typed as `Bool`, produced by an explicit source-level operation on a `XoX` value.
+   - **Explicit State Partitioning (`==`, `!=`)**: Comparing state identity (`x == True`) produces a `Bool`. In a binary `if/else`, this explicitly partitions state space:
+     ```python
+     if x == True:
+         grant_access()
+     else:
+         # Explicit partition: False and Unknown are merged into this branch
+         deny_access()
+     ```
+     State observation tests metadata identity; it does not resolve the underlying proposition.
+   - **Explicit Policy Collapse (`unwrap_or`)**: Calling `x.unwrap_or(default_bool)` explicitly collapses `Unknown` to `default_bool` by declared policy.
+   - **Manual Equality Reconstruction Limit**: A manual chain of binary equality checks (`if x == True: ... else: if x == Unknown: ... else: ...`) can functionally mirror tripartite runtime dispatch, but loses compiler-enforced exhaustiveness (omitting `Unknown` is accepted silently without compiler errors).
+
+> **Core Guarantee Boundary**: XoXLang prevents implicit loss of `Unknown` and guarantees exhaustive handling strictly under direct `XoX` control (`if`/`xen`/`else`). Derived `Bool` control is fully valid for explicit binary partitioning, but its logical exhaustiveness is governed by developer-authored structure.
 
 ## 11. Explicit Unknown Ignore Mechanism
 
 ### Contextual Keyword Status & Disambiguation Precedence
 - **Soft / Contextual Keyword**: `ignore` is a contextual (soft) keyword, not a globally reserved keyword.
-- **Syntactic Disambiguation Precedence**: An isolated standalone identifier token spelled `ignore`, when it appears as the direct and sole body statement of a `xen` clause, is **always** parsed and interpreted as the contextual `IgnoreStatement`.
+- **Syntactic Disambiguation Precedence**: An isolated standalone identifier token spelled `ignore`, when it appears as the direct and sole body statement of a `xen` clause (either in block form or in compact single-line form `xen: ignore`), is **always** parsed and interpreted as the contextual `IgnoreStatement`.
 - **Precedence over Identifier Resolution**: This contextual interpretation strictly takes precedence over resolving a variable or expression-statement named `ignore`. `xen: ignore` cannot be used to evaluate an in-scope variable named `ignore` as a standalone expression.
 - **Ordinary Identifier Status Everywhere Else**: A variable, function, parameter, attribute, or member named `ignore` remains completely valid everywhere else. Syntactic uses such as `print(ignore)`, `value = ignore`, `object.ignore`, and `ignore()` are parsed as ordinary identifier references according to standard expression syntax.
-- **Deterministic Symbol-Table-Free Parsing**: Distinguishing `IgnoreStatement` from an ordinary identifier requires zero symbol-table lookup or scope awareness; it is determined purely by the local syntactic position as the sole statement of a `xen:` clause.
+- **Deterministic Symbol-Table-Free Parsing**: Distinguishing `IgnoreStatement` from an ordinary identifier requires zero symbol-table lookup or scope awareness; it is determined purely by the local syntactic position in a `xen` clause (`xen:\n    ignore` or `xen: ignore`).
 - **Lexer Independence**: The lexer does not need to emit a globally reserved `IGNORE` token.
 
-### Canonical Syntax & Semantics
-- **Canonical Syntax**: The canonical ignore syntax for `Unknown` is `xen:` followed by an indented standalone `ignore` statement:
-  ```text
-  if <XoX-expression>:
-      <True-block>
-  xen:
-      ignore
-  else:
-      <False-block>
-  ```
+### Dual Syntactic Forms & Semantic Equivalence
+The explicit ignore mechanism for `Unknown` provides two strictly equivalent syntactic forms:
+1. **Multi-Line Block Form**:
+   ```text
+   if <XoX-expression>:
+       <True-block>
+   xen:
+       ignore
+   else:
+       <False-block>
+   ```
+2. **Compact Single-Line Form**:
+   ```text
+   if <XoX-expression>:
+       <True-block>
+   xen: ignore
+   else:
+       <False-block>
+   ```
+- **Strict Syntactic Sugar**: The compact single-line form `xen: ignore` is purely syntactic sugar for the block form `xen:\n    ignore`.
+- **Identical AST Normalization**: Both syntactic forms parse and normalize directly to the exact same AST representation: a `ConditionalStatement` with `xen_branch` containing `IgnoreStatement`. Zero new AST node types are introduced.
+- **Strict Grammar Restriction**: The production `XenIgnoreClause ::= 'xen' ':' 'ignore'` is the sole authorized compact inline form under `xen:`. Any other inline statement or sequence (e.g. `xen: foo()`, `xen: ignore; foo()`, `xen: pass`) is strictly forbidden and rejected at parse time with `SyntaxError` (CTX-XEN-INLINE-02, CTX-XEN-INLINE-03).
+- **Contextual Exclusivity**: `ignore` used outside the `xen:` context is invalid as a standalone keyword/statement (CTX-XEN-INLINE-04).
+- **Operational Trace & Attachment Invariance**: The compact form preserves byte-for-byte the operational trace, lazy evaluation, `else` attachment, and static Phase 3 exhaustiveness rules of the block form (CTX-XEN-INLINE-01, CTX-XEN-INLINE-05).
 - **Exclusive Atomic Form**: `xen: ignore` is an exclusive atomic form representing an explicitly acknowledged `Unknown` branch with no user action.
 - **Sole Statement Invariant**: When `ignore` is used as the `xen` branch body, it must be the sole and exclusive statement in that `xen` clause.
-- **Prohibition of Coexistence (SyntaxError)**: A `xen` clause containing `ignore` alongside any additional statement (e.g. `ignore` followed or preceded by another statement) is structurally invalid and must produce a `SyntaxError`.
+- **Prohibition of Coexistence (SyntaxError)**: A `xen` clause containing `ignore` alongside any additional statement (e.g. `ignore` followed or preceded by another statement, or `xen: ignore; stmt`) is structurally invalid and must produce a `SyntaxError`.
 - **Exhaustiveness Satisfaction**: Using `xen: ignore` satisfies the exhaustiveness requirement for `XoX`.
 - **No Coercion / Mutation**: `ignore` does not convert `Unknown` to `True` or `False`, nor does it mutate the underlying `XoX` value.
 - **Not Else**: `ignore` is not equivalent to `else`.
@@ -263,13 +372,32 @@ ConditionalStatement ::= "if" Expression ":" Block
                          ( "xen" ":" XenBlock )?
                          ( "else" ":" Block )? ;
 
-XenBlock             ::= Block | IgnoreStatement ;
-IgnoreStatement      ::= "ignore" ;
+XenBlock             ::= Block | XenIgnoreClause ;
+XenIgnoreClause      ::= "ignore" ;
+
+Expression           ::= InlineConditional ;
+InlineConditional    ::= LogicalOr ( "if" LogicalOr ( "xen" LogicalOr "else" | "else" ) InlineConditional )? ;
+LogicalOr            ::= LogicalAnd ( "OR" LogicalAnd )* ;
+LogicalAnd           ::= EqualityExpr ( "AND" EqualityExpr )* ;
+EqualityExpr         ::= UnaryExpr ( ( "==" | "!=" ) UnaryExpr )? ;
+UnaryExpr            ::= "NOT" UnaryExpr | PostfixExpr ;
+PostfixExpr          ::= PrimaryExpr ( "." "unwrap_or" "(" Expression ")" )* ;
+PrimaryExpr          ::= Identifier | Literal | "(" Expression ")" | "xox" "(" Expression ")" ;
+Literal              ::= "True" | "False" | "Unknown" ;
 ```
 
 ### Parser Invariants
 - **Type-Agnostic Parsing**: The parser processes expressions and conditions solely as generic `Expression` nodes and does not determine whether an expression evaluates to `Bool`, `XoX`, or any other type.
 - **Single Production**: There are no separate grammar productions for Bool versus XoX conditionals at parse time.
+- **Compact and Block `xen: ignore` Syntax**:
+  - `xen: ignore` is parsed either directly on the same line (`xen: ignore`) or as an indented block (`xen:\n    ignore`).
+  - Both forms normalize directly to the same `IgnoreStatement` node assigned to `ConditionalStatement.xen_branch`.
+  - The grammar strictly restricts compact inline `xen` clauses to `XenIgnoreClause ::= 'xen' ':' 'ignore'`. Any other inline statement suite under `xen:` (such as `xen: foo()` or `xen: ignore; foo()`) is strictly prohibited and produces a `SyntaxError` at parse time (CTX-XEN-INLINE-02, CTX-XEN-INLINE-03).
+- **Explicit Collapse Syntax (`x.unwrap_or(default_expr)`)**:
+  - The parser recognizes `.unwrap_or(default_expr)` postfix invocation on primary expressions.
+  - The fallback argument is **mandatory**; omitting the argument (`x.unwrap_or()`) is a static `SyntaxError` / `ParseError` (CTX-COLLAPSE-06).
+  - General method invocation (`x.method()`) or arbitrary attribute accesses are not part of the language grammar; `unwrap_or` is recognized exclusively as the flow-control collapse primitive.
+  - No alternative `??` or coalesce operator syntax is permitted.
 - **Function Definition and Parameter Syntax**:
   - `fn` introduces function definitions (`FunctionDefinition ::= "fn" Identifier "(" ParameterList? ")" ReturnAnnotation? ":" Block`).
   - **Explicitly Typed Parameters**: In V1, all function parameters must be explicitly typed (`Identifier ":" TypeName`) using the closed truth-type set `Bool` or `XoX`. Untyped parameters are not supported in V1.
@@ -303,23 +431,75 @@ IgnoreStatement      ::= "ignore" ;
 ### Diagnostic Resolution Precedence
 Diagnostics are resolved through a deterministic four-phase pipeline:
 1. **Phase 1: SyntaxError (Structural Validity)**
-   - Emitted when source code violates grammar or structural invariants (e.g. duplicate branch declarations, invalid clause ordering, orphan `xen` or `else` without `if`, non-exclusive `xen: ignore`, all-`pass` `xen` blocks, use of `elif`, or an attempted contextual `ignore` construct outside `xen:`).
+   - Emitted when source code violates grammar or structural invariants (e.g. duplicate branch declarations, invalid clause ordering, orphan `xen` or `else` without `if`, non-exclusive `xen: ignore`, illegal inline xen statements like `xen: foo()`, compound inline statements like `xen: ignore; foo()`, all-`pass` `xen` blocks, use of `elif`, or an attempted contextual `ignore` construct outside `xen:`).
 2. **Phase 2: TypeError (Type Admissibility)**
    - Emitted after condition type resolution when an inadmissible type or incompatible keyword is used.
    - If the condition resolves to `Bool` and a `xen` clause is present $\rightarrow$ `TypeError` (`xen` is invalid for binary `Bool` conditions).
    - If an expression is neither `Bool` nor `XoX`, or if implicit coercion is attempted $\rightarrow$ `TypeError`.
 3. **Phase 3: ExhaustivenessError (Exhaustive Semantic Coverage)**
    - Emitted when a syntactically valid conditional with an admissible condition type fails to account for all required semantic states.
-   - If the condition resolves to `XoX` and lacks a `xen` clause (or `xen: ignore`), or lacks an `else` clause $\rightarrow$ `ExhaustivenessError` (never `TypeError`).
+   - If the condition resolves to `XoX` and lacks a `xen` clause (via statement block, `xen:\n    ignore`, or compact `xen: ignore`), or lacks an `else` clause $\rightarrow$ `ExhaustivenessError` (never `TypeError`). Both block and compact ignore forms satisfy Phase 3 exhaustiveness identically.
 4. **Phase 4: MissingReturnError (Definite-Return Completeness)**
-   - Emitted when control-flow reachability analysis determines that a function with a declared return type has reachable terminal paths (e.g. falling through `xen: ignore`) that fail to return a compatible value.
+   - Emitted when control-flow reachability analysis determines that a function with a declared return type has reachable terminal paths (e.g. falling through `xen: ignore` or `xen:\n    ignore`) that fail to return a compatible value.
 
-### Diagnostic Structure Requirements
-Every static diagnostic emitted for conditional analysis must provide at minimum:
-1. **Error Category**: The formal class of diagnostic (`SyntaxError`, `TypeError`, `ExhaustivenessError`, or `MissingReturnError`).
-2. **Source Location**: Exact file, line, and column range of the offending construct.
-3. **Violated Rule**: Specification section or invariant being violated.
-4. **Human-Readable Explanation**: Concise explanation distinguishing compiler-known facts from any suggested correction.
+### Diagnostic Structure & 5W+H Reasoning Contract
+The 5W+H (Who, What, When, Where, Why, How) framework serves as the compiler's internal diagnostic reasoning and completeness model, **not** a mandatory six-label user-facing terminal layout. Every diagnostic must be rooted in this internal contract:
+1. **WHO**: Identify the exact construct, operand, branch, variable, function, or value involved.
+2. **WHAT**: Identify the concrete rule or contract violation (concise primary problem statement).
+3. **WHEN**: Identify when the relevant semantic rule or execution condition matters (e.g. at runtime evaluation, branch dispatch, or short-circuit evaluation).
+4. **WHERE**: Identify the exact source span, providing file, line, column, source excerpt, and visual caret annotation when available.
+5. **WHY**: Explain the relevant XoXLang semantic rule in plain English when that explanation materially helps.
+6. **HOW**: Determine safe corrective actions without guessing developer intent.
+
+### Adaptive User-Facing Diagnostic Rendering
+User-facing diagnostics must render adaptively as `source span/location + concise error + optional semantic context + action`. Diagnostic complexity must scale with problem complexity, ensuring that the compiler understands the full problem, explains only what is useful, and never chooses semantics on the developer's behalf:
+- **`WHERE` $\rightarrow$ Source Span**: Line, column, source excerpt, and caret indicator when source-span information is available.
+- **`WHAT` $\rightarrow$ Primary Error**: Concise, direct problem statement.
+- **`WHO` $\rightarrow$ Operand/Type Context**: Concrete operand, type, or construct annotations included only when they improve clarity.
+- **`WHY` & `WHEN` $\rightarrow$ Semantic Context**: Short contextual notes included only when they materially help explain XoX semantics (e.g. `Unknown`, `xen`, `xox(...)`, `.unwrap_or(...)`, or short-circuit evaluation).
+- **`HOW` $\rightarrow$ Actionable Guidance**: Actionable remediation distinguishing deterministic fixes from intent-dependent choices.
+
+#### Adaptive Complexity Levels
+- **Simple Syntax Errors**: Location + concise error + deterministic fix when obvious. No unnecessary semantic explanation.
+- **Type-Boundary Errors**: Location + concise error + actual involved types or operands + help or alternatives.
+- **XoX Semantic Invariant Errors**: Location + concise error + short semantic context explaining `Unknown`/`XoX` behavior + help or alternatives.
+
+### Action Policy: Deterministic Help vs. Intent-Dependent Alternatives
+- **`help`**: Permitted strictly when the compiler knows a deterministic, semantics-preserving correction and does not need to infer developer intent.
+- **`alternatives`**: Required when multiple valid corrections exist and the correct choice depends on developer intent or domain policy.
+- **Compiler Intent Neutrality**: The compiler must never choose semantic policy on behalf of the developer, nor present speculative fixes as certain.
+
+### User-Facing Diagnostic UX Standard (LOCKED_ADVERSARIAL_SPEC)
+- **Authority Matrix**: User-facing compiler and runtime diagnostic messages are formally governed by `experiments/DIAGNOSTIC_UX_COUNTEREXAMPLES.md` (`LOCKED_ADVERSARIAL_SPEC`). All constraints across `CTX-DIAG-01` through `CTX-DIAG-12` are mandatory conformance constraints.
+- **Internal Exception Taxonomy**: Internal exception classes (`LexerError`, `ParseError`, `TypeDiagnosticError`, `ExhaustivenessError`, `MissingReturnError`, `TypeError`, `UnknownValueError`) remain technical implementation details and are strictly invariant.
+- **Plain-English Problem Explanation**: User-facing message strings must explain the developer's actual problem directly in plain English without exposing compiler internals.
+- **Prohibited Jargon & Phrasing**:
+  - Raw `TokenKind` enum names (e.g. `RPAREN`, `IDENTIFIER`, `LPAREN`, `EOF`) must never be leaked to the developer; punctuation and tokens must be described in plain terms (e.g. `')'`, `'('`, `parameter name`).
+  - AST node class names (e.g. `Program AST node`, `Statement`, `Expression`) and compiler pipeline phase numbers (e.g. `Phase 2`, `Phase 3`, `Phase 4`) must not appear in user messages.
+  - Language versioning milestones and historical tags (e.g. `in V1`, `in V1 grammar`, `in V1 lexical core`) are strictly prohibited in error messages.
+  - Mechanically displaying raw `WHO`/`WHAT`/`WHEN`/`WHERE`/`WHY`/`HOW` labels for every error.
+  - Verbose tutorial-style explanations for trivial errors, or paternalistic / conversational filler.
+- **Deterministic Actionable Guidance & Semantic Integrity**:
+  - Diagnostics must provide a concise corrective hint whenever the resolution is deterministic (`help`), and present non-speculative choices when intent-dependent (`alternatives`).
+  - Domain conversions must exclusively guide the developer using canonical language surface syntax: `xox(expr)` for Bool-to-XoX promotion and `.unwrap_or(default_bool)` for XoX-to-Bool collapse.
+  - Guiding developers toward obsolete runtime helper methods such as `XoX.from_bool` is strictly forbidden.
+  - Unhandled uncertainty in conditionals must guide developers toward adding `xen` or `xen: ignore`.
+  - Diagnostics must never describe a rule more narrowly than the actual type system enforces (e.g. claiming `unwrap_or` requires a literal Bool when any valid Bool expression is accepted).
+  - All code examples and snippets presented within diagnostics must themselves be valid canonical XoXLang.
+- **Mandatory Adversarial Matrix (`CTX-DIAG-01` through `CTX-DIAG-12`)**:
+  - **CTX-DIAG-01**: Jargon-free syntax and token expectation messages.
+  - **CTX-DIAG-02**: Canonical promotion guidance (`xox(...)`) for mixed domain operations.
+  - **CTX-DIAG-03**: Actionable guidance for `unwrap_or` collapses (`source: XoX`, `fallback: Bool`).
+  - **CTX-DIAG-04**: Actionable exhaustiveness and `xen: ignore` guidance.
+  - **CTX-DIAG-05**: Non-versioning grammar error messages.
+  - **CTX-DIAG-06**: Problem-oriented definite-return diagnostics.
+  - **CTX-DIAG-07**: Concise rendering for simple syntax errors without tutorial filler.
+  - **CTX-DIAG-08**: Contextual WHEN/WHY explanations for non-obvious XoX semantic invariants.
+  - **CTX-DIAG-09**: Deterministic semantics-preserving single corrections exposed exclusively as `help`.
+  - **CTX-DIAG-10**: Intent-dependent corrections exposed exclusively as non-speculative `alternatives`.
+  - **CTX-DIAG-11**: Accurate semantic scope in error messages without artificial rule narrowing (e.g. Bool expressions in `unwrap_or`).
+  - **CTX-DIAG-12**: Full syntactic validity of all code examples and suggested snippets shown in diagnostics.
+- **Fail-Closed Safety Discipline**: Enhancing diagnostic UX, human-readable explanations, and adaptive phrasing must strictly preserve all static rejection rules, type safety boundaries, and exhaustiveness requirements without weakening fail-closed compiler invariants.
 
 ### Canonical Diagnostic Categories
 
@@ -334,6 +514,8 @@ Every static diagnostic emitted for conditional analysis must provide at minimum
 | Orphan `xen` branch | `SyntaxError` | §9, §12 | `xen` clause encountered without a preceding `if` block. |
 | Orphan `else` branch | `SyntaxError` | §9, §12 | `else` clause encountered without a preceding `if` block. |
 | Non-exclusive `xen: ignore` | `SyntaxError` | §11, §12 | `xen: ignore` is an exclusive atomic form; `ignore` cannot coexist with other statements in a `xen` clause. |
+| Illegal inline `xen` statement | `SyntaxError` | §11, §12 | Inline `xen:` only permits `xen: ignore`; general forms such as `xen: foo()` are forbidden (CTX-XEN-INLINE-02). |
+| Compound inline `xen` statement | `SyntaxError` | §11, §12 | Semicolon chaining or compound statements in compact `xen` (e.g. `xen: ignore; foo()`) are forbidden (CTX-XEN-INLINE-03). |
 | `xen` clause with only `pass` | `SyntaxError` | §11, §12 | `xen` branch containing only `pass` statements is invalid; explicit no-op handling of `Unknown` requires `xen: ignore`. Multi-statement `xen` blocks with effective logic may contain `pass`. |
 | Use of `elif` keyword | `SyntaxError` | §12, §21 | `elif` is not part of the initial language grammar; multi-branch Bool conditionals must use nested `if` in `else`, and XoX conditionals strictly use `if`/`xen`/`else`. |
 | Implicit XoX-to-Bool coercion | `TypeError` | §3, §6, §19 | Cannot evaluate or assign `XoX` where `Bool` is expected without explicit handling or conversion. |
@@ -342,10 +524,10 @@ Every static diagnostic emitted for conditional analysis must provide at minimum
 | Mixed Bool/XoX equality comparison | `TypeError` | §8, §19 | Equality (`==`) and inequality (`!=`) comparisons between mixed `Bool` and `XoX` operands are invalid without explicit conversion. |
 | Arithmetic / bitwise on Bool or XoX | `TypeError` | §3, §19 | Arithmetic (`+`, `-`, `*`, `/`, `%`) and bitwise (`&`, `|`, `^`, `~`, `<<`, `>>`) operators are forbidden on `Bool` and `XoX`. |
 | Ordering comparison on Bool or XoX | `TypeError` | §3, §19 | Ordering comparisons (`<`, `<=`, `>`, `>=`) are forbidden on `Bool` and `XoX`. |
-| Chained comparisons (e.g. `a == b == c`) | `SyntaxError` | §8, §19 | Chained comparisons are unsupported in the initial specification; comparisons must be written explicitly (e.g. `(a == b) AND (b == c)`). |
-| Misplaced contextual `ignore` | `SyntaxError` | §11, §12 | Attempted contextual `ignore` construct used outside the permitted `xen:` (`Unknown`) branch context (ordinary identifier uses of `ignore` elsewhere remain valid). |
-
-*Note: Exact error codes and final diagnostic wording remain open.*
+| Misplaced contextual `ignore` | `SyntaxError` | §11, §12 | Attempted contextual `ignore` construct used outside the permitted `xen:` (`Unknown`) branch context (ordinary identifier uses of `ignore` elsewhere remain valid; CTX-XEN-INLINE-04). |
+| Missing fallback in `unwrap_or` | `SyntaxError` | §12, §19 | `unwrap_or` requires an explicit fallback argument; bare `x.unwrap_or()` is forbidden (CTX-COLLAPSE-06). |
+| `unwrap_or` on non-`XoX` source | `TypeError` | §3, §19 | `unwrap_or` source must be statically typed `XoX`; invoking on `Bool` is forbidden (CTX-COLLAPSE-05). |
+| Non-`Bool` fallback in `unwrap_or` | `TypeError` | §3, §19 | `unwrap_or` fallback must be statically typed `Bool`; passing `XoX` or `Unknown` is forbidden (CTX-COLLAPSE-04). |
 
 ## 14. Conceptual AST Requirements
 
@@ -353,7 +535,7 @@ Every static diagnostic emitted for conditional analysis must provide at minimum
 A conceptual AST node for conditionals must contain:
 - `condition`: Expression node producing a condition value.
 - `true_branch`: Statement / block executed on `True`.
-- `unknown_branch`: Optional statement / block executed on `Unknown` (or an explicit `ignore` marker).
+- `unknown_branch`: Optional statement / block executed on `Unknown` (or an explicit `IgnoreStatement` marker).
 - `false_branch`: Optional statement / block executed on `False`.
 
 ### Type-Specific Structural Invariants
@@ -362,11 +544,15 @@ A conceptual AST node for conditionals must contain:
   - Must never contain an `unknown_branch`.
 - **XoX Conditional AST**:
   - Contains `condition`, `true_branch`, `unknown_branch`, and `false_branch`.
-  - The `unknown_branch` may hold a statement block or an explicit `Ignore` marker node.
+  - The `unknown_branch` holds either a statement `Block` or the canonical `IgnoreStatement` marker node.
+  - **AST Normalization Equivalence**: Both the block form `xen:\n    ignore` and the compact single-line form `xen: ignore` normalize directly to the exact same `IgnoreStatement` AST node in `unknown_branch`. No separate AST node type or wrapper is introduced.
 
 ### Metadata & Semantic Rules
 - **Source Span Preservation**: AST nodes must preserve exact source spans for the condition expression and every branch keyword (`if`, `xen`, `else`, `ignore`).
 - **Post-Resolution Differentiation**: Semantic analysis must clearly distinguish `Bool` and `XoX` conditionals after type resolution to perform exhaustiveness and branch legality checks.
+- **Conversion & Collapse Nodes**:
+  - `PromoteBoolToXoX(expr)`: AST node representing explicit promotion `xox(expr)`.
+  - `CollapseXoXToBoolWithDefault(source, fallback)`: AST node representing explicit collapse `x.unwrap_or(default_bool)`. Contains `source` (expression of type `XoX`) and `fallback` (expression of type `Bool`), with fixed result type `Bool`. It is a dedicated flow-control node, never desugared into a generic `MethodCall`.
 - **Implementation Neutrality**: The AST structure is an abstract conceptual model and must not encode runtime representations, memory layouts, or byte-level `XoX` encodings.
 
 ## 15. Python Lowering Semantics
@@ -473,11 +659,13 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
    - In a `Bool` context (or when unconstrained), `NOT True` resolves `True` as `Bool.True` and returns `Bool.False`.
    - `NOT` strictly preserves operand typing (`NOT Bool` $\rightarrow$ `Bool`, `NOT XoX` $\rightarrow$ `XoX`) and never retypes an already-typed `Bool` or `XoX` expression.
 6. **Outer Compound Expression Context**: Expected type context propagates through compound logical expressions solely to resolve uncommitted `True` and `False` literals. For example, in `t: XoX = True AND False`, the outer `XoX` expectation propagates to both literals, resolving both as `XoX` values and typing the compound `AND` expression as `XoX`.
+7. **Inline Conditional Branches**: In inline conditionals (`t if c else f` or `t if c xen u else f`), an expected-type context propagates to all branch expressions. When unconstrained by an outer type, if any branch contains an established `XoX` expression or an `Unknown` literal, it anchors the other uncommitted literal branches to `XoX` (e.g. in `True if cond xen Unknown else False`, `Unknown` anchors `True` and `False` to `XoX.True` and `XoX.False`, typing the expression as `XoX`).
+8. **Collapse Fallback Context (`unwrap_or`)**: In `source.unwrap_or(fallback)`, the expected domain for `source` is `XoX`, and the expected domain for `fallback` is strictly `Bool`. An uncommitted literal `True` or `False` in `source` resolves directly to `XoX.True` or `XoX.False`, and an uncommitted literal `True` or `False` in `fallback` resolves directly to `Bool.True` or `Bool.False`. Passing the `Unknown` literal in `fallback` fails closed as a static `TypeError` because `Unknown` cannot inhabit `Bool` (CTX-COLLAPSE-04).
 
 ### Scope and Invariants of Literal Propagation
 - **Limited Scope**: This mechanism is limited bidirectional contextual typing of uncommitted truth literals. It is not unrestricted implicit type conversion or general-purpose bidirectional inference.
 - **Immutable Typed Expressions**: Already-typed expressions (variables, function calls, or sub-expressions with established static types) are never retyped or coerced by expected-type propagation.
-- **Strict Anti-Coercion & TypeErrors Preserved**: Combining an already-typed `Bool` expression with an already-typed `XoX` expression (or with `Unknown`, e.g. `my_bool AND Unknown`, `my_bool == Unknown`, `Unknown != my_bool`) remains a static `TypeError` without explicit `XoX.from_bool()` conversion (§19). Contextual literal resolution applies strictly to raw uncommitted literals, not to already-typed values.
+- **Strict Anti-Coercion & TypeErrors Preserved**: Combining an already-typed `Bool` expression with an already-typed `XoX` expression (or with `Unknown`, e.g. `my_bool AND Unknown`, `my_bool == Unknown`, `Unknown != my_bool`) remains a static `TypeError` without explicit `xox(expr)` conversion (§19). Contextual literal resolution applies strictly to raw uncommitted literals, not to already-typed values.
 - **Equality Result-Type Barrier**: `==` and `!=` establish a strict boundary between operand typing and result typing. Expected-type context may operate inward to resolve uncommitted `True` or `False` literals used as operands (e.g., `True == Unknown` resolves `True` to `XoX.True`), but operand contextualization never alters the fixed `Bool` result type. An outer expected `XoX` type never crosses the equality result barrier to turn the comparison result into `XoX`.
 
 ## 19. Bool and XoX Assignment and Conversion
@@ -497,7 +685,7 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
 - **Reassignment Type Invariance**: Subsequent reassignments must preserve the established static type:
   - **Bool Variables**: For a variable `flag` typed as `Bool`, later reassigning `flag = False` is valid (`False` resolves in the established `Bool` context), but `flag = Unknown` is a static `TypeError`.
   - **XoX Variables**: For a variable `t` typed as `XoX`, later reassigning `t = True`, `t = False`, or `t = Unknown` is valid, with `True` and `False` literals resolving directly within the established `XoX` domain.
-  - **Cross-Type Reassignments**: Assigning an already-typed `Bool` expression to a `XoX` variable or an already-typed `XoX` expression to a `Bool` variable requires explicit conversion (`XoX.from_bool()`) under penalty of `TypeError`.
+  - **Cross-Type Reassignments**: Assigning an already-typed `Bool` expression to a `XoX` variable or an already-typed `XoX` expression to a `Bool` variable requires explicit conversion (`xox(expr)`) under penalty of `TypeError`.
 - **Value Mutation vs Type Immutability**: Variable values may change across runtime assignments, but the variable's static type does not.
 
 ### Function Return Typing and Explicit Annotations
@@ -512,24 +700,78 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
   - Under `-> XoX`, `return True` and `return False` resolve directly as `XoX.True` and `XoX.False` via contextual literal resolution (§18).
   - `return Unknown` evaluates as `XoX.Unknown`.
 - **Traversal-Order Independence**: Return statements must not be typed sequentially in a way that makes function return type or literal resolution depend on source-order traversal.
-- **No Whole-Function Type Promotion**: No implicit whole-function promotion of already-typed `Bool` return expressions to `XoX` occurs. Already-typed `Bool` expressions returned from a `-> XoX` function require explicit conversion (`XoX.from_bool()`).
+- **No Whole-Function Type Promotion**: No implicit whole-function promotion of already-typed `Bool` return expressions to `XoX` occurs. Already-typed `Bool` expressions returned from a `-> XoX` function require explicit conversion (`xox(expr)`).
 - **Definite-Return Path Completeness (MissingReturnError)**: Definite-return analysis requires every reachable terminal control-flow path in a function with a declared return type to return a type-compatible value (§11). Using `xen: ignore` satisfies XoX branch exhaustiveness but does not synthesize a return value; any execution path through `xen: ignore` reaching the end of the function without returning produces a `MissingReturnError`.
 
 ### Explicit Value Conversion
-- **Explicit Bool-to-XoX (`XoX.from_bool`)**:
-  - Conceptual explicit conversion is defined as `XoX.from_bool(value)`.
-  - Mapping: `Bool False` $\rightarrow$ `XoX False`, and `Bool True` $\rightarrow$ `XoX True`.
-  - **Lossless Boundary**: While `Bool`-to-`XoX` conversion is strictly lossless, it must remain explicit in code to preserve the semantic type boundary between binary truth values and 3-valued knowledge states.
-- **Explicit XoX-to-Bool (`xox_value.unwrap_bool()`)**:
-  - Canonical explicit extraction from `XoX` to `Bool` is defined as `xox_value.unwrap_bool()`.
+- **Explicit Bool-to-XoX Promotion (`xox(expr)`)**:
+  - **Syntax**: `xox(expr)` (with mandatory parentheses).
+  - **Typing Rule**: $\Gamma \vdash e : \text{Bool} \implies \Gamma \vdash \text{xox}(e) : \text{XoX}$.
+  - **Semantics**:
+    - $\text{xox}(\text{True}) = \text{XoX.True}$
+    - $\text{xox}(\text{False}) = \text{XoX.False}$
+    - **No other rule**.
+    - `xox(expr)` never introduces `Unknown`.
+    - `xox(expr)` is strictly **non-idempotent** (`xox(xox(flag))` $\rightarrow$ static `TypeError`).
+    - `XoX` and `Unknown` are never valid operands (`xox(Unknown)` $\rightarrow$ static `TypeError`).
+    - The typed AST preserves `PromoteBoolToXoX(expr)`.
+    - `expr` is evaluated **exactly once** (single evaluation).
+    - **No reordering** of the operational trace (strictly condition-first evaluation preserved).
+    - Parentheses are **mandatory** (`xox a == b` $\rightarrow$ `SyntaxError`).
+  - **Reference Invariants**:
+    - `xox(Unknown)` $\rightarrow$ `TypeError`
+    - `xox(True)` $\rightarrow$ `XoX.True`
+    - `xox(False)` $\rightarrow$ `XoX.False`
+  - **Mandatory Adversarial Matrix**:
+    - **CTX-PROMOT-01 (Rejected Idempotence)**: `xox(xox(flag))` $\rightarrow$ static `TypeError` (receives `XoX`, expects `Bool`).
+    - **CTX-PROMOT-02 (Rejected XoX Compound)**: `xox(xox_a AND xox_b)` $\rightarrow$ static `TypeError` (operand is already `XoX`).
+    - **CTX-PROMOT-03 (Precedence Without Parentheses)**: `xox a == b` $\rightarrow$ `SyntaxError`.
+    - **CTX-PROMOT-04 (Trace & Single evaluation)**: `xox(side_effect())` $\rightarrow$ `PASS` with proof of a single call at its exact sequential position.
+  - **Runtime & Library Mapping**: At the runtime boundary, `XoX.from_bool(value)` implements the lower-level function mapping `Bool False` $\rightarrow$ `XoX.False` and `Bool True` $\rightarrow$ `XoX.True`.
+  - **Lossless Boundary**: While `Bool`-to-`XoX` promotion is strictly lossless, it must remain explicit in code to preserve the semantic type boundary between binary truth values and 3-valued knowledge states.
+- **Explicit XoX-to-Bool Collapse (`source.unwrap_or(default_bool)`)**:
+  - **Syntax**: `source.unwrap_or(default_bool)` (postfix invocation on expressions).
+  - **Typing Rule**: $\Gamma \vdash x : \text{XoX} \land \Gamma \vdash d : \text{Bool} \implies \Gamma \vdash x.\text{unwrap\_or}(d) : \text{Bool}$.
+  - **Semantic AST Representation**: Evaluated and represented in the typed AST as `CollapseXoXToBoolWithDefault(source, fallback)`, strictly distinct from any generic `MethodCall`.
+  - **Operational Semantics**:
+    - `source` is evaluated **exactly once** prior to any decision.
+    - If `source == XoX.True`, returns `Bool.True` without evaluating `fallback`.
+    - If `source == XoX.False`, returns `Bool.False` without evaluating `fallback`.
+    - If `source == XoX.Unknown`, evaluates `fallback` **exactly once** and returns its `Bool` result.
+    - `fallback` is strictly lazy and conditioned on `Unknown`.
+  - **Boundary Invariants**:
+    - `unwrap_or` is an explicit information-reducing projection (information-losing) `XoX` $\rightarrow$ `Bool`.
+    - No truthiness.
+    - No implicit coercion.
+    - No implicit fallback (the `default_bool` argument is strictly mandatory; omission $\rightarrow$ static `SyntaxError`).
+    - The static type of fallback must be `Bool`, even if the runtime value of source would make the fallback unreachable (CTX-COLLAPSE-04).
+    - The source must be statically of type `XoX` (CTX-COLLAPSE-05).
+    - No alternative `??` or coalesce syntax is permitted.
+  - **Reference Invariants**:
+    | Input Expression | Fallback Expression | Static / Runtime Result | Invariant Enforced |
+    | :--- | :--- | :--- | :--- |
+    | `XoX.True.unwrap_or(d)` | `d: Bool` | `Bool.True` | Short-circuit; fallback `d` not evaluated |
+    | `XoX.False.unwrap_or(d)` | `d: Bool` | `Bool.False` | Short-circuit; fallback `d` not evaluated |
+    | `XoX.Unknown.unwrap_or(d)` | `d: Bool` | `d` (Bool) | Fallback `d` evaluated exactly once |
+    | `xox_val.unwrap_or(Unknown)` | `Unknown` (XoX) | `TypeError` (Static) | Static type of fallback must be `Bool` |
+    | `bool_val.unwrap_or(False)` | `False` (Bool) | `TypeError` (Static) | Static type of source must be `XoX` |
+    | `xox_val.unwrap_or()` | *Absent* | `ParseError` / `StaticError` | Mandatory fallback argument; no implicit default |
+  - **Mandatory Adversarial Matrix (LOCKED_ADVERSARIAL_SPEC)**:
+    - **CTX-COLLAPSE-01**: `XoX.True.unwrap_or(trace_effect())` $\rightarrow$ `Bool.True`; source evaluated exactly 1 time; `trace_effect()` called 0 times (`PASS`).
+    - **CTX-COLLAPSE-02**: `XoX.False.unwrap_or(trace_effect())` $\rightarrow$ `Bool.False`; source evaluated exactly 1 time; `trace_effect()` called 0 times (`PASS`).
+    - **CTX-COLLAPSE-03**: `XoX.Unknown.unwrap_or(trace_effect())` $\rightarrow$ `Bool` result of `trace_effect()`; source evaluated exactly 1 time; `trace_effect()` called exactly 1 time after determining `Unknown` (`PASS`).
+    - **CTX-COLLAPSE-04**: `xox_val.unwrap_or(Unknown)` $\rightarrow$ static `TypeError` because fallback must be `Bool`, even if the source value makes the fallback unreachable at runtime (`REJECTED_STATIC_TYPE_ERROR`).
+    - **CTX-COLLAPSE-05**: `bool_val.unwrap_or(False)` $\rightarrow$ static `TypeError` because source must be `XoX` (`REJECTED_STATIC_TYPE_ERROR`).
+    - **CTX-COLLAPSE-06**: `xox_val.unwrap_or()` $\rightarrow$ mandatory static rejection for missing fallback; no implicit fallback (`REJECTED_STATIC_ERROR`).
+    - Locked Reference Matrix: `experiments/COLLAPSE_COUNTEREXAMPLES.md`.
+- **Explicit XoX-to-Bool Extraction (`xox_value.unwrap_bool()`)**:
+  - Canonical explicit potentially-failing extraction from `XoX` to `Bool` is defined as `xox_value.unwrap_bool()`.
   - Mapping:
     - `XoX.True.unwrap_bool()` $\rightarrow$ returns `Bool.True`.
     - `XoX.False.unwrap_bool()` $\rightarrow$ returns `Bool.False`.
     - `XoX.Unknown.unwrap_bool()` $\rightarrow$ raises a dedicated runtime `UnknownValueError`.
   - **Explicit Potentially-Failing Extraction**: `unwrap_bool()` is an explicit potentially-failing extraction operation, not an implicit coercion or type cast. The failure on `Unknown` is a runtime extraction error, not a static `TypeError` merely because the source expression has type `XoX`.
   - **No Silent Collapsing**: `Unknown` is never mapped automatically or silently to `True` or `False`.
-  - **No Fallback / Collapsing APIs in V1**: V1 does not provide `to_bool(default=...)`, fallback parameters, default-value converters, truthiness conversions, or any other `Unknown`-collapsing convenience API.
-  - **Idiomatic Handling**: Application code requiring distinct behavior for `Unknown` should normally use explicit `XoX` control flow (such as `if` / `xen` / `else`) rather than attempting to collapse `Unknown`.
   - **Immutability**: Calling `unwrap_bool()` does not mutate the underlying `XoX` value.
 
 ### Logical Expression Typing and Mixed Operations
@@ -541,7 +783,7 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
   - `XoX OR XoX` $\rightarrow$ returns `XoX` (evaluating via Strong Kleene $K_3$).
   - `NOT XoX` $\rightarrow$ returns `XoX` (evaluating via Strong Kleene $K_3$).
 - **No Implicit Promotion (TypeError)**: Mixed logical operations (`Bool AND XoX`, `XoX AND Bool`, `Bool OR XoX`, and `XoX OR Bool`) are statically invalid without explicit conversion and must raise a `TypeError`. The compiler must never implicitly promote `Bool` to `XoX` for logical operations.
-- **Explicit Conversion Workflow**: To evaluate a `Bool` expression alongside a `XoX` expression, the developer must explicitly convert the `Bool` operand using `XoX.from_bool(value)` (e.g. `XoX.from_bool(b) AND t`). Once converted to `XoX`, Strong Kleene logic rules apply normally.
+- **Explicit Conversion Workflow**: To evaluate a `Bool` expression alongside a `XoX` expression, the developer must explicitly convert the `Bool` operand using `xox(expr)` (e.g. `xox(b) AND t`). Once converted to `XoX`, Strong Kleene logic rules apply normally.
 - **Preservation of Evaluation and Literals**: Left-to-right evaluation, short-circuit semantics (§7), and context-sensitive literal resolution for uncommitted literals (§18) remain strictly preserved.
 
 ### Equality Typing and Mixed Comparisons
@@ -549,9 +791,9 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
   - `Bool == Bool` and `Bool != Bool` are valid and evaluate to `Bool`.
   - `XoX == XoX` and `XoX != XoX` are valid and evaluate to `Bool` (under exact state-identity semantics; `Unknown == Unknown` is `Bool True`).
 - **Strict Result-Type Barrier**: Equality (`==`) and inequality (`!=`) always and exclusively return `Bool`. An outer expected `XoX` type never causes the result of a comparison to become `XoX`.
-- **TypeError on Direct Assignment to XoX**: In `res: XoX = (val1 == val2)`, the comparison evaluates to `Bool` and assigning it directly to `res` is a static `TypeError`. The developer must explicitly convert the comparison result using `res: XoX = XoX.from_bool(val1 == val2)`.
+- **TypeError on Direct Assignment to XoX**: In `res: XoX = (val1 == val2)`, the comparison evaluates to `Bool` and assigning it directly to `res` is a static `TypeError`. The developer must explicitly convert the comparison result using `res: XoX = xox(val1 == val2)`.
 - **No Implicit Promotion (TypeError)**: Direct equality (`==`) or inequality (`!=`) comparisons between an already-typed `Bool` expression and an already-typed `XoX` expression are statically invalid and must raise a `TypeError`. The compiler must never implicitly promote `Bool` to `XoX` for equality comparisons.
-- **Explicit Conversion for Comparison**: To compare a `Bool` expression with a `XoX` expression, the `Bool` operand must be explicitly converted using `XoX.from_bool(value)` (e.g. `XoX.from_bool(b) == t`).
+- **Explicit Conversion for Comparison**: To compare a `Bool` expression with a `XoX` expression, the `Bool` operand must be explicitly converted using `xox(expr)` (e.g. `xox(b) == t`).
 - **Contextual Literal Resolution in Comparisons**:
   - When an already-typed `XoX` operand or an `Unknown` literal is compared directly with an uncommitted literal `True` or `False` (e.g. `my_xox == True`, `True == Unknown`, `False != Unknown`), the literal resolves directly to `XoX.True` or `XoX.False` via contextual resolution (§18), evaluating under XoX state identity (`True == Unknown` $\rightarrow$ `Bool False`).
   - When an already-typed `Bool` operand is compared directly with an uncommitted literal `True` or `False`, the literal resolves directly to `Bool.True` or `Bool.False`.
@@ -577,15 +819,12 @@ The compiler propagates expected-type context to uncommitted `True` and `False` 
 - **[RESOLVED] Python Prototype Compiler Architecture**: Source-to-source transpiler/compiler targeting standard Python with a deterministic staged pipeline (lexer $\rightarrow$ parser $\rightarrow$ generic AST $\rightarrow$ type resolution $\rightarrow$ semantic validation $\rightarrow$ definite-return analysis $\rightarrow$ Python lowering) with one-way architectural dependencies and standard library preference.
 - **[RESOLVED] Variable Binding, Annotation, and Reassignment Syntax**: Initialized inferred binding (`x = expr`), annotated binding (`x: Type = expr` with `Type` in `Bool`, `XoX`), and monomorphic reassignment (`x = expr`), with uninitialized declarations excluded from V1.
 - **[RESOLVED] Function Definition, Typed Parameter, Return Annotation, and Return Statement Syntax**: Canonical function definition (`fn name(params) -> Type:`), explicitly typed parameters (`p: Bool | XoX`), syntactically optional return annotation (`-> Bool | XoX`), and value-returning `return expr` statements (bare `return` and non-truth types excluded from V1).
+- **[RESOLVED] Inline Conditional Expression Syntax, Grammar, AST, Precedence, Static Typing, and Lowering**: Defined dual-form inline conditionals (`t if c else f` for `Bool` and `t if c xen u else f` for `XoX`) with lowest precedence below `OR`, right-associativity, homogeneous branch typing, domain-anchor resolution, and static exhaustiveness verification (§5.1, §18). Lowering and runtime code generation for the reference Python backend/transpiler are fully resolved and implemented using hygienic condition temporaries and branch-local preludes, ensuring single condition evaluation, lazy branch execution, Operational Trace Preservation (§7.1), and strict anti-truthiness preservation.
+- **[RESOLVED] Explicit Bool-to-XoX Promotion (`xox(expr)`)**: Explicit promotion syntax `xox(expr)` with mandatory parentheses, static typing rule $\Gamma \vdash e : \text{Bool} \implies \Gamma \vdash \text{xox}(e) : \text{XoX}$, non-idempotent semantics, AST node `PromoteBoolToXoX(expr)`, single evaluation guarantee, and preserved operational trace ordering (§19).
 
 ## 21. Unresolved Items (OPEN)
 - **[OPEN] Implementation & Architecture (Native Backend & Broader Architecture)**:
   - While the Python prototype architecture and runtime representation are resolved, future native backends, native memory layout, native byte encodings, VM/bytecode formats, native ABI, optimizations, packaging, and non-prototype toolchains remain **OPEN**.
-- **[OPEN] Inline / Expression-Level XoX Conditionals**:
-  - The current specification defines only statement-level conditional blocks using `if` / `xen` / `else`.
-  - No inline or expression-level conditional syntax (such as `a if cond xen b else c`) is currently part of the language specification.
-  - Expression-level XoX branching is intentionally deferred until statement-level semantics and the prototype implementation are validated.
-  - The future existence, syntax, typing, precedence, associativity, and lowering of inline conditional expressions remain **OPEN**.
 - **[OPEN] Chained Comparison Syntax & Semantics**:
   - Chained comparisons (such as `a == b == c` or `a == b != c`) are intentionally excluded from the initial language scope to preserve explicit, minimal binary semantics.
   - Possible future support remains **OPEN** and will require explicitly defining evaluation order, single evaluation of shared middle operands, short-circuit behavior, pairwise typing, literal-context propagation, and semantics for both `==` and `!=`.

@@ -1,0 +1,181 @@
+{
+  "version": "1.0",
+  "status": "FROZEN",
+  "scenarios": [
+    {
+      "id": "RW-01",
+      "name": "Verified allow",
+      "category": "DETERMINATE",
+      "description": "Current authoritative cryptographic credential establishes permission in active frame.",
+      "inputs": {
+        "auth_token": "valid_token_001",
+        "context_id": "ctx_active_100",
+        "frame_valid": true
+      },
+      "oracle": {
+        "factive_state": "TRUE",
+        "allow_decision": true
+      }
+    },
+    {
+      "id": "RW-02",
+      "name": "Verified deny",
+      "category": "DETERMINATE",
+      "description": "Authoritative registry confirms explicit revocation / denial.",
+      "inputs": {
+        "auth_token": "revoked_token_002",
+        "context_id": "ctx_active_100",
+        "frame_valid": true
+      },
+      "oracle": {
+        "factive_state": "FALSE",
+        "allow_decision": false
+      }
+    },
+    {
+      "id": "RW-03",
+      "name": "API timeout",
+      "category": "OPERATIONAL_FAILURE",
+      "description": "Remote authority fails to respond within SLA.",
+      "inputs": {
+        "auth_token": "token_003",
+        "context_id": "ctx_active_100",
+        "timeout": true
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "allow_decision": null
+      }
+    },
+    {
+      "id": "RW-04",
+      "name": "Conflicting authoritative sources",
+      "category": "EVIDENTIAL_CONFLICT",
+      "description": "Two co-equal trusted authorities return conflicting grant and revoke records.",
+      "inputs": {
+        "source_a": "GRANT",
+        "source_b": "REVOKE",
+        "context_id": "ctx_active_100"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "allow_decision": null
+      }
+    },
+    {
+      "id": "RW-05",
+      "name": "Stale authorization",
+      "category": "CONTEXT_DRIFT",
+      "description": "Valid authorization token presented after world state mutation / context epoch bump.",
+      "inputs": {
+        "auth_token": "valid_token_001",
+        "token_world_id": "epoch_1",
+        "current_world_id": "epoch_2"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "allow_decision": null
+      }
+    },
+    {
+      "id": "RW-06",
+      "name": "Partial tool success",
+      "category": "ASYMMETRIC_OBSERVATION",
+      "description": "External write request queued successfully but state change receipt not yet received.",
+      "inputs": {
+        "dispatch_ack": true,
+        "state_receipt": null
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "allow_decision": null
+      }
+    },
+    {
+      "id": "RW-07",
+      "name": "Dangerous fallback",
+      "category": "POLICY_DISPATCH",
+      "description": "Target is unresolved and system is requested to proceed with explicit fallback default=False.",
+      "inputs": {
+        "factive_status": "UNRESOLVED",
+        "fallback_policy": "DEFAULT_FALSE"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "policy_decision": false,
+        "factive_truth_assertion": null
+      }
+    },
+    {
+      "id": "RW-08",
+      "name": "Contradictory context",
+      "category": "ONTOLOGICAL_FAILURE",
+      "description": "Mutually unsatisfiable hard premises admit zero admissible worlds (W_factive = empty).",
+      "inputs": {
+        "constraint_a": "X == True",
+        "constraint_b": "X == False"
+      },
+      "oracle": {
+        "factive_state": "CONTRADICTION",
+        "fail_closed": true
+      }
+    },
+    {
+      "id": "RW-09",
+      "name": "Correlated compound invariant",
+      "category": "RELATIONAL_EVALUATION",
+      "description": "Individual propositions P and Q are unresolved, but joint relation enforces P XOR Q == True in all admissible worlds.",
+      "inputs": {
+        "p_unresolved": true,
+        "q_unresolved": true,
+        "relation": "P != Q"
+      },
+      "oracle": {
+        "factive_state": "COMPOUND_DEFINITE_OPERANDS_UNRESOLVED",
+        "compound_factive_truth": true
+      }
+    },
+    {
+      "id": "RW-10",
+      "name": "Accidental coercion",
+      "category": "TYPE_BOUNDARY",
+      "description": "Indeterminate epistemic object passed into host-language boolean condition / serializer.",
+      "inputs": {
+        "epistemic_value": "UNKNOWN",
+        "target_format": "bool"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "coercion_rejected": true
+      }
+    },
+    {
+      "id": "RW-11",
+      "name": "Authority replay",
+      "category": "CAPABILITY_REPLAY",
+      "description": "Resolution capability replayed across mutated WorldStateID.",
+      "inputs": {
+        "capability_world_id": "state_1",
+        "current_world_id": "state_2"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "capability_rejected": true
+      }
+    },
+    {
+      "id": "RW-12",
+      "name": "Missing vs conflicting evidence",
+      "category": "PROVENANCE_DISCRIMINATION",
+      "description": "Compare unresolved state from zero evidence vs unresolved state from conflicting evidence.",
+      "inputs": {
+        "case_a": "ZERO_EVIDENCE",
+        "case_b": "CONFLICTING_EVIDENCE"
+      },
+      "oracle": {
+        "factive_state": "UNRESOLVED",
+        "provenance_distinct": true
+      }
+    }
+  ]
+}

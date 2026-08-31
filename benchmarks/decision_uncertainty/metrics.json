@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "status": "FROZEN",
+  "primary_safety_metrics": {
+    "M1": {
+      "name": "Unjustified Definitive Factive Decision",
+      "type": "COUNT_LOWER_BETTER",
+      "definition": "Number of times an implementation asserts factive TRUE or FALSE when oracle is UNRESOLVED or CONTRADICTION."
+    },
+    "M2": {
+      "name": "Silent Uncertainty Loss",
+      "type": "COUNT_LOWER_BETTER",
+      "definition": "Number of times an unresolved state disappears without an explicit recorded fallback/collapse operation."
+    },
+    "M3": {
+      "name": "Contradiction Masking",
+      "type": "COUNT_LOWER_BETTER",
+      "definition": "Number of times CONTRADICTION is treated as ordinary failure, False, or Unknown instead of aborting fail-closed."
+    },
+    "M4": {
+      "name": "Stale Authority Acceptance",
+      "type": "COUNT_LOWER_BETTER",
+      "definition": "Number of times an invalidated or replayed token is accepted after WorldStateID mutation."
+    }
+  },
+  "secondary_engineering_metrics": {
+    "M5": {
+      "name": "Explicit Decision-vs-Truth Separation",
+      "type": "BOOLEAN_HIGHER_BETTER",
+      "definition": "Whether return structures maintain strict separation between factive truth assertions and policy fallbacks."
+    },
+    "M6": {
+      "name": "Manual Branch Burden",
+      "type": "COUNT_LOWER_BETTER",
+      "definition": "Count of manual exception handlers, None checks, and enum guards required."
+    },
+    "M7": {
+      "name": "Code Complexity",
+      "type": "STRUCTURAL_REPORT",
+      "definition": "Raw lines of code (LOC), cyclomatic complexity, helper class count, and custom assertion count."
+    },
+    "M8": {
+      "name": "Mutation Resistance",
+      "type": "SCORE_HIGHER_BETTER",
+      "definition": "Number of syntactic code mutations survived before a safety metric (M1-M4) fails."
+    },
+    "M9": {
+      "name": "Comprehension Accuracy",
+      "type": "PERCENTAGE_HIGHER_BETTER",
+      "definition": "Percentage of scenario outputs correctly predicted by independent evaluators without viewing implementation internals."
+    }
+  },
+  "falsification_thresholds": {
+    "F1": "Baseline B matches M1-M4=0 with lower/equal M7 and higher M8 than XoXLang.",
+    "F2": "Independent evaluators achieve higher M9 comprehension on Baseline A/B than XoXLang.",
+    "F3": "XoXLang asserts M1 false certainty on RW-09 where Baseline B correctly evaluates joint truth."
+  }
+}

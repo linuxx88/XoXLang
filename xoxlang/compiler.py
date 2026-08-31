@@ -1,12 +1,12 @@
-"""Canonical compiler pipeline for Trool source code to Python."""
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import lower_to_python
+"""Canonical compiler pipeline for X-o-X source code to Python."""
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import lower_to_python
 
 
 def compile_source(source: str) -> str:
-    """Compile Trool source code to target Python module source.
+    """Compile X-o-X source code to target Python module source.
 
     Pipeline phases:
     1. Lexer (tokenization)

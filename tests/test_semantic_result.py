@@ -1,9 +1,9 @@
 """Unit tests for XoX (X-o-X) SemanticResult artifact, expression type side tables, and conditional classifications."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.types import BOOL, XOX, ConditionalKind
-from trool.ast import (
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.types import BOOL, XOX, ConditionalKind
+from xoxlang.ast import (
     AssignmentStatement,
     BinaryExpr,
     ConditionalStatement,
@@ -13,7 +13,7 @@ from trool.ast import (
     ReturnStatement,
     UnaryExpr,
 )
-from trool.semantic import SemanticAnalyzer, SemanticResult, analyze, TypeError
+from xoxlang.semantic import SemanticAnalyzer, SemanticResult, analyze, TypeError
 
 
 class TestXoXSemanticResult(unittest.TestCase):

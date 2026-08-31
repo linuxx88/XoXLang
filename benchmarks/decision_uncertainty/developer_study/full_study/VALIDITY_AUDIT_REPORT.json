@@ -1,0 +1,173 @@
+{
+  "audit_id": "XOX_FULL_DEVELOPER_STUDY_VALIDITY_AUDIT_001",
+  "status": "COMPLETED_AUDIT",
+  "participant_independence_audit": {
+    "total_participants": 45,
+    "unique_contexts": 45,
+    "cross_condition_reuse": false,
+    "verdict": "VERIFIED_INDEPENDENT"
+  },
+  "oracle_leakage_audit": {
+    "leakage_found": false,
+    "prior_benchmark_exposure": false,
+    "verdict": "NO_LEAKAGE"
+  },
+  "primer_leakage_audit": {
+    "tasks_with_primer_overlap": [
+      "T1-02",
+      "T1-06",
+      "T5-02"
+    ],
+    "impact": "Primer provides definition of 3 truth values, xen branch, and unwrap_or. Tasks T1-06 (anti-coercion) and T5-01/T5-02 (plain language) test semantic internalization rather than rote memorization; no solutions are given verbatim.",
+    "verdict": "MINIMAL_PRIMER_FAIRNESS_PRESERVED"
+  },
+  "task_equivalence_and_difficulty": {
+    "total_tasks": 20,
+    "zero_discrimination_task_count": 11,
+    "zero_discrimination_tasks": [
+      "T1-01",
+      "T1-02",
+      "T1-03",
+      "T2-01",
+      "T2-02",
+      "T2-03",
+      "T3-02",
+      "T3-03",
+      "T4-03",
+      "T5-02",
+      "T5-03"
+    ],
+    "discriminating_task_count": 9,
+    "discriminating_tasks": [
+      "T1-04",
+      "T1-05",
+      "T1-06",
+      "T2-04",
+      "T3-01",
+      "T3-04",
+      "T4-01",
+      "T4-02",
+      "T5-01"
+    ]
+  },
+  "zero_discrimination_adjusted_results": {
+    "COND_A_PYTHON_CLASSIC": {
+      "discriminating_task_count": 9,
+      "discriminating_score_pct": 80.37,
+      "mean_score_on_discriminating": 14.47,
+      "max_possible_discriminating": 18
+    },
+    "COND_B_PYTHON_STRUCTURED": {
+      "discriminating_task_count": 9,
+      "discriminating_score_pct": 95.93,
+      "mean_score_on_discriminating": 17.27,
+      "max_possible_discriminating": 18
+    },
+    "COND_X_XOXLANG": {
+      "discriminating_task_count": 9,
+      "discriminating_score_pct": 100.0,
+      "mean_score_on_discriminating": 18.0,
+      "max_possible_discriminating": 18
+    }
+  },
+  "confidence_intervals_95": {
+    "participant_level_D2_unsafe_modification_incidence": {
+      "COND_A": [
+        30.12,
+        75.19
+      ],
+      "COND_B": [
+        3.74,
+        37.88
+      ],
+      "COND_X": [
+        0.0,
+        20.39
+      ]
+    },
+    "task_level_descriptive_D1_prediction_accuracy": {
+      "COND_A": [
+        78.13,
+        92.21
+      ],
+      "COND_B": [
+        93.1,
+        99.61
+      ],
+      "COND_X": [
+        95.91,
+        100.0
+      ]
+    },
+    "task_level_descriptive_D2_unsafe_modification_rate": {
+      "COND_A": [
+        6.91,
+        24.17
+      ],
+      "COND_B": [
+        0.92,
+        11.36
+      ],
+      "COND_X": [
+        0.0,
+        6.02
+      ]
+    }
+  },
+  "per_family_results_pct": {
+    "T1": {
+      "COND_A_PYTHON_CLASSIC": 86.67,
+      "COND_B_PYTHON_STRUCTURED": 98.33,
+      "COND_X_XOXLANG": 100.0
+    },
+    "T2": {
+      "COND_A_PYTHON_CLASSIC": 95.83,
+      "COND_B_PYTHON_STRUCTURED": 100.0,
+      "COND_X_XOXLANG": 100.0
+    },
+    "T3": {
+      "COND_A_PYTHON_CLASSIC": 86.67,
+      "COND_B_PYTHON_STRUCTURED": 96.67,
+      "COND_X_XOXLANG": 100.0
+    },
+    "T4": {
+      "COND_A_PYTHON_CLASSIC": 93.33,
+      "COND_B_PYTHON_STRUCTURED": 95.56,
+      "COND_X_XOXLANG": 100.0
+    },
+    "T5": {
+      "COND_A_PYTHON_CLASSIC": 97.78,
+      "COND_B_PYTHON_STRUCTURED": 100.0,
+      "COND_X_XOXLANG": 100.0
+    }
+  },
+  "statistical_interpretation": {
+    "xox_vs_baseline_b_d1": "XoX descriptive D1 (100.0%) vs Baseline B (98.33%): In this study, no statistically significant difference was detected between XoXLang and Python Structured on semantic prediction (p = 0.079). Formal equivalence was not established because no equivalence margin was predeclared.",
+    "xox_vs_baseline_b_d2": "XoX (0/15 participants, 0.0%) vs Baseline B (2/15 participants, 13.33%): Fisher exact p = 0.4828 indicates no statistically significant difference detected. Formal equivalence was not established because no equivalence margin was predeclared.",
+    "xox_vs_baseline_a": "XoX significantly outperforms Classic Python on participant-level unsafe modification incidence (0/15 vs 8/15 participants, Fisher exact p = 0.0022; 95% CI [30.12%, 75.19%]) and on discriminating tasks (Mann-Whitney U = 217.5, p = 2.25e-6).",
+    "zero_failure_bound_interpretation": "Observed 0/15 participant failures in XoX yields a 95% Wilson upper bound of 20.39% (Clopper-Pearson 21.80%, Rule-of-Three ~20.00%). Observed zero failures does not imply zero true real-world risk."
+  },
+  "biases_and_threats_found": [
+    "Pseudoreplication in original task-level Fisher tests: Resolved by reanalyzing outcomes at the participant level (N=15 per condition).",
+    "Ceiling Effect in T2 and T5: Highly structured prompts yield high performance across all conditions in basic bug identification and plain explanation.",
+    "Cohort Generalization: Agent cohort (N=30) and human cohort (N=15) exhibit congruent trends, but small human N=5 per condition is underpowered for standalone strong statistical claims."
+  ],
+  "precise_surviving_claim": "Across 45 independent participants, XoXLang showed significantly fewer participant-level unsafe modifications than Classic Python (0/15 vs 8/15, Fisher exact p = 0.0022). No statistically significant difference in unsafe modification incidence was detected between XoXLang and Structured Python (0/15 vs 2/15, p = 0.4828). On the nine discriminating comprehension tasks, XoXLang achieved a modest but statistically detectable higher participant aggregate score than Structured Python (18.00/18 vs 17.27/18, Mann-Whitney U p = 0.0035).",
+  "verdict": "CLAIMS_SUBSTANTIATED_WITH_BOUNDED_STATISTICAL_INTERPRETATION",
+  "statistical_unit_of_analysis_audit": {
+    "independent_sampling_unit": "Participant (N=15 per condition)",
+    "pseudoreplication_detected": true,
+    "pseudoreplication_resolution": "Corrected in inferential testing by using participant-level aggregation (e.g. participant incidence of unsafe modifications, participant-level mean/sum scores). Descriptive task-level rates are preserved separately.",
+    "participant_level_d2_incidence": {
+      "COND_A_PYTHON_CLASSIC": "8/15 (53.33%) [95% Wilson CI: 30.12%, 75.19%]",
+      "COND_B_PYTHON_STRUCTURED": "2/15 (13.33%) [95% Wilson CI: 3.74%, 37.88%]",
+      "COND_X_XOXLANG": "0/15 (0.00%) [95% Wilson CI: 0.00%, 20.39%]"
+    },
+    "participant_level_tests": {
+      "xox_vs_classic_d2_fisher_exact_p": 0.002199,
+      "xox_vs_structured_d2_fisher_exact_p": 0.482759,
+      "discriminating_tasks_xox_vs_classic_mann_whitney_p": 2.25e-06,
+      "discriminating_tasks_xox_vs_structured_mann_whitney_p": 0.00353
+    }
+  }
+}

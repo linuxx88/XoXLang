@@ -1,0 +1,676 @@
+{
+  "campaign_summary": {
+    "BASELINE_A": {
+      "total_mutations": 12,
+      "silent_safety_violations": 12,
+      "runtime_rejections_before_decision": 0,
+      "safety_invariants_surviving": 0,
+      "documented_gaps_exposed": 0,
+      "first_silent_failure_mutation": "MUT-01"
+    },
+    "BASELINE_B": {
+      "total_mutations": 12,
+      "silent_safety_violations": 11,
+      "runtime_rejections_before_decision": 1,
+      "safety_invariants_surviving": 0,
+      "documented_gaps_exposed": 0,
+      "first_silent_failure_mutation": "MUT-01"
+    },
+    "TARGET_XOX": {
+      "total_mutations": 12,
+      "silent_safety_violations": 1,
+      "runtime_rejections_before_decision": 3,
+      "safety_invariants_surviving": 5,
+      "documented_gaps_exposed": 3,
+      "first_silent_failure_mutation": "MUT-04"
+    }
+  },
+  "mutation_records": [
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-01",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-06"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-02",
+      "scenario_ids_affected": [
+        "RW-10"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-03",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": true,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-04",
+      "scenario_ids_affected": [
+        "RW-01",
+        "RW-03"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-05",
+      "scenario_ids_affected": [
+        "RW-05"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-06",
+      "scenario_ids_affected": [
+        "RW-11"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-07",
+      "scenario_ids_affected": [
+        "RW-08"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": true,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-08",
+      "scenario_ids_affected": [
+        "RW-01",
+        "RW-04",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-09",
+      "scenario_ids_affected": [
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-10",
+      "scenario_ids_affected": [
+        "RW-09"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-11",
+      "scenario_ids_affected": [
+        "RW-07"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_A",
+      "mutation_id": "MUT-12",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-05",
+        "RW-08"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": true,
+      "M3_triggered": true,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "NONE_MANUAL_CONVENTION_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Single syntax mutation or omitted check"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-01",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-02",
+      "scenario_ids_affected": [
+        "RW-10"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "REJECTED_AT_RUNTIME_BEFORE_DECISION",
+      "protection_mechanism": "CUSTOM_BOOL_DUNDER_TYPE_ERROR",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-03",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": true,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-04",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-05",
+      "scenario_ids_affected": [
+        "RW-05"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "CONVENTION_OPT_IN_HELPER",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-06",
+      "scenario_ids_affected": [
+        "RW-11"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "CONVENTION_OPT_IN_HELPER",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-07",
+      "scenario_ids_affected": [
+        "RW-08"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": true,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_ENUM_DISCIPLINE",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-08",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-09",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-10",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-11",
+      "scenario_ids_affected": [
+        "RW-07"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "CONVENTION_FIELD_ASSIGNMENT",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "BASELINE_B",
+      "mutation_id": "MUT-12",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04",
+        "RW-09",
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": true,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "MANUAL_CONVENTION_ON_TYPED_RECORD",
+      "developer_action_required_to_make_it_unsafe": "Bypassing dataclass field convention or helper call"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-01",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SAFETY_INVARIANT_SURVIVES",
+      "protection_mechanism": "LANGUAGE_TIE_TO_UNKNOWN",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-02",
+      "scenario_ids_affected": [
+        "RW-10"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "REJECTED_AT_RUNTIME_BEFORE_DECISION",
+      "protection_mechanism": "NATIVE_XOX_BOOL_IMMUTABLE_INVARIANT",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-03",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SAFETY_INVARIANT_SURVIVES",
+      "protection_mechanism": "LANGUAGE_TIE_TO_UNKNOWN",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-04",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": true,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SILENT_SAFETY_VIOLATION",
+      "protection_mechanism": "LANGUAGE_TIE_TO_UNKNOWN",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-05",
+      "scenario_ids_affected": [
+        "RW-05"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "FEATURE_NOT_IMPLEMENTED",
+      "protection_mechanism": "DOCUMENTED_NOT_IMPLEMENTED_GAP",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-06",
+      "scenario_ids_affected": [
+        "RW-11"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": true,
+      "outcome_class": "FEATURE_NOT_IMPLEMENTED",
+      "protection_mechanism": "DOCUMENTED_NOT_IMPLEMENTED_GAP",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-07",
+      "scenario_ids_affected": [
+        "RW-08"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "REJECTED_AT_RUNTIME_BEFORE_DECISION",
+      "protection_mechanism": "CORE_CLASSIFIER_FAIL_CLOSED_INCONSISTENCY",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-08",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SAFETY_INVARIANT_SURVIVES",
+      "protection_mechanism": "LANGUAGE_TIE_TO_UNKNOWN",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-09",
+      "scenario_ids_affected": [
+        "RW-12"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": false,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "FEATURE_NOT_IMPLEMENTED",
+      "protection_mechanism": "BENCHMARK_ADAPTER_LEVEL_ONLY",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-10",
+      "scenario_ids_affected": [
+        "RW-09"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SAFETY_INVARIANT_SURVIVES",
+      "protection_mechanism": "K3_SOUND_CONSERVATIVE_OVERAPPROXIMATION",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-11",
+      "scenario_ids_affected": [
+        "RW-07"
+      ],
+      "mutation_applicable": true,
+      "program_executes": false,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "REJECTED_AT_RUNTIME_BEFORE_DECISION",
+      "protection_mechanism": "XOX_BOOL_TYPE_SEPARATION_INVARIANT",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    },
+    {
+      "implementation": "TARGET_XOX",
+      "mutation_id": "MUT-12",
+      "scenario_ids_affected": [
+        "RW-03",
+        "RW-04"
+      ],
+      "mutation_applicable": true,
+      "program_executes": true,
+      "failure_visible": true,
+      "M1_triggered": false,
+      "M2_triggered": false,
+      "M3_triggered": false,
+      "M4_triggered": false,
+      "outcome_class": "SAFETY_INVARIANT_SURVIVES",
+      "protection_mechanism": "LANGUAGE_TIE_TO_UNKNOWN",
+      "developer_action_required_to_make_it_unsafe": "Attempting to bypass language type barrier"
+    }
+  ]
+}

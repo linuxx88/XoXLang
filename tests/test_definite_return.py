@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) definite-return reachability analysis and MissingReturnError."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.types import BOOL, XOX
-from trool.semantic import SemanticAnalyzer, TypeEnv, analyze, TypeError
-from trool.diagnostics import ExhaustivenessError, MissingReturnError
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.types import BOOL, XOX
+from xoxlang.semantic import SemanticAnalyzer, TypeEnv, analyze, TypeError
+from xoxlang.diagnostics import ExhaustivenessError, MissingReturnError
 
 
 class TestXoXDefiniteReturn(unittest.TestCase):

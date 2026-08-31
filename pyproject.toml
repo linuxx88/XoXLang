@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xoxlang"
+version = "0.1.0"
+description = "Reference implementation and compiler for the Xen (X-o-X) ternary logic programming language"
+
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "linuxx88", email = "60791469+linuxx88@users.noreply.github.com" }
+]
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Software Development :: Interpreters",
+]
+
+[project.urls]
+Homepage = "https://github.com/linuxx88/XoXLang"
+Repository = "https://github.com/linuxx88/XoXLang.git"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["xoxlang*"]

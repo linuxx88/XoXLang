@@ -1,14 +1,47 @@
 """Deterministic type-agnostic Lexer for XoX (X-o-X) lexical core."""
-from typing import List, Optional
-from trool.tokens import SourceLocation, SourceSpan, Token, TokenKind
+from typing import Any, Dict, List, Optional, Sequence
+from xoxlang.tokens import SourceLocation, SourceSpan, Token, TokenKind
 
 
 class LexerError(Exception):
-    def __init__(self, message: str, location: SourceLocation, filename: str = "<input>"):
+    def __init__(
+        self,
+        message: str,
+        location: SourceLocation,
+        filename: str = "<input>",
+        *,
+        note: Optional[str] = None,
+        help: Optional[str] = None,
+        alternatives: Optional[Sequence[str]] = None,
+        annotations: Optional[Dict[str, Any]] = None,
+    ):
         super().__init__(f"{filename}:{location.line}:{location.column}: LexerError: {message}")
         self.message = message
         self.location = location
         self.filename = filename
+        self.note = note
+        self.help = help
+        self.alternatives = list(alternatives) if alternatives is not None else None
+        self.annotations = annotations
+
+    def to_diagnostic(self) -> "Diagnostic":
+        from xoxlang.diagnostics import Diagnostic, DiagnosticCategory
+        span = SourceSpan(self.location, self.location) if self.location is not None else None
+        return Diagnostic(
+            category=DiagnosticCategory.SYNTAX_ERROR,
+            message=self.message,
+            span=span,
+            primary_error=self.message,
+            note=self.note,
+            help=self.help,
+            alternatives=self.alternatives,
+            annotations=self.annotations,
+        )
+
+    def render(self, source_text: Optional[str] = None, filename: Optional[str] = None) -> str:
+        from xoxlang.diagnostics import render_diagnostic
+        effective_filename = filename if filename is not None else self.filename
+        return render_diagnostic(self.to_diagnostic(), source_text=source_text, filename=effective_filename)
 
 
 KEYWORDS = {
@@ -155,6 +188,14 @@ class Lexer:
                 line_had_tokens = True
                 continue
 
+            if ch == ".":
+                start_loc = SourceLocation(self.line, self.col)
+                self._advance()
+                end_loc = SourceLocation(self.line, self.col)
+                self.tokens.append(Token(TokenKind.DOT, ".", SourceSpan(start_loc, end_loc)))
+                line_had_tokens = True
+                continue
+
             if ch == "-":
                 start_loc = SourceLocation(self.line, self.col)
                 if self._peek_char() == ">":
@@ -166,7 +207,7 @@ class Lexer:
                     continue
                 else:
                     self._advance()
-                    raise LexerError("Unsupported or unexpected character '-' in V1 lexical core", start_loc, self.filename)
+                    raise LexerError("Unsupported character '-'. '-' is only valid as part of '->' in return type annotations.", start_loc, self.filename)
 
             if ch == "(":
                 start_loc = SourceLocation(self.line, self.col)
@@ -190,15 +231,14 @@ class Lexer:
 
             if ch == "=":
                 start_loc = SourceLocation(self.line, self.col)
-                if self._peek_char() == "=":
-                    self._advance()
+                self._advance()
+                if self.pos < self.length and self._current_char() == "=":
                     self._advance()
                     end_loc = SourceLocation(self.line, self.col)
                     self.tokens.append(Token(TokenKind.EQ_EQ, "==", SourceSpan(start_loc, end_loc)))
                     line_had_tokens = True
                     continue
                 else:
-                    self._advance()
                     end_loc = SourceLocation(self.line, self.col)
                     self.tokens.append(Token(TokenKind.ASSIGN, "=", SourceSpan(start_loc, end_loc)))
                     line_had_tokens = True
@@ -206,8 +246,8 @@ class Lexer:
 
             if ch == "!":
                 start_loc = SourceLocation(self.line, self.col)
-                if self._peek_char() == "=":
-                    self._advance()
+                self._advance()
+                if self.pos < self.length and self._current_char() == "=":
                     self._advance()
                     end_loc = SourceLocation(self.line, self.col)
                     self.tokens.append(Token(TokenKind.EXCL_EQ, "!=", SourceSpan(start_loc, end_loc)))
@@ -215,7 +255,7 @@ class Lexer:
                     continue
                 else:
                     self._advance()
-                    raise LexerError("Unsupported or unexpected character '!' in V1 lexical core", start_loc, self.filename)
+                    raise LexerError("Unsupported character '!'. Use 'NOT' for logical negation or '!=' for inequality.", start_loc, self.filename)
 
             if ch.isalpha() or ch == "_":
                 start_loc = SourceLocation(self.line, self.col)

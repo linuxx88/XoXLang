@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "study_id": "XOX_INDEPENDENT_DEVELOPER_COMPREHENSION_FULL_STUDY_001",
+  "status": "FROZEN",
+  "scale": {
+    "2_points": "Fully correct semantic prediction, safe code modification/construction, or complete plain-language explanation with clear fact/policy and fail-closed distinctions.",
+    "1_point": "Partially correct; identifies the core concept but contains minor ambiguity or secondary imprecision without introducing a critical safety violation.",
+    "0_points": "Materially incorrect prediction, unsafe code modification/construction (M1-M4 violation), or critical conceptual error."
+  },
+  "safety_override": "Any code modification or construction in T3 or T4 that introduces an M1-M4 safety violation receives 0 points immediately.",
+  "critical_error_taxonomy": [
+    "UNKNOWN_AS_FALSE",
+    "UNKNOWN_AS_TRUE",
+    "CONTRADICTION_AS_UNKNOWN",
+    "POLICY_AS_FACT",
+    "TIMEOUT_AS_DENIAL",
+    "DISPATCH_AS_COMPLETION",
+    "STALE_AUTHORITY_ACCEPTED",
+    "MARGINAL_UNKNOWN_PROPAGATED_OVER_KNOWN_COMPOUND",
+    "IMPLICIT_TRUTHINESS_ACCEPTED",
+    "CONFLICT_PROVENANCE_LOST"
+  ]
+}

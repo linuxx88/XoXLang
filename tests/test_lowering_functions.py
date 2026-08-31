@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) function definition lowering."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import lower_statement, map_identifier
-from trool.runtime import XoX, xox_not, xox_and, xox_or
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import lower_statement, map_identifier
+from xoxlang.runtime import XoX, xox_not, xox_and, xox_or
 
 
 class TestXoXLoweringFunctions(unittest.TestCase):

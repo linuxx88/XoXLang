@@ -1,4 +1,4 @@
-"""Bootstrap and architectural structure tests for Trool prototype."""
+"""Bootstrap and architectural structure tests for X-o-X reference compiler."""
 import importlib
 import unittest
 
@@ -6,17 +6,17 @@ import unittest
 class TestSpecStructure(unittest.TestCase):
     def test_prototype_modules_importable_without_side_effects(self):
         modules = [
-            "trool",
-            "trool.tokens",
-            "trool.lexer",
-            "trool.ast",
-            "trool.parser",
-            "trool.types",
-            "trool.semantic",
-            "trool.control_flow",
-            "trool.diagnostics",
-            "trool.runtime",
-            "trool.lowering",
+            "xoxlang",
+            "xoxlang.tokens",
+            "xoxlang.lexer",
+            "xoxlang.ast",
+            "xoxlang.parser",
+            "xoxlang.types",
+            "xoxlang.semantic",
+            "xoxlang.control_flow",
+            "xoxlang.diagnostics",
+            "xoxlang.runtime",
+            "xoxlang.lowering",
         ]
         for mod_name in modules:
             with self.subTest(module=mod_name):
@@ -24,16 +24,16 @@ class TestSpecStructure(unittest.TestCase):
                 self.assertIsNotNone(mod)
 
     def test_one_way_architecture_boundaries(self):
-        import trool.tokens as tokens
+        import xoxlang.tokens as tokens
         self.assertFalse(hasattr(tokens, "parse"))
         self.assertFalse(hasattr(tokens, "lower_to_python"))
 
-        import trool.runtime as runtime
+        import xoxlang.runtime as runtime
         self.assertFalse(hasattr(runtime, "parse"))
         self.assertFalse(hasattr(runtime, "Parser"))
 
     def test_diagnostic_categories_match_spec_phase_structure(self):
-        from trool.diagnostics import DiagnosticCategory
+        from xoxlang.diagnostics import DiagnosticCategory
         categories = {c.name for c in DiagnosticCategory}
         expected = {
             "SYNTAX_ERROR",

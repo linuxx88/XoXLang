@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) post-type conditional semantic classification and exhaustiveness."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.types import BOOL, XOX
-from trool.semantic import SemanticAnalyzer, TypeEnv, analyze, TypeError
-from trool.diagnostics import ExhaustivenessError
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.types import BOOL, XOX
+from xoxlang.semantic import SemanticAnalyzer, TypeEnv, analyze, TypeError
+from xoxlang.diagnostics import ExhaustivenessError
 
 
 class TestXoXConditionalSemantics(unittest.TestCase):
@@ -160,6 +160,99 @@ class TestXoXConditionalSemantics(unittest.TestCase):
         with self.assertRaises(TypeError):
             analyze(bad_ast)
 
+    def test_bool_inline_conditional_resolves_correctly(self):
+        source = (
+            "cond: Bool = True\n"
+            "res = True if cond else False\n"
+        )
+        ast = parse(tokenize(source))
+        sem = analyze(ast)
+        stmt = ast.statements[1]
+        expr = stmt.value
+        self.assertEqual(sem.result.type_of(expr.condition), BOOL)
+        self.assertEqual(sem.result.type_of(expr.true_expr), BOOL)
+        self.assertEqual(sem.result.type_of(expr.else_expr), BOOL)
+        self.assertEqual(sem.result.type_of(expr), BOOL)
+
+    def test_bool_inline_conditional_rejects_xen_branch(self):
+        source = (
+            "cond: Bool = True\n"
+            "res = True if cond xen Unknown else False\n"
+        )
+        ast = parse(tokenize(source))
+        with self.assertRaises(TypeError) as ctx:
+            analyze(ast)
+        self.assertIn("cannot have a 'xen' branch", str(ctx.exception))
+
+    def test_xox_inline_conditional_anchors_to_xox(self):
+        source = (
+            "status: XoX = Unknown\n"
+            "res = True if status xen Unknown else False\n"
+        )
+        ast = parse(tokenize(source))
+        sem = analyze(ast)
+        stmt = ast.statements[1]
+        expr = stmt.value
+        self.assertEqual(sem.result.type_of(expr.condition), XOX)
+        self.assertEqual(sem.result.type_of(expr.true_expr), XOX)
+        self.assertEqual(sem.result.type_of(expr.xen_expr), XOX)
+        self.assertEqual(sem.result.type_of(expr.else_expr), XOX)
+        self.assertEqual(sem.result.type_of(expr), XOX)
+
+    def test_xox_inline_conditional_produces_bool_result(self):
+        source = (
+            "status: XoX = Unknown\n"
+            "res = True if status xen False else False\n"
+        )
+        ast = parse(tokenize(source))
+        sem = analyze(ast)
+        stmt = ast.statements[1]
+        expr = stmt.value
+        self.assertEqual(sem.result.type_of(expr.condition), XOX)
+        self.assertEqual(sem.result.type_of(expr.true_expr), BOOL)
+        self.assertEqual(sem.result.type_of(expr.xen_expr), BOOL)
+        self.assertEqual(sem.result.type_of(expr.else_expr), BOOL)
+        self.assertEqual(sem.result.type_of(expr), BOOL)
+
+    def test_xox_inline_conditional_missing_xen_rejects_as_non_exhaustive(self):
+        source = (
+            "status: XoX = Unknown\n"
+            "res = True if status else False\n"
+        )
+        ast = parse(tokenize(source))
+        self.assertIsNotNone(ast)
+        with self.assertRaises(ExhaustivenessError) as ctx:
+            analyze(ast)
+        self.assertIn("missing 'xen' branch", str(ctx.exception).lower())
+
+    def test_ctx_xen_inline_01_compact_ignore_exhaustiveness_valid(self):
+        source = (
+            "status: XoX = Unknown\n"
+            "if status:\n"
+            "    pass\n"
+            "xen: ignore\n"
+            "else:\n"
+            "    pass\n"
+        )
+        ast = parse(tokenize(source))
+        analyze(ast)
+
+    def test_ctx_xen_inline_05_compact_ignore_branch_attachment_and_structure(self):
+        source = (
+            "status: XoX = Unknown\n"
+            "if status:\n"
+            "    a = True\n"
+            "xen: ignore\n"
+            "else:\n"
+            "    b = False\n"
+        )
+        ast = parse(tokenize(source))
+        analyzer = analyze(ast)
+        self.assertIsNotNone(analyzer)
+        stmt = ast.statements[1]
+        self.assertIsNotNone(stmt.true_branch)
+        self.assertIsNotNone(stmt.xen_branch)
+        self.assertIsNotNone(stmt.else_branch)
 
 
 if __name__ == "__main__":

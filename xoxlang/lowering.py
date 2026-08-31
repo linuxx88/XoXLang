@@ -1,11 +1,12 @@
-"""Python lowering / code generation for Trool prototype."""
+"""Python lowering / code generation for X-o-X compiler."""
 from dataclasses import dataclass
 from typing import List, Optional, Union
-from trool.ast import (
+from xoxlang.ast import (
     ASTNode,
     AssignmentStatement,
     BinaryExpr,
     Block,
+    CollapseXoXToBoolWithDefault,
     ConditionalStatement,
     ExprStatement,
     Expression,
@@ -13,21 +14,23 @@ from trool.ast import (
     GroupExpr,
     IdentifierExpr,
     IgnoreStatement,
+    InlineConditionalExpr,
     LiteralExpr,
     PassStatement,
     Program,
+    PromoteBoolToXoX,
     ReturnStatement,
     Statement,
     UnaryExpr,
 )
-from trool.tokens import TokenKind
-from trool.types import BOOL, XOX, ConditionalKind
-from trool.semantic import SemanticResult
+from xoxlang.tokens import TokenKind
+from xoxlang.types import BOOL, XOX, ConditionalKind
+from xoxlang.semantic import SemanticResult
 
 
 
 def map_identifier(name: str) -> str:
-    """Injective, deterministic mapping from Trool source identifier to safe Python target identifier."""
+    """Injective, deterministic mapping from X-o-X source identifier to safe Python target identifier."""
     return f"_u_{name.encode('utf-8').hex()}"
 
 
@@ -39,7 +42,7 @@ class LoweredExpr:
 
 
 class ExpressionLowerer:
-    """Lowers validated Trool expressions to Python using SemanticResult as the sole semantic authority."""
+    """Lowers validated X-o-X expressions to Python using SemanticResult as the sole semantic authority."""
 
     def __init__(self, semantic_result: SemanticResult, temp_counter: int = 0):
         self.semantic_result: SemanticResult = semantic_result
@@ -161,6 +164,74 @@ class ExpressionLowerer:
 
 
             raise ValueError(f"Unsupported binary operator {expr.op}")
+
+        if isinstance(expr, CollapseXoXToBoolWithDefault):
+            source = self.lower_expression(expr.source)
+            fallback = self.lower_expression(expr.fallback)
+            source_var = self.new_temp("_src_")
+            res_var = self.new_temp("_res_")
+
+            prelude = list(source.prelude)
+            prelude.append(f"{source_var} = {source.expr}")
+            prelude.append(f"if {source_var} is XoX.TRUE:")
+            prelude.append(f"    {res_var} = True")
+            prelude.append(f"elif {source_var} is XoX.FALSE:")
+            prelude.append(f"    {res_var} = False")
+            prelude.append("else:")
+            for s in fallback.prelude:
+                prelude.append(f"    {s}")
+            prelude.append(f"    {res_var} = {fallback.expr}")
+            return LoweredExpr(prelude, res_var)
+
+        if isinstance(expr, PromoteBoolToXoX):
+            inner = self.lower_expression(expr.expr)
+            return LoweredExpr(inner.prelude, f"(XoX.TRUE if {inner.expr} else XoX.FALSE)")
+
+        if isinstance(expr, InlineConditionalExpr):
+            cond_type = self.semantic_result.type_of(expr.condition)
+            cond = self.lower_expression(expr.condition)
+            cond_var = self.new_temp("_cond_")
+            res_var = self.new_temp("_res_")
+
+            prelude = list(cond.prelude)
+            prelude.append(f"{cond_var} = {cond.expr}")
+
+            if cond_type == BOOL:
+                true_lowered = self.lower_expression(expr.true_expr)
+                else_lowered = self.lower_expression(expr.else_expr)
+                prelude.append(f"if {cond_var}:")
+                for s in true_lowered.prelude:
+                    prelude.append(f"    {s}")
+                prelude.append(f"    {res_var} = {true_lowered.expr}")
+                prelude.append("else:")
+                for s in else_lowered.prelude:
+                    prelude.append(f"    {s}")
+                prelude.append(f"    {res_var} = {else_lowered.expr}")
+                return LoweredExpr(prelude, res_var)
+
+            if cond_type == XOX:
+                if expr.xen_expr is None:
+                    raise ValueError("XoX inline conditional requires a xen branch")
+                true_lowered = self.lower_expression(expr.true_expr)
+                xen_lowered = self.lower_expression(expr.xen_expr)
+                else_lowered = self.lower_expression(expr.else_expr)
+                prelude.append(f"if {cond_var} is XoX.TRUE:")
+                for s in true_lowered.prelude:
+                    prelude.append(f"    {s}")
+                prelude.append(f"    {res_var} = {true_lowered.expr}")
+                prelude.append(f"elif {cond_var} is XoX.UNKNOWN:")
+                for s in xen_lowered.prelude:
+                    prelude.append(f"    {s}")
+                prelude.append(f"    {res_var} = {xen_lowered.expr}")
+                prelude.append(f"elif {cond_var} is XoX.FALSE:")
+                for s in else_lowered.prelude:
+                    prelude.append(f"    {s}")
+                prelude.append(f"    {res_var} = {else_lowered.expr}")
+                prelude.append("else:")
+                prelude.append(f"    raise TypeError(f'Invalid XoX runtime state: {{{cond_var}!r}}')")
+                return LoweredExpr(prelude, res_var)
+
+            raise ValueError(f"Unsupported conditional type: {cond_type}")
 
         raise ValueError(f"Unsupported expression node type: {type(expr).__name__}")
 
@@ -287,7 +358,7 @@ class ProgramLowerer:
             raise TypeError(f"Expected Program AST node, got {type(prog).__name__}")
 
         lines: List[str] = [
-            "from trool.runtime import XoX, xox_not, xox_and, xox_or, UnknownValueError",
+            "from xoxlang.runtime import XoX, xox_not, xox_and, xox_or, UnknownValueError",
             "",
         ]
 

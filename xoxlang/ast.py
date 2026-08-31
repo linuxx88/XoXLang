@@ -1,12 +1,12 @@
-"""Generic AST node definitions for Trool V1 syntax."""
+"""Generic AST node definitions for X-o-X syntax."""
 from dataclasses import dataclass
 from typing import List, Optional, Union
-from trool.tokens import SourceSpan, TokenKind
+from xoxlang.tokens import SourceSpan, TokenKind
 
 
 @dataclass
 class ASTNode:
-    """Base class for all Trool AST nodes."""
+    """Base class for all X-o-X AST nodes."""
     pass
 
 
@@ -54,6 +54,32 @@ class GroupExpr(Expression):
     """Parenthesized expression grouping."""
     expr: Expression = None  # type: ignore
     span: Optional[SourceSpan] = None
+
+
+@dataclass
+class InlineConditionalExpr(Expression):
+    """Inline conditional expression (true_expr if condition [xen xen_expr] else else_expr)."""
+    true_expr: Expression = None  # type: ignore
+    condition: Expression = None  # type: ignore
+    xen_expr: Optional[Expression] = None
+    else_expr: Expression = None  # type: ignore
+    span: Optional[SourceSpan] = None
+
+
+@dataclass
+class CollapseXoXToBoolWithDefault(Expression):
+    """Special flow-control collapse primitive x.unwrap_or(default_bool) from XoX to Bool."""
+    source: Expression = None  # type: ignore
+    fallback: Expression = None  # type: ignore
+    span: Optional[SourceSpan] = None
+
+
+@dataclass
+class PromoteBoolToXoX(Expression):
+    """Explicit promotion construct xox(expr) from Bool to XoX."""
+    expr: Expression = None  # type: ignore
+    span: Optional[SourceSpan] = None
+
 
 
 # Parameters

@@ -52,6 +52,7 @@ class TokenKind(Enum):
     # Punctuation & Operators
     COLON = ":"
     COMMA = ","
+    DOT = "."
     ARROW = "->"
     ASSIGN = "="
     LPAREN = "("

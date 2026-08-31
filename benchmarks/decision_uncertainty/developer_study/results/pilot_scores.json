@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "pilot_id": "XOX_INDEPENDENT_DEVELOPER_COMPREHENSION_PILOT_001",
+  "status": "FROZEN_PILOT_SCORES",
+  "evaluator_scores": [
+    {
+      "evaluator_id": "EVAL_A_01",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_A_02",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 1,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 1,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 18,
+      "max_possible": 20,
+      "score_percentage": 90.0,
+      "conceptual_errors": [
+        "POINTWISE_UNCERTAINTY_OVER_WORLD_INVARIANT",
+        "CONTRADICTION_SEVERITY_UNDERESTIMATED"
+      ]
+    },
+    {
+      "evaluator_id": "EVAL_A_03",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 1,
+        "DEV-04": 2,
+        "DEV-05": 1,
+        "DEV-06": 1,
+        "DEV-07": 2,
+        "DEV-08": 1,
+        "DEV-09": 1,
+        "DEV-10": 2
+      },
+      "total_score": 15,
+      "max_possible": 20,
+      "score_percentage": 75.0,
+      "conceptual_errors": [
+        "POINTWISE_UNCERTAINTY_OVER_WORLD_INVARIANT",
+        "CONTRADICTION_SEVERITY_UNDERESTIMATED",
+        "COERCION_IMPLICIT_ACCEPTANCE"
+      ]
+    },
+    {
+      "evaluator_id": "EVAL_B_01",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_B_02",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_B_03",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_X_01",
+      "condition": "COND_X_XOXLANG",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_X_02",
+      "condition": "COND_X_XOXLANG",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    },
+    {
+      "evaluator_id": "EVAL_X_03",
+      "condition": "COND_X_XOXLANG",
+      "task_scores": {
+        "DEV-01": 2,
+        "DEV-02": 2,
+        "DEV-03": 2,
+        "DEV-04": 2,
+        "DEV-05": 2,
+        "DEV-06": 2,
+        "DEV-07": 2,
+        "DEV-08": 2,
+        "DEV-09": 2,
+        "DEV-10": 2
+      },
+      "total_score": 20,
+      "max_possible": 20,
+      "score_percentage": 100.0,
+      "conceptual_errors": []
+    }
+  ]
+}

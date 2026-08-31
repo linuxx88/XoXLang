@@ -1,11 +1,11 @@
 """End-to-end unit tests for the XoX compiler pipeline."""
 import unittest
-from trool import compile_source
-from trool.lexer import LexerError
-from trool.parser import ParseError
-from trool.diagnostics import TypeDiagnosticError, ExhaustivenessError, MissingReturnError
-from trool.lowering import map_identifier
-from trool.runtime import XoX
+from xoxlang import compile_source
+from xoxlang.lexer import LexerError
+from xoxlang.parser import ParseError
+from xoxlang.diagnostics import TypeDiagnosticError, ExhaustivenessError, MissingReturnError
+from xoxlang.lowering import map_identifier
+from xoxlang.runtime import XoX
 
 
 class TestXoXCompilerPipeline(unittest.TestCase):

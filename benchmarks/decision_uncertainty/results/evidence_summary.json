@@ -1,0 +1,153 @@
+{
+  "experiment_id": "XOX_EXPERIMENTAL_EVIDENCE_CONSOLIDATION_2026",
+  "research_question": "Does XoXLang prevent or expose unjustified definitive decisions and silent uncertainty loss without unacceptable developer comprehension penalty?",
+  "compared_systems": [
+    "COND_A_PYTHON_CLASSIC",
+    "COND_B_PYTHON_STRUCTURED",
+    "COND_X_XOXLANG"
+  ],
+  "sample_sizes": {
+    "benchmark_scenarios": 12,
+    "mutation_campaign_scenarios": 12,
+    "strongly_equivalent_accidental_mutations": 7,
+    "developer_study_participants": 45,
+    "developer_study_tasks": 20,
+    "participant_cohorts": {
+      "coding_agents": 30,
+      "human_developers": 15
+    }
+  },
+  "primary_results": {
+    "perfect_implementation_baseline": {
+      "classic_m1_to_m4_failures": 0,
+      "structured_m1_to_m4_failures": 0,
+      "xox_m1_to_m4_failures": 0,
+      "conclusion": "Feasibility demonstrated across all paradigms; zero baseline differentiation."
+    },
+    "fairness_adjusted_mutations": {
+      "classic_silent_violations": "7/7 (100.0%)",
+      "structured_silent_violations": "6/7 (85.7%)",
+      "xox_silent_violations": "1/7 (14.3%)",
+      "note": "Under dynamic runtime execution, Structured Python rejects only MUT-02 via custom __bool__; additional protection attributable to optional static type checking (e.g. mypy) must be reported separately as a static-analysis layer rather than a dynamic runtime guarantee."
+    },
+    "developer_study_metrics": {
+      "D1_semantic_prediction_accuracy_pct": {
+        "classic": 86.67,
+        "structured": 98.33,
+        "xox": 100.0
+      },
+      "D2_unsafe_modification_rate_pct": {
+        "classic": 13.33,
+        "structured": 3.33,
+        "xox": 0.0
+      },
+      "D9_safe_code_construction_rate_pct": {
+        "classic": 93.33,
+        "structured": 95.56,
+        "xox": 100.0
+      },
+      "D10_m_violations_in_participant_code": {
+        "classic": 11,
+        "structured": 4,
+        "xox": 0
+      }
+    }
+  },
+  "fairness_adjustments": {
+    "strongly_equivalent_accidental_mutations_only": true,
+    "zero_discrimination_task_exclusion_analyzed": true,
+    "structured_python_custom_bool_credited": true
+  },
+  "native_xox_guarantees": [
+    "Mandatory xen branch on ternary conditions",
+    "Anti-coercion type error on truthiness evaluation",
+    "Fail-closed abort on Ontological Contradiction",
+    "Explicit unwrap_or for policy decision separation"
+  ],
+  "xox_implementation_gaps": [
+    "Freshness/replay authority invalidation across world mutation relies on adapter callbacks",
+    "Full provenance attestation across serialization boundaries",
+    "Compile-time multi-module correlated constraint resolution"
+  ],
+  "negative_results": [
+    "Formal statistical equivalence between XoXLang and Python Structured remains unproven (no predeclared equivalence margin)",
+    "Human-only cohort (N=5 per condition) is underpowered for standalone strong statistical inference",
+    "FFI boundaries remain vulnerable to external truthiness coercion if unwrap is misused",
+    "Learning overhead requires initial 1-page primer review (3 clarifications recorded across 15 participants)"
+  ],
+  "validated_claims": [
+    "XoXLang eliminates silent uncertainty loss in 6 out of 7 plausible accidental mutation patterns",
+    "XoXLang showed significantly fewer participant-level unsafe modifications than Classic Python (0/15 vs 8/15, Fisher exact p = 0.0022)",
+    "On nine discriminating tasks, XoXLang achieved a modest but statistically detectable higher participant score than Structured Python (18.00/18 vs 17.27/18, Mann-Whitney U p = 0.0035)",
+    "Minimal 1-page primer is sufficient for full semantic comprehension without internal design history"
+  ],
+  "unsupported_claims": [
+    "Universal superiority over all programming languages",
+    "Proof of real-world human software safety in long-term production",
+    "Proof that Python cannot achieve high safety via strict typing and custom dunder methods",
+    "Proof of zero real-world failure risk from 0 observed sample failures",
+    "Statistical proof of formal equivalence/parity with Python Structured (no predeclared equivalence margin)"
+  ],
+  "reproduction_artifacts": [
+    "benchmarks/decision_uncertainty/runner.py",
+    "benchmarks/decision_uncertainty/mutation_runner.py",
+    "benchmarks/decision_uncertainty/results/first_comparative_run.json",
+    "benchmarks/decision_uncertainty/results/mutation_campaign_001.json",
+    "benchmarks/decision_uncertainty/developer_study/full_study/summary.json",
+    "benchmarks/decision_uncertainty/developer_study/full_study/VALIDITY_AUDIT_REPORT.json"
+  ],
+  "statistical_validity_reanalysis": {
+    "independent_sampling_unit": "Participant (N=15 per condition, total N=45)",
+    "pseudoreplication_audit": "Detected and corrected in inferential analysis; repeated task observations within participants are treated as clustered/repeated measures rather than independent samples.",
+    "participant_level_metrics": {
+      "D2_unsafe_modification_participant_incidence": {
+        "classic": "8/15 (53.33%) [95% Wilson CI: 30.12%, 75.19%]",
+        "structured": "2/15 (13.33%) [95% Wilson CI: 3.74%, 37.88%]",
+        "xox": "0/15 (0.00%) [95% Wilson CI: 0.00%, 20.39%]"
+      },
+      "D2_hypothesis_tests": {
+        "xox_vs_classic_fisher_exact_p": 0.002199,
+        "xox_vs_classic_status": "STATISTICALLY_SIGNIFICANT_IN_THIS_STUDY",
+        "xox_vs_structured_fisher_exact_p": 0.482759,
+        "xox_vs_structured_status": "NO_STATISTICALLY_SIGNIFICANT_DIFFERENCE_DETECTED",
+        "equivalence_with_structured": "NOT_ESTABLISHED"
+      },
+      "discriminating_tasks_score_out_of_18": {
+        "classic_mean": "14.47 \u00b1 1.36",
+        "structured_mean": "17.27 \u00b1 0.88",
+        "xox_mean": "18.00 \u00b1 0.00",
+        "xox_vs_classic_mann_whitney_u": 217.5,
+        "xox_vs_classic_p_value": 2.25e-06,
+        "xox_vs_structured_mann_whitney_u": 165.0,
+        "xox_vs_structured_p_value": 0.00353
+      }
+    },
+    "zero_observed_xox_failures_uncertainty": {
+      "observed_participant_failures": "0/15",
+      "wilson_95_ci_upper_bound_pct": 20.39,
+      "clopper_pearson_95_ci_upper_bound_pct": 21.8,
+      "rule_of_three_upper_bound_pct": 20.0,
+      "interpretation": "Observed zero failures does not imply zero true risk; true underlying failure probability is bounded below ~20.4% at 95% confidence."
+    },
+    "cohort_breakdown": {
+      "humans": {
+        "n_per_condition": 5,
+        "D2_participant_incidence": {
+          "classic": "3/5 (60.0%)",
+          "structured": "1/5 (20.0%)",
+          "xox": "0/5 (0.0%)"
+        },
+        "interpretation": "Direction is consistent with pooled results, but cohort is underpowered for strong standalone significance claims."
+      },
+      "agents": {
+        "n_per_condition": 10,
+        "D2_participant_incidence": {
+          "classic": "5/10 (50.0%)",
+          "structured": "1/10 (10.0%)",
+          "xox": "0/10 (0.0%)"
+        },
+        "interpretation": "Direction is consistent with the human cohort and pooled analysis."
+      }
+    }
+  }
+}

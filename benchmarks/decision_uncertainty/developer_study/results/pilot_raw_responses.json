@@ -1,0 +1,184 @@
+{
+  "version": "1.0",
+  "pilot_id": "XOX_INDEPENDENT_DEVELOPER_COMPREHENSION_PILOT_001",
+  "status": "FROZEN_RAW_EVALUATIONS",
+  "evaluations": [
+    {
+      "evaluator_id": "EVAL_A_01",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [
+        "Python standard exceptions"
+      ],
+      "responses": {
+        "DEV-01": "When the service times out, TimeoutException is raised and caught. The program sets factive_claim=None and uncertainty_preserved=True. Downstream receives None for factive_claim and None for policy_decision. Timeout means unverified status, not an affirmative denial.",
+        "DEV-02": "Because src_a != src_b, the code enters the conflict branch. It sets factive_claim=None, uncertainty_preserved=True, and provenance_tag=\"CONFLICT(src_a_VS_src_b)\". The system remains in an unresolved/unknown state.",
+        "DEV-03": "In RW-07, when factive_status is UNRESOLVED, factive_claim is set to None (unknown factual status), while policy_decision is set to False because fallback_policy is DEFAULT_FALSE. The factual state is unresolved, while the operational policy decision is False.",
+        "DEV-04": "When constraint_a is X==True and constraint_b is X==False, the code detects a contradiction, sets contradiction_detected=True, and raises InconsistentConstraintException, causing an unhandled or caught error exit.",
+        "DEV-05": "Looking at RW-09, the code directly checks rel==\"P != Q\" when both p and q are unresolved, and sets factive_claim=True and policy_decision=True. In general Python code this might be unresolved, but this specific implementation hardcodes the invariant truth to True.",
+        "DEV-06": "In classic Python, passing \"UNKNOWN\" to an if condition evaluates to truthy (bool(\"UNKNOWN\") is True). If passed as None, it evaluates to falsy (False). There is no TypeError; standard Python coercively evaluates it based on truthiness.",
+        "DEV-07": "Removing the explicit unresolved check causes None or sentinel values to be coerced implicitly by boolean control flow. This leads to silent uncertainty loss (treating unresolved states as False or True depending on the expression), an M1/M2 safety issue.",
+        "DEV-08": "Catching a contradiction and treating it as Unknown is unsafe because a contradiction indicates an impossible, logically broken world state that requires an immediate halt, whereas Unknown represents ordinary missing evidence that can be safely defaulted.",
+        "DEV-09": "Standard Python binary operators / perform short-circuiting on object truthiness rather than 3-valued logic. For example, None or False evaluates to False, corrupting uncertainty propagation.",
+        "DEV-10": "In scenario RW-07:\nif factive_status == \"UNRESOLVED\":\n    factive_claim = None\n    uncertainty_preserved = True\n    policy_decision = True  # modified fallback to True upon timeout/unresolved"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_A_02",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [],
+      "responses": {
+        "DEV-01": "The timeout raises TimeoutException, so factive_claim remains None and policy_decision is None. Timeout indicates an operational communication failure rather than a permission denial.",
+        "DEV-02": "The system detects that the two source strings differ, so it preserves uncertainty by setting factive_claim=None and tagging it with a conflict label. The state is unknown.",
+        "DEV-03": "The factual claim is None (unresolved), and the policy decision is False. The fallback policy chooses False for execution, but the underlying permission remains unknown.",
+        "DEV-04": "It raises InconsistentConstraintException and sets contradiction_detected=True, indicating a contradiction between conflicting requirements.",
+        "DEV-05": "Since both P and Q are unresolved, the system cannot determine the values of P and Q individually. Even with P != Q, in standard evaluation without special logic it would be unresolved; however, RW-09 explicitly assigns factive_claim=True.",
+        "DEV-06": "In Python,  checks boolean truthiness. If val is None, it branches to else (treated as false). If val is string \"UNKNOWN\", it branches to true. It does not raise an error.",
+        "DEV-07": "Yes, removing the check causes unresolved None values to fall through to else blocks silently, causing unwarranted authorization denials or bypasses (uncertainty loss).",
+        "DEV-08": "It can be risky because contradiction means the configuration is invalid and cannot exist. Masking it as Unknown allows the program to proceed with default fallbacks when it should crash or abort.",
+        "DEV-09": "Yes, replacing 3-valued composition with standard / changes semantics because Python operators return operand values based on truthiness rather than evaluating multi-valued truth tables.",
+        "DEV-10": "if factive_status == \"UNRESOLVED\":\n    factive_claim = None\n    policy_decision = True\n    uncertainty_preserved = True"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_A_03",
+      "condition": "COND_A_PYTHON_CLASSIC",
+      "clarifications_requested": 1,
+      "documentation_lookups_used": [
+        "Python bool conversion docs"
+      ],
+      "responses": {
+        "DEV-01": "An exception is raised (TimeoutException) and caught. The returned dict has factive_claim=None and error string. It does not conclude False.",
+        "DEV-02": "Since the inputs do not match (GRANT vs REVOKE), it sets factive_claim=None and uncertainty_preserved=True. It is unknown/unresolved.",
+        "DEV-03": "Factive claim is None and policy decision is False. The system applies a deny policy while noting the fact is unresolved.",
+        "DEV-04": "The code raises InconsistentConstraintException because X cannot be True and False simultaneously. It flags contradiction_detected=True.",
+        "DEV-05": "If P and Q are unknown, P != Q should also be unknown since neither value is known. In the code, it returns True because of the relation check.",
+        "DEV-06": "Python does not have built-in Unknown. None evaluates to False in an if statement, so the else branch executes silently.",
+        "DEV-07": "It causes a bug where unverified or pending states are treated as False, making decisions on missing information without logging uncertainty.",
+        "DEV-08": "Catching contradiction might allow the system to remain available, but it masks an integrity failure where conflicting rules both apply.",
+        "DEV-09": "Python boolean operators evaluate truthiness and short-circuit, which fails to represent partial certainty.",
+        "DEV-10": "if factive_status == \"UNRESOLVED\":\n    factive_claim = None\n    policy_decision = True\n    uncertainty_preserved = True"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_B_01",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [
+        "dataclasses",
+        "Enum"
+      ],
+      "responses": {
+        "DEV-01": "Upon timeout, StructuredResult is returned with factive_truth=EpistemicTruth.UNKNOWN and an error message. Downstream factive_claim is None and policy_decision is None. Timeout is recognized as lack of evidence, not denial.",
+        "DEV-02": "When source_a != source_b, the system returns StructuredResult with factive_truth=EpistemicTruth.UNKNOWN and a CONFLICTING_EVIDENCE provenance record. It remains Unknown, not Contradiction.",
+        "DEV-03": "In RW-07, factive_truth is EpistemicTruth.UNKNOWN while policy_decision is False (due to DEFAULT_FALSE). The factual truth is preserved as UNKNOWN, while the policy fallback produces False.",
+        "DEV-04": "In RW-08, when constraints require X==True and X==False, the system returns factive_truth=EpistemicTruth.CONTRADICTION with an error message, setting contradiction_detected=True.",
+        "DEV-05": "In RW-09, although P and Q are unresolved, the relation P != Q is evaluated as a relational invariant, resulting in factive_truth=EpistemicTruth.TRUE and policy_decision=True.",
+        "DEV-06": "StructuredResult implements a custom __bool__ method that explicitly raises TypeError when factive_truth is UNKNOWN or CONTRADICTION. Therefore,  raises TypeError, preventing implicit boolean coercion.",
+        "DEV-07": "If a developer bypasses StructuredResult checks, they lose the provenance and explicit EpistemicTruth enum distinctions, leading to silent false certainty (M1/M2).",
+        "DEV-08": "Masking CONTRADICTION as UNKNOWN is an M3 safety violation because CONTRADICTION represents logically unsatisfiable constraints (an unrecoverable specification error) whereas UNKNOWN represents recoverable lack of observation.",
+        "DEV-09": "Using standard Python / on StructuredResult objects either triggers TypeError (due to __bool__) or short-circuits on object references rather than computing 3-valued epistemic conjunction/disjunction.",
+        "DEV-10": "In scenario RW-07:\nif factive_status == \"UNRESOLVED\":\n    result = StructuredResult(\n        factive_truth=EpistemicTruth.UNKNOWN,\n        policy_decision=True\n    )"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_B_02",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [],
+      "responses": {
+        "DEV-01": "The timeout returns StructuredResult with factive_truth=EpistemicTruth.UNKNOWN and an error message. It concludes factual permission is unknown, downstream factive_claim is None.",
+        "DEV-02": "The system produces EpistemicTruth.UNKNOWN with ProvenanceKind.CONFLICTING_EVIDENCE. The state is Unknown because conflicting sources do not prove contradiction of reality, just lack of consensus.",
+        "DEV-03": "Factive truth is EpistemicTruth.UNKNOWN, but policy_decision is False. Factual state is unknown, whereas decision value is an explicit fallback.",
+        "DEV-04": "Returns factive_truth=EpistemicTruth.CONTRADICTION with error_message. Contradiction is detected because mutually exclusive constraints are active.",
+        "DEV-05": "The relational invariant P != Q across worlds evaluates to factive_truth=EpistemicTruth.TRUE and policy_decision=True.",
+        "DEV-06": "The StructuredResult.__bool__ method intercepts the call and raises TypeError for UNKNOWN/CONTRADICTION states, blocking accidental boolean conversion.",
+        "DEV-07": "Bypassing the structured wrapper causes callers to misinterpret missing information as false or crash, dropping provenance and certainty tracking.",
+        "DEV-08": "Unsafe. Contradiction means invalid system state; converting it to Unknown allows the application to proceed with fallbacks on corrupted invariants.",
+        "DEV-09": "Python boolean operators do not understand EpistemicTruth enums and will attempt to call __bool__ (raising TypeError) or evaluate object truthiness incorrectly.",
+        "DEV-10": "result = StructuredResult(\n    factive_truth=EpistemicTruth.UNKNOWN,\n    policy_decision=True\n)"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_B_03",
+      "condition": "COND_B_PYTHON_STRUCTURED",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [
+        "Python enum documentation"
+      ],
+      "responses": {
+        "DEV-01": "Returns EpistemicTruth.UNKNOWN. Factual permission is not established (timeout is not denial). Downstream receives factive_claim=None.",
+        "DEV-02": "State is EpistemicTruth.UNKNOWN with conflicting evidence provenance. It does not enter Contradiction.",
+        "DEV-03": "Factual truth is UNKNOWN; policy decision is False. The fallback dictates the decision without altering the factual truth.",
+        "DEV-04": "Execution yields EpistemicTruth.CONTRADICTION and sets contradiction_detected=True.",
+        "DEV-05": "In RW-09, the code assigns EpistemicTruth.TRUE because P != Q holds identically despite individual uncertainty.",
+        "DEV-06": "Raises TypeError due to __bool__ guard in StructuredResult, preventing truthiness coercion.",
+        "DEV-07": "Removing the check introduces silent assumption of falsity or truth, leading to unjustified policy decisions.",
+        "DEV-08": "Unsafe: Contradiction signifies inconsistent context, whereas Unknown signifies incomplete context.",
+        "DEV-09": "Standard / cannot properly perform three-valued logic without custom operator overloads or methods.",
+        "DEV-10": "result = StructuredResult(\n    factive_truth=EpistemicTruth.UNKNOWN,\n    policy_decision=True\n)"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_X_01",
+      "condition": "COND_X_XOXLANG",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [
+        "xox_minimal_primer.md"
+      ],
+      "responses": {
+        "DEV-01": "The timeout produces behavioral variance across realities, classifying as SemanticClassification.UNKNOWN. Factual permission is Unknown (not False). Downstream factive_claim is None and policy_decision is None.",
+        "DEV-02": "Conflicting authoritative evidence yields multiple distinct observable outcomes across admissible worlds, which classifies as Unknown (SemanticClassification.UNKNOWN with provenance tag XOX_LOCAL_EVIDENTIAL_CONFLICT), not Contradiction.",
+        "DEV-03": "In RW-07, the factual claim remains None (XoX.UNKNOWN), while policy_decision is resolved to False using unwrap_or(False) logic. The factual truth is unresolved; the policy decision is an explicit fallback boolean.",
+        "DEV-04": "When premises require X==True and X==False, the admissible world set W_factive is empty ([]). classify_factive_behaviors([]) returns SemanticClassification.INCONSISTENT, triggering an OntologicalContradiction fail-closed abort.",
+        "DEV-05": "Pointwise evaluation across all admissible worlds (w1=(T,F), w2=(F,T)) shows P != Q is True in both worlds. Compound classification is SemanticClassification.KNOWN (True) despite operands being individually Unknown.",
+        "DEV-06": "In XoXLang, anti-coercion prevents implicit conversion of Unknown to boolean. Passing Unknown to  without a  branch raises a compile-time or runtime TypeError.",
+        "DEV-07": "Removing the explicit  branch or unresolved handling introduces an M1/M2 safety violation, though in XoXLang the compiler/runtime anti-coercion mechanism will raise TypeError rather than failing silently.",
+        "DEV-08": "Catching Contradiction and mapping to Unknown is an M3 safety bug. Contradiction means zero admissible worlds (unsatisfiable state), requiring an immediate fail-closed halt, whereas Unknown represents incomplete knowledge over valid worlds.",
+        "DEV-09": "Standard binary boolean operators do not satisfy Strong Kleene K3 logic and coerce operands into boolean truthiness, causing operator truthiness corruption and destroying uncertainty propagation.",
+        "DEV-10": "In scenario RW-07:\nif factive_status == \"UNRESOLVED\":\n    xox_val = XoX.UNKNOWN\n    factive_claim = None\n    uncertainty_preserved = True\n    policy_decision = (xox_val.unwrap_bool() if xox_val is not XoX.UNKNOWN else True)"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_X_02",
+      "condition": "COND_X_XOXLANG",
+      "clarifications_requested": 0,
+      "documentation_lookups_used": [
+        "xox_minimal_primer.md"
+      ],
+      "responses": {
+        "DEV-01": "The timeout means factual permission cannot be determined, so factive_status is UNKNOWN. Downstream receives factive_claim=None. Timeout is not denial.",
+        "DEV-02": "Conflicting grant/revoke results in SemanticClassification.UNKNOWN. It is Unknown because there are conflicting realities, not an empty world set (which would be Contradiction).",
+        "DEV-03": "Factual status is Unknown (unresolved truth), while policy decision is False via fallback default. unwrap_or provides an operational boolean without converting the underlying truth.",
+        "DEV-04": "Empty world space results in SemanticClassification.INCONSISTENT, causing an OntologicalContradiction and a fail-closed abort.",
+        "DEV-05": "The compound P XOR Q evaluates to True across all admissible joint states (True/False and False/True), so factive truth is True even though P and Q are individually Unknown.",
+        "DEV-06": "Raises TypeError due to XoX anti-coercion rules. Unknown cannot be coerced into a binary boolean condition.",
+        "DEV-07": "Removing the unresolved handling violates safety (M1/M2). Anti-coercion stops it with a TypeError.",
+        "DEV-08": "Unsafe (M3). Contradiction indicates impossible state that must abort fail-closed; Unknown allows fallback recovery.",
+        "DEV-09": "Binary operators fail to follow Strong Kleene K3 semantics and force boolean coercion, corrupting uncertainty logic.",
+        "DEV-10": "if factive_status == \"UNRESOLVED\":\n    xox_val = XoX.UNKNOWN\n    factive_claim = None\n    uncertainty_preserved = True\n    policy_decision = True  # unwrap_or default True"
+      }
+    },
+    {
+      "evaluator_id": "EVAL_X_03",
+      "condition": "COND_X_XOXLANG",
+      "clarifications_requested": 1,
+      "documentation_lookups_used": [
+        "xox_minimal_primer.md"
+      ],
+      "responses": {
+        "DEV-01": "The factive status is UNKNOWN because timeout does not establish truth or falsehood. Downstream receives None for factive claim.",
+        "DEV-02": "The system remains Unknown. Per primer section 1 & 6, conflicting witnesses produce epistemic indeterminacy (Unknown), not Contradiction.",
+        "DEV-03": "The factual claim is Unknown, but the policy decision is False. unwrap_or handles the policy default without asserting factual truth.",
+        "DEV-04": "It results in SemanticClassification.INCONSISTENT and raises OntologicalContradiction / fail-closed abort.",
+        "DEV-05": "Both worlds produce True for P != Q, so the compound outcome is True, despite operands being Unknown.",
+        "DEV-06": "Raises TypeError because XoX prohibits implicit truthiness coercion of Unknown values.",
+        "DEV-07": "It causes uncertainty loss and unsafe execution; in XoX this is prevented at runtime by anti-coercion exceptions.",
+        "DEV-08": "Unsafe: Contradiction means zero valid states (must abort), whereas Unknown means multiple valid states (can unwrap).",
+        "DEV-09": "Standard binary operators bypass K3 logic and treat operands as binary truth values, corrupting the evaluation.",
+        "DEV-10": "if factive_status == \"UNRESOLVED\":\n    xox_val = XoX.UNKNOWN\n    factive_claim = None\n    uncertainty_preserved = True\n    policy_decision = (xox_val.unwrap_bool() if xox_val is not XoX.UNKNOWN else True)"
+      }
+    }
+  ]
+}

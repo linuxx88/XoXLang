@@ -1,10 +1,10 @@
 """Unit tests for XoX (X-o-X) conditional statement lowering."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.semantic import analyze
-from trool.lowering import lower_statement, map_identifier
-from trool.runtime import XoX, xox_not, xox_and, xox_or
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.semantic import analyze
+from xoxlang.lowering import lower_statement, map_identifier
+from xoxlang.runtime import XoX, xox_not, xox_and, xox_or
 
 
 class TestXoXLoweringConditionals(unittest.TestCase):
@@ -162,8 +162,8 @@ class TestXoXLoweringConditionals(unittest.TestCase):
             exec("\n".join(lowered), scope)
 
     def test_missing_conditional_kind_fails_explicitly(self):
-        from trool.ast import ConditionalStatement, LiteralExpr
-        from trool.semantic import SemanticResult
+        from xoxlang.ast import ConditionalStatement, LiteralExpr
+        from xoxlang.semantic import SemanticResult
         dummy = ConditionalStatement()
         empty_sem = SemanticResult()
 

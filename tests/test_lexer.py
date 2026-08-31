@@ -1,15 +1,15 @@
-"""Unit tests for Trool V1 lexer."""
+"""Unit tests for X-o-X lexer."""
 import unittest
-from trool.tokens import TokenKind, SourceLocation, SourceSpan, Token
-from trool.lexer import Lexer, LexerError, tokenize
+from xoxlang.tokens import TokenKind, SourceLocation, SourceSpan, Token
+from xoxlang.lexer import Lexer, LexerError, tokenize
 
 
-class TestTroolLexer(unittest.TestCase):
+class TestLexer(unittest.TestCase):
     def test_bootstrap_import(self):
-        import trool.tokens
-        import trool.lexer
-        self.assertTrue(hasattr(trool.tokens, "Token"))
-        self.assertTrue(hasattr(trool.lexer, "tokenize"))
+        import xoxlang.tokens
+        import xoxlang.lexer
+        self.assertTrue(hasattr(xoxlang.tokens, "Token"))
+        self.assertTrue(hasattr(xoxlang.lexer, "tokenize"))
 
     def test_tokenize_bool_conditional(self):
         source = (
@@ -39,9 +39,9 @@ class TestTroolLexer(unittest.TestCase):
         ]
         self.assertEqual([t.kind for t in tokens], expected_kinds)
 
-    def test_tokenize_trool_conditional(self):
+    def test_tokenize_xox_conditional(self):
         source = (
-            "if my_trool:\n"
+            "if my_xox:\n"
             "    pass\n"
             "xen:\n"
             "    ignore\n"
@@ -127,10 +127,10 @@ class TestTroolLexer(unittest.TestCase):
         self.assertEqual(tokens_xox[2].lexeme, "XoX")
         self.assertEqual(tokens_xox[2].kind, TokenKind.IDENTIFIER)
 
-        # x: Trool = Unknown (Trool remains IDENTIFIER at lexing time for backward compatibility)
-        tokens_trool = tokenize("x: Trool = Unknown")
+        # x: CustomType = Unknown (custom types remain IDENTIFIER at lexing time)
+        tokens_custom = tokenize("x: CustomType = Unknown")
         self.assertEqual(
-            [t.kind for t in tokens_trool],
+            [t.kind for t in tokens_custom],
             [
                 TokenKind.IDENTIFIER,
                 TokenKind.COLON,
@@ -141,8 +141,8 @@ class TestTroolLexer(unittest.TestCase):
                 TokenKind.EOF,
             ],
         )
-        self.assertEqual(tokens_trool[2].lexeme, "Trool")
-        self.assertEqual(tokens_trool[2].kind, TokenKind.IDENTIFIER)
+        self.assertEqual(tokens_custom[2].lexeme, "CustomType")
+        self.assertEqual(tokens_custom[2].kind, TokenKind.IDENTIFIER)
 
         # x: Bool = False (Bool remains IDENTIFIER at lexing time)
         tokens_bool = tokenize("x: Bool = False")

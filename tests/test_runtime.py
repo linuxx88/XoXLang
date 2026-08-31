@@ -1,7 +1,7 @@
 """Unit tests for XoX (X-o-X) V2 runtime representation, anti-truthiness, conversion, and Strong Kleene semantics."""
 import unittest
 from enum import Enum, IntEnum
-from trool.runtime import XoX, UnknownValueError, xox_not, xox_and, xox_or
+from xoxlang.runtime import XoX, UnknownValueError, xox_not, xox_and, xox_or
 
 
 class TestXoXRuntime(unittest.TestCase):
@@ -123,6 +123,27 @@ class TestXoXRuntime(unittest.TestCase):
             _ = XoX.UNKNOWN < XoX.TRUE  # type: ignore
         with self.assertRaises(TypeError):
             _ = XoX.FALSE >= XoX.TRUE  # type: ignore
+
+    def test_runtime_all_export_surface(self):
+        import xoxlang.runtime as runtime_mod
+        expected_exports = {
+            "UnknownValueError",
+            "XoX",
+            "xox_and",
+            "xox_not",
+            "xox_or",
+        }
+        self.assertTrue(hasattr(runtime_mod, "__all__"))
+        self.assertEqual(set(runtime_mod.__all__), expected_exports)
+        self.assertEqual(len(runtime_mod.__all__), len(expected_exports))
+
+        # Ensure internal symbols are not in __all__
+        for internal in ("Enum", "auto"):
+            self.assertNotIn(internal, runtime_mod.__all__)
+
+        # Ensure every exported symbol exists and is resolvable on the module
+        for sym in runtime_mod.__all__:
+            self.assertTrue(hasattr(runtime_mod, sym))
 
 
 if __name__ == "__main__":

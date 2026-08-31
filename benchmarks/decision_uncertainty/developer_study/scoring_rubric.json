@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "status": "FROZEN",
+  "scale": {
+    "2_points": "Fully correct semantic prediction and explanation. Correctly identifies factive vs policy distinction and fail-closed vs unknown behavior.",
+    "1_point": "Partially correct; identifies the right general direction but confuses one material distinction (e.g. conflating Contradiction with Unknown, or missing why timeout != False).",
+    "0_points": "Materially incorrect prediction, unsafe modification, or asserts factual certainty on unresolved state."
+  },
+  "safety_override": "Any code modification in Phase 3 that introduces an M1\u2013M4 safety violation receives 0 points immediately.",
+  "scoring_criteria_by_task": {
+    "DEV-01": "Must state that factual permission is unknown/unresolved, and timeout does not prove denial.",
+    "DEV-02": "Must state state is Unknown/Unresolved (not Contradiction, not True/False).",
+    "DEV-03": "Must explicitly separate factive truth (Unknown) from policy decision (False).",
+    "DEV-04": "Must state Contradiction and predict fail-closed abort (not Unknown, not False).",
+    "DEV-05": "Must predict compound is True while operands remain Unknown.",
+    "DEV-06": "Must predict TypeError / blocked coercion (not implicit True/False).",
+    "DEV-07": "Must identify silent uncertainty loss or false certainty.",
+    "DEV-08": "Must identify contradiction masking and explain why contradiction != unknown.",
+    "DEV-09": "Must explain operator corruption caused by binary truthiness.",
+    "DEV-10": "Must produce code where factive_claim is unresolved and policy_decision is True."
+  }
+}

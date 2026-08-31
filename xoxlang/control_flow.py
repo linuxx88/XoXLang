@@ -1,6 +1,6 @@
-"""Control-flow reachability and definite-return analysis for Trool prototype."""
+"""Control-flow reachability and definite-return analysis for X-o-X."""
 from typing import Union
-from trool.ast import (
+from xoxlang.ast import (
     ASTNode,
     Block,
     ConditionalStatement,
@@ -10,7 +10,7 @@ from trool.ast import (
     ReturnStatement,
     Statement,
 )
-from trool.diagnostics import MissingReturnError
+from xoxlang.diagnostics import MissingReturnError
 
 
 def check_statement_definitely_returns(stmt: Statement) -> bool:
@@ -67,9 +67,12 @@ def check_function_definite_returns(fn: FunctionDefinition) -> None:
     if fn.return_annotation is not None:
         if not check_block_definitely_returns(fn.body):
             raise MissingReturnError(
-                f"Function '{fn.name}' with return annotation '-> {fn.return_annotation}' does not return a value on every control-flow path",
+                f"Function '{fn.name}' can finish without returning a value (does not return a value on every control-flow path).",
                 span=fn.return_annotation_span or fn.span,
                 violated_rule="§11, §19",
+                note=f"The function is declared to return {fn.return_annotation}, so every possible execution path must return a {fn.return_annotation} value.",
+                help=f"Make sure every possible path returns a {fn.return_annotation} value.",
+                annotations={"function_name": fn.name, "return_type": fn.return_annotation},
             )
 
 

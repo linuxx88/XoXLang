@@ -1,9 +1,9 @@
 """Unit tests for XoX (X-o-X) monomorphic variable binding and reassignment semantics."""
 import unittest
-from trool.lexer import tokenize
-from trool.parser import parse
-from trool.types import BOOL, XOX
-from trool.semantic import SemanticAnalyzer, TypeError, analyze
+from xoxlang.lexer import tokenize
+from xoxlang.parser import parse
+from xoxlang.types import BOOL, XOX
+from xoxlang.semantic import SemanticAnalyzer, TypeError, analyze
 
 
 def parse_and_analyze(source: str, env=None):
@@ -118,7 +118,7 @@ class TestXoXVariableBindings(unittest.TestCase):
     def test_unbound_identifier_fails(self):
         with self.assertRaises(TypeError) as ctx:
             parse_and_analyze("x = y\n")
-        self.assertIn("Unbound identifier", str(ctx.exception))
+        self.assertIn("Variable 'y' is not defined", str(ctx.exception))
 
     def test_annotated_xox_compound_initializer(self):
         # status: XoX = True AND False -> evaluates as XoX
