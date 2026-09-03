@@ -177,26 +177,8 @@ An **`OntologicalConstraintToken`** is an evaluator-issued non-forgeable capabil
 - **Surviving Combination**: When multiple unresolved dependencies survive into the evaluated result, surviving provenance sets combine strictly by exact set union ($\Pi_1 \cup \Pi_2$).
 - **Audit Trace Separation**: Semantic provenance $\Pi$ on values is mathematically distinct from operational execution audit logs ($\mathcal{A}ud$).
 
-### 9.7 ResolutionToken & FallbackPolicyIdentity
-A **`ResolutionToken`** is an unforgeable authority capability permitting one exact resolution policy over one exact unresolved provenance set in one exact world state:
-- **Exact 4-Tuple Binding**: A `ResolutionToken` binds strictly to:
-  $$\text{ResolutionToken}(\text{ProvenanceSet}, \text{OperationType}, \text{WorldStateID}, \text{FallbackPolicyIdentity})$$
-- **Host Issuance Authority**: `WorldStateAuthority` is the sole host authority permitted to authorize and issue `ResolutionToken` policies for world states it creates. DefinednessWitness, OntologicalConstraintToken, FactiveEvaluator, observational evidence, provenance possession, booleans, or caller assertions cannot synthesize resolution authority.
-- **Exact Set Equality**: Resolution requires exact set equality between the token's bound `ProvenanceSet` and the value's `\Pi`. Partial coverage, superset reuse, subset reuse, and caller-side token composition are strictly prohibited and fail closed (`DefinednessPreconditionError`).
-- **Operation Isolation**: Authority for `xen:ignore` does not authorize `unwrap_or`, and authority for `unwrap_or` does not authorize `xen:ignore`.
-- **Staleness Invalidation**: Any relevant factive context mutation increments `WorldStateID`, immediately rendering prior resolution tokens stale and unusable.
-- **Zero Contradiction Authority**: A `ResolutionToken` has zero authority over Contradiction ($W_{\text{factive}} = \emptyset$). Contradiction never carries provenance and cannot be captured or resolved.
-- **FallbackPolicyIdentity**: Identifies the exact authorized fallback semantics by reusing the canonical structural identity mechanism of `ConstraintContentIdentity`:
-  $$\text{FallbackPolicyIdentity} = \text{CanonicalSemanticStructureDigest}(\text{CanonicalStructuralAST}, \text{ResolvedReferentMap}, \text{EvaluatorSemanticProfile})$$
-  - Binds the canonical structural AST, fully resolved semantic referents, and `EvaluatorSemanticProfile`.
-  - Caller-declared effect contracts possess zero semantic authority.
-  - Distinct operational traces or referents produce distinct policy identities; logical equivalence alone does not permit fallback substitution.
-  - `xen:ignore` uses the distinguished constant policy identity $\text{NO\_FALLBACK}$.
-
-### 9.8 Resolution Operations: `unwrap_or` & `xen: ignore`
-- **`unwrap_or` Authorization**: `unwrap_or` may collapse `Unknown[\Pi]` to `Bool` if and only if presented with a valid `ResolutionToken` matching exact $\Pi$, `OperationType=unwrap_or`, current `WorldStateID`, and the exact `FallbackPolicyIdentity`. Mismatches fail closed before evaluating the fallback expression. On valid authorization, fallback evaluation remains lazy and executes only when the source is `Unknown`.
-- **`xen: ignore` Authorization**: `xen: ignore` may abandon `Unknown[\Pi]` if and only if presented with a valid `ResolutionToken` matching exact $\Pi$, `OperationType=xen_ignore`, current `WorldStateID`, and $\text{NO\_FALLBACK}$. Mismatches fail closed before ignoring the unresolved branch.
-
+### 9.7 Operational Authority and Resolution Boundaries (O0/SAFE)
+Resolution capabilities, fallback policies, resolution tokens, and operational gateways (`ResolutionToken`, `FallbackPolicyIdentity`, `WorldStateAuthority`, `resolve_unwrap_or`, `resolve_xen_ignore`) are part of the experimental O0/SAFE extension and are documented in [experimental/safe/README.md](../experimental/safe/README.md).
 
 ---
 
@@ -215,9 +197,10 @@ The following capabilities are explicitly outside the scope of this slice and in
 
 ## 11. Validation evidence
 
-- **Implementation**: `xoxlang/identity.py`
+- **Implementation**: `xoxlang/identity.py` (CORE_S1 factive identity)
 - **Normal Tests**: `tests/test_identity.py` (covering identity distinction, reference resolution, storage rebinding, type guards, and attribute immutability)
-- **Adversarial Tests**: `tests/test_identity_adversarial.py` (attacking copy/deepcopy self-preservation, storage duplication, serialization failure, mutable payload hashing, invalid rebinding, authority tokens, and subclassing)
+- **SAFE Tests**: `tests/safe/` (covering authority tokens, resolution policies, and adversarial attacks)
 - **Full Repository Suite**: Full repository test suite passing with 0 failures.
 - **Alignment Audit**: Verified bidirectionally aligned (`ALIGNED`) under task `XOX_ATOMIC_IDENTITY_ALIGNMENT_AUDIT_001`.
+
 

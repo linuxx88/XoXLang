@@ -1,6 +1,6 @@
-# XoXLang Core Semantics: Finite-World Classifier
+# XoXLang Epistemic Model: Finite-World Classifier
 
-This document specifies the minimal validated semantic core implemented in `xoxlang/core_semantics.py`.
+This document specifies the companion Epistemic Model implemented in `xoxlang/core_semantics.py` (finite-world trajectory classification, definedness preconditions, and inconsistency detection). The underlying Strong Kleene $K_3$ logic and Language Core syntax are specified in `XOX_SPEC.md`.
 
 ---
 
@@ -59,7 +59,7 @@ The classifier enforces **absolute definedness priority**:
 - Undefined behavior prevents classification even if distinguishable defined outcomes were already observed on other trajectories.
 - **DefinednessWitness**: Evaluator-issued non-forgeable capability certifying definedness only, binding exactly `(RootID, SemanticPath, WorldStateID)`. It holds zero authority to restrict $W_{\text{factive}}$ and is invalidated fail-closed upon relevant `WorldStateID` mutation.
 - **Unknown Provenance ($\Pi$)**: Every `UNKNOWN` outcome carries an immutable, non-empty set of unresolved fact identities $\Pi$. Provenance propagates across $K_3$ logical operators, combines on unresolved branches via exact set union ($\Pi_1 \cup \Pi_2$), and disappears without tokens only when proven semantic independence renders the truth value determinate (`True` or `False`).
-- **Resolution Authority**: Resolving or collapsing `UNKNOWN[\Pi]` via `unwrap_or` or `xen: ignore` requires a valid `ResolutionToken` issued by `WorldStateAuthority`, binding the exact 4-tuple `(ProvenanceSet, OperationType, WorldStateID, FallbackPolicyIdentity)`. Partial coverage, subset reuse, superset reuse, and caller-side composition are strictly prohibited.
+- **Resolution Authority**: Resolving or collapsing `UNKNOWN[\Pi]` under operational policy constraints is governed by the experimental `SAFE` extension (see `experimental/safe/README.md`). The pure Epistemic Model and Language Core treat collapse as policy-neutral.
 
 
 ---

@@ -4,11 +4,12 @@
   "compared_systems": [
     "COND_A_PYTHON_CLASSIC",
     "COND_B_PYTHON_STRUCTURED",
-    "COND_X_XOXLANG"
+    "COND_X_XOXLANG",
+    "COND_X_XOXLANG_SAFE"
   ],
   "sample_sizes": {
     "benchmark_scenarios": 12,
-    "mutation_campaign_scenarios": 12,
+    "mutation_campaign_scenarios": 16,
     "strongly_equivalent_accidental_mutations": 7,
     "developer_study_participants": 45,
     "developer_study_tasks": 20,
@@ -29,6 +30,11 @@
       "structured_silent_violations": "6/7 (85.7%)",
       "xox_silent_violations": "1/7 (14.3%)",
       "note": "Under dynamic runtime execution, Structured Python rejects only MUT-02 via custom __bool__; additional protection attributable to optional static type checking (e.g. mypy) must be reported separately as a static-analysis layer rather than a dynamic runtime guarantee."
+    },
+    "safe_layer_containment": {
+      "target_xox_s1_silent_violations": "1/16 (MUT-04 expected unprotected S1 policy boundary)",
+      "target_xox_safe_silent_violations": "0/16 (0.0% - blocked via INV_AUTHORIZED_RESOLUTION_BOUNDARY)",
+      "governance_mechanism": "WorldStateAuthority 4-tuple resolution verification (ProvenanceSet, OperationType, WorldStateID, FallbackPolicyIdentity)"
     },
     "developer_study_metrics": {
       "D1_semantic_prediction_accuracy_pct": {
@@ -62,12 +68,14 @@
     "Mandatory xen branch on ternary conditions",
     "Anti-coercion type error on truthiness evaluation",
     "Fail-closed abort on Ontological Contradiction",
-    "Explicit unwrap_or for policy decision separation"
+    "Explicit unwrap_or for policy decision separation",
+    "Distinction between conflict and missing evidence (MUT-09) enforced by finite-world classifier"
   ],
   "xox_implementation_gaps": [
-    "Freshness/replay authority invalidation across world mutation relies on adapter callbacks",
-    "Full provenance attestation across serialization boundaries",
     "Compile-time multi-module correlated constraint resolution"
+  ],
+  "host_boundary_limitations": [
+    "External context freshness detection requires host ingress signal (MUT-05); XoX enforces invalidation fail-closed once signaled via WorldStateID"
   ],
   "negative_results": [
     "Formal statistical equivalence between XoXLang and Python Structured remains unproven (no predeclared equivalence margin)",

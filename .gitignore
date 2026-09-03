@@ -63,4 +63,8 @@ Thumbs.db
 # Publication staging workspaces
 .clean_publication_workspace/
 
+# Internal agentic framework and routing
+.agents/
+AGENTS.md
+
 

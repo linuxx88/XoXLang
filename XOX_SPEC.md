@@ -9,7 +9,7 @@
 - **Semantic Invariant Preservation**: All core semantics—including the three-valued truth domain (`True`, `False`, `Unknown`), Strong Kleene logic ($K_3$), state-identity equality returning `Bool`, and canonical `if`/`xen`/`else` control flow—are strictly preserved without modification.
 
 ## 1. Purpose
-Defines the initial immutable semantic core of the XoX (X-o-X) type and the `xen` control flow construct.
+Defines the normative Language Core of XoXLang (the `XoX` type, Strong Kleene $K_3$ logic, strict `Bool`/`XoX` isolation, and the `xen` control flow construct). The companion Epistemic Model (multi-world trajectory evaluation, fact identity, and provenance) is specified in `docs/core_semantics.md` and `docs/atomic_identity_semantics.md`.
 
 ## 2. Design Principles
 - **Small**
@@ -80,7 +80,7 @@ Defines the initial immutable semantic core of the XoX (X-o-X) type and the `xen
   - If `source == XoX.Unknown`, evaluates `fallback` **exactly once** and returns its `Bool` result.
 - **Strict Lazy Fallback**: `fallback` is strictly short-circuited when `source` is `True` or `False` (0 side-effect evaluations).
 - **Contradiction Isolation**: `unwrap_or` handles `Unknown` only; `unwrap_or` cannot collapse or mask an evaluated Contradiction.
-- **Resolution Authority**: In factive evaluation environments, collapsing `Unknown[\Pi]` requires an authoritative `ResolutionToken` matching exact $\Pi$, `OperationType=unwrap_or`, active `WorldStateID`, and the exact `FallbackPolicyIdentity`. Mismatch fails closed before fallback evaluation.
+- **Policy Neutrality in Language Core**: In the Language Core, `unwrap_or(default_bool)` is a pure, policy-neutral language primitive that evaluates `default_bool` lazily when `source == Unknown`. Extended operational authority governance (e.g. experimental `SAFE`) is decoupled from Language Core semantics.
 - **Information-Losing Projection**: `unwrap_or` is an explicitly permitted information-reducing boundary, with no truthiness, no implicit coercion, and no implicit fallback.
 
 

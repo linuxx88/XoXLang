@@ -15,6 +15,14 @@ import unittest
 
 from xoxlang.core_semantics import DefinednessPreconditionError, SemanticOutcome
 
+from experimental.safe import (
+    FallbackPolicyIdentity,
+    NO_FALLBACK,
+    ResolutionToken,
+    WorldStateAuthority,
+    resolve_unwrap_or,
+    resolve_xen_ignore,
+)
 from xoxlang.identity import (
     AtomicFact,
     CanonicalPath,
@@ -26,23 +34,17 @@ from xoxlang.identity import (
     FactiveEvaluator,
     FactiveTrajectory,
     FactReference,
-    FallbackPolicyIdentity,
-    NO_FALLBACK,
     OntologicalConstraintToken,
     ProvenanceSet,
-    ResolutionToken,
     SemanticSelector,
     StorageLocation,
     UnknownValue,
-    WorldStateAuthority,
     WorldStateID,
     authorize_ontological_constraint,
     certify_factive_definedness,
     k3_and_with_provenance,
     k3_not_with_provenance,
     k3_or_with_provenance,
-    resolve_unwrap_or,
-    resolve_xen_ignore,
 )
 
 

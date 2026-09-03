@@ -228,7 +228,7 @@ class TestStructuredDiagnostics(unittest.TestCase):
         self.assertTrue(hasattr(xoxlang, "xox_and"))
         self.assertTrue(hasattr(xoxlang, "xox_or"))
         self.assertTrue(hasattr(xoxlang, "UnknownValueError"))
-        self.assertTrue(hasattr(xoxlang, "DefinednessPreconditionError"))
+        self.assertFalse(hasattr(xoxlang, "DefinednessPreconditionError"))
 
     def test_public_api_all_exports_present_in_package_root(self):
         import xoxlang
@@ -248,7 +248,8 @@ class TestStructuredDiagnostics(unittest.TestCase):
         self.assertFalse(XoX.FALSE.unwrap_bool())
 
     def test_public_api_exceptions_catchable_from_root(self):
-        from xoxlang import DefinednessPreconditionError, UnknownValueError, XoX
+        from xoxlang import UnknownValueError, XoX
+        from xoxlang.core_semantics import DefinednessPreconditionError
         with self.assertRaises(UnknownValueError):
             XoX.UNKNOWN.unwrap_bool()
 

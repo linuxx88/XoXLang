@@ -84,14 +84,15 @@ status: XoX = Unknown
 active: Bool = status.unwrap_or(False)  # Evaluates fallback only when status is Unknown
 ```
 
+In the Language Core, `unwrap_or(default_bool)` is a pure, policy-neutral language primitive: if `status` is `True` or `False`, it returns the corresponding `Bool` value without evaluating the fallback; if `status` is `Unknown`, it lazily evaluates `default_bool` exactly once.
 
+### Companion Models & Governance Extensions
 
-### Unknown Provenance & Resolution Authority
+Beyond the minimal Language Core, XoXLang provides:
+- **Epistemic Model S1** (`xoxlang.core_semantics`, `xoxlang.identity`): Official companion model for atomic fact identity, factive trajectories ($W_{\text{factive}}$), definedness preconditions, inconsistency detection (`INCONSISTENT`), and causal provenance tracking ($\Pi$).
+- **SAFE Layer O0** (`experimental/safe/`): Experimental operational decision-authority governance and resolution capability envelopes.
 
-In X-o-X, `Unknown` carries an immutable, non-empty provenance set identifying unresolved semantic facts established by factive evaluation. An `Unknown` value cannot be arbitrarily resolved or manufactured by application code; resolution operations require exact authority validation against authorized host policies.
-
-For complete formal specifications and operational semantics, refer to [XOX_SPEC.md](XOX_SPEC.md).
-
+For formal language specifications, refer to [XOX_SPEC.md](XOX_SPEC.md). For factive semantics, refer to [docs/core_semantics.md](docs/core_semantics.md).
 
 ---
 
@@ -138,8 +139,14 @@ python3 -m unittest discover -s tests
 
 ---
 
-## Project Status & License
+## Project Status & Architecture
 
-- **Maturity**: Beta (Reference implementation and specification)
-- **Specification**: [XOX_SPEC.md](XOX_SPEC.md)
-- **License**: [Apache License 2.0](LICENSE)
+XoXLang enforces a strict tripartite architectural structure:
+
+- **Language Core S1 (`xoxlang/`) — Status: `DESIGN_FREEZE`**: The minimal executable True/False/Unknown language (Strong Kleene $K_3$, strict Bool/XoX type isolation, mandatory `xen:`, `xox()`, `unwrap_or()`, anti-coercion, deterministic evaluation) is autonomous and frozen.
+- **Epistemic Model S1 (`xoxlang.core_semantics`, `xoxlang.identity`) — Status: `ACTIVE`**: The official companion model of fact identity, multi-world definedness, and causal provenance remains actively developed without freezing.
+- **SAFE Layer O0 (`experimental/safe/`) — Status: `EXPERIMENTAL`**: Operational decision-authority governance and resolution token validation.
+
+### License
+
+Distributed under the [Apache License 2.0](LICENSE).

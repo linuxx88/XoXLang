@@ -29,9 +29,9 @@
       "M4_stale_authority_acceptance": 0,
       "M5_separation_success_rate": "12/12",
       "enforcement_class_distribution": {
-        "LANGUAGE_OR_RUNTIME_GUARANTEE": 8,
-        "DOCUMENTED_NOT_IMPLEMENTED": 2,
-        "BENCHMARK_ADAPTER_ONLY": 2
+        "LANGUAGE_OR_RUNTIME_GUARANTEE": 10,
+        "HOST_BOUNDARY_LIMITATION": 1,
+        "BENCHMARK_ADAPTER_ONLY": 1
       },
       "total_safety_failures": 0
     }
@@ -557,7 +557,7 @@
       "M3_contradiction_masking": false,
       "M4_stale_authority_acceptance": false,
       "M5_decision_vs_truth_separation": true,
-      "enforcement_class": "DOCUMENTED_NOT_IMPLEMENTED"
+      "enforcement_class": "HOST_BOUNDARY_LIMITATION"
     },
     {
       "scenario_id": "RW-06",
@@ -665,7 +665,7 @@
       "M3_contradiction_masking": false,
       "M4_stale_authority_acceptance": false,
       "M5_decision_vs_truth_separation": true,
-      "enforcement_class": "DOCUMENTED_NOT_IMPLEMENTED"
+      "enforcement_class": "LANGUAGE_OR_RUNTIME_GUARANTEE"
     },
     {
       "scenario_id": "RW-12",
@@ -683,7 +683,7 @@
       "M3_contradiction_masking": false,
       "M4_stale_authority_acceptance": false,
       "M5_decision_vs_truth_separation": true,
-      "enforcement_class": "BENCHMARK_ADAPTER_ONLY"
+      "enforcement_class": "LANGUAGE_OR_RUNTIME_GUARANTEE"
     }
   ]
 }

@@ -39,19 +39,23 @@ Does the **X-o-X (XoXLang)** ternary epistemic paradigm provide structural safet
 ---
 
 ## R5. Mutation Resistance
-- **12 Plausible Syntactic Mutations (M1–M4 Injection)**:
-  - `MUT-01`: Coercion via `bool(val)` or implicit `if val:`.
-  - `MUT-02`: Omission of `Unknown` / `xen` branch.
-  - `MUT-03`: Conflation of default policy fallback with verified fact.
-  - `MUT-04`: Erasure of provenance metadata in serialization.
-  - `MUT-05`: Silent swallow of ontological contradiction.
-  - `MUT-06`: Short-circuit logic error in compound unknown expressions.
-  - `MUT-07`: Unchecked dispatch on unverified resolution.
-  - `MUT-08`: Blind retry on permanent inconsistency.
-  - `MUT-09`: Replay of invalidated state after world mutation.
-  - `MUT-10`: Raw unwrap bypassing safety fallback.
-  - `MUT-11`: False-positive certainty injection.
-  - `MUT-12`: Dropped freshness token on external ingress.
+- **16 Plausible Syntactic and Structural Mutations (M1–M4 Injection)**:
+  - `MUT-01`: Remove unresolved guard (bypassing unresolved check and assuming factive resolution).
+  - `MUT-02`: Implicit truthiness (evaluating truthiness on indeterminate value in if-condition).
+  - `MUT-03`: Default False collapse (collapsing unresolved state directly to False).
+  - `MUT-04`: Default True collapse (collapsing unresolved state directly to True in auth path).
+  - `MUT-05`: Freshness check deletion (omitting context/epoch freshness validation; Host Boundary Limitation).
+  - `MUT-06`: Authority replay (reusing stale capability token after world state epoch bump).
+  - `MUT-07`: Contradiction-to-Unknown merge (treating empty world context as ordinary Unknown).
+  - `MUT-08`: Provenance erasure (stripping provenance/origin tags from return record).
+  - `MUT-09`: Conflict/missing conflation (conflating missing evidence with conflicting evidence).
+  - `MUT-10`: Unsafe operator composition (using ordinary binary operator without ternary semantics).
+  - `MUT-11`: Policy promoted to fact (assigning policy fallback decision into factive_claim output).
+  - `MUT-12`: Broad exception collapse (catching generic Exception and returning default False).
+  - `MUT-13`: Decision artifact parameter rebinding (rebinding parameters/identities on authentic decision artifacts).
+  - `MUT-14`: Cross-executor artifact replay (replaying valid decision artifact across distinct executor envelopes).
+  - `MUT-15`: Serialization laundering (stripping capability/semantic tags via serialization roundtrip).
+  - `MUT-16`: Renewal without validity event (treating renewal as continuous validity without new validity evaluation).
 
 ---
 
@@ -63,9 +67,24 @@ Does the **X-o-X (XoXLang)** ternary epistemic paradigm provide structural safet
    - **Baseline B (Python Structured)**: 6/7 silent safety violations (85.7%) under dynamic runtime execution. Structured Python's custom  guard rejected MUT-02; additional protection attributable to optional static type checking must be reported separately rather than counted as a runtime guarantee.
    - **Target XoX (XoXLang)**: 1/7 silent safety violations (14.3%).
 3. **Caveats & Enforcement Breakdown**:
-   - In XoX, 8/12 reference scenario protections are native language/runtime guarantees.
-   - 2 protections rely on adapter-level mapping (provenance serialization).
-   - 2 protections (freshness/replay validation across world mutations) are documented in specifications but remain incompletely enforced in runtime.
+   - In XoX, 10/12 reference scenario protections are native language/runtime guarantees (including authority replay rejection via ResolutionToken and conflict-vs-missing distinction via finite-world classification).
+   - 1 protection relies on runtime/adapter-level constraint resolution (RW-09 compound relation).
+   - 1 protection (context freshness on external ingress, MUT-05 / RW-05) is classified as a Host Boundary Limitation: XoX enforces invalidation fail-closed once signaled, while detecting unsignaled external drift requires host ingress.
+
+---
+
+## R6.1. Boundary Analysis: MUT-04 and S1 Policy Neutrality
+- **Classification**: `EXPECTED_UNPROTECTED_CASE` (Not `TRUE_GUARANTEE_VIOLATION`).
+- **Observed Behavior**: In `MUT-04`, an unresolved state (`XoX.UNKNOWN`) combined with `unwrap_or(True)` evaluates to `Bool.True` in an authorization path, triggering an M1 (False Allow) failure without runtime rejection.
+- **Architectural Distinction Across Three Tiers**:
+  1. **Tier S1 (Semantic Guarantee)**: XoX guarantees that `XoX.UNKNOWN` cannot undergo implicit truthiness coercion or implicit conversion, requiring an explicit collapse primitive `unwrap_or(fallback: Bool)`. When evaluating `XoX.UNKNOWN.unwrap_or(True)`, S1 intentionally evaluates and returns `Bool.True` because the collapse is explicit. *S1 guarantees explicit collapse, not policy correctness.* S1 does not and cannot guarantee that an explicitly chosen fallback value is safe, restrictive, or domain-authorized.
+  2. **Tier O0/SAFE (Operational Governance & Policy Authorization)**: Determining whether a policy fallback (e.g. `default=True`) is authorized for a given security envelope is an operational governance concern governed by O0/SAFE invariants (`INV_SEMANTIC_AUTHORITY_SEPARATION`, `INV_UNKNOWN_NO_SELF_AUTHORITY`, `INV_POLICY_APPLICABILITY_AUTHORITY`). Semantic truth values never synthesize authorization authority.
+  3. **Static Analysis & Security Audit**: Detection of permissive fallback defaults (such as `unwrap_or(True)` in security-critical authorization contexts) belongs to domain-specific static analysis, linter checks, and security audits, rather than automatic type-system rejection.
+- **Integrity Statement**: Existing XoX language guarantees remain unbroken (`existing_xox_guarantee_broken: false`). MUT-04 reflects the deliberate semantic boundary where language evaluation respects explicit developer intent without conflating logic evaluation with business policy enforcement.
+- **Empirical O0/SAFE Containment Verification (`TARGET_XOX_SAFE`)**:
+  - In `benchmarks/decision_uncertainty/mutation_runner.py` and `tests/test_safe_permissive_fallback.py`, MUT-04 was evaluated under the concrete O0/SAFE governance layer.
+  - When governed by `WorldStateAuthority` and `ResolutionToken`, unauthorized `unwrap_or(True)` fails closed with `DefinednessPreconditionError` (`REJECTED_AT_RUNTIME_BEFORE_DECISION`), reducing silent safety violations to **0/16 (0.0%)** in `TARGET_XOX_SAFE`.
+  - Conversely, when a permissive fallback is explicitly authorized under legitimate domain governance (e.g. breakglass token), SAFE permits the operation, verifying that O0/SAFE governs authorization authority rather than censoring boolean literals.
 
 ---
 
@@ -137,9 +156,8 @@ An adversarial statistical and protocol meta-audit (`VALIDITY_AUDIT_REPORT.json`
   - Custom `__bool__` raising `TypeError` prevents implicit truthiness in structured objects.
   - Type-checker enforcement (`mypy`) of `Optional` / `Verdict` wrappers.
   - *Vulnerability*: Developers can bypass library guards via raw unwraps, omitted branches, or direct boolean reassignment.
-- **Documented-but-Unimplemented Semantics in XoX**:
-  - Dynamic freshness/replay token invalidation across external state mutations.
-  - Full cryptographic provenance attestation across distributed serialization boundaries.
+- **Host Boundary Limitations**:
+  - External context freshness detection (MUT-05 / RW-05): XoX enforces invalidation fail-closed once signaled via WorldStateID, while autonomous discovery of unsignaled external drift requires host ingress.
 
 ---
 
